@@ -1,0 +1,89 @@
+{
+  "cleanLine": [
+    {
+      "input": "hello\nworld",
+      "max": 100,
+      "output": "hello world"
+    },
+    {
+      "input": "a\u2028b\u2029c",
+      "max": 100,
+      "output": "a b c"
+    },
+    {
+      "input": "  many   spaces  ",
+      "max": 100,
+      "output": "many spaces"
+    },
+    {
+      "input": "\u202eevil\u202c",
+      "max": 100,
+      "output": "evil"
+    },
+    {
+      "input": "xxxxxxxxxx",
+      "max": 5,
+      "output": "xxxxx"
+    },
+    {
+      "input": "\u0000\u0001",
+      "max": 100,
+      "output": ""
+    },
+    {
+      "input": "tab\there",
+      "max": 100,
+      "output": "tab here"
+    },
+    {
+      "input": "bidi \u2066iso\u2069 late",
+      "max": 100,
+      "output": "bidi iso late"
+    },
+    {
+      "input": "C1 \u0085 next",
+      "max": 100,
+      "output": "C1 next"
+    },
+    {
+      "input": null,
+      "max": 100,
+      "output": ""
+    },
+    {
+      "input": "",
+      "max": 100,
+      "output": ""
+    }
+  ],
+  "cleanText": [
+    {
+      "input": "line1\nline2\tx",
+      "output": "line1\nline2\tx"
+    },
+    {
+      "input": "a\u0000b",
+      "output": "ab"
+    },
+    {
+      "input": "a\u202eb",
+      "output": "ab"
+    },
+    {
+      "input": "a\u2028b",
+      "output": "a\u2028b"
+    },
+    {
+      "input": "cr\r\nlf",
+      "output": "cr\r\nlf"
+    },
+    {
+      "input": "del\u007f",
+      "output": "del"
+    },
+    {
+      "input": null,
+      "output": ""
+    }
+  ]
+}

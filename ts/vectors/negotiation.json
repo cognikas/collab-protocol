@@ -1,0 +1,23 @@
+{
+  "negotiate": [
+    { "name": "same version", "client": { "major": 1, "minor": 0 }, "server": [{ "major": 1, "minor": 0 }], "result": { "major": 1, "minor": 0 } },
+    { "name": "newer client minor", "client": { "major": 1, "minor": 3 }, "server": [{ "major": 1, "minor": 0 }], "result": { "major": 1, "minor": 0 } },
+    { "name": "newer server minor", "client": { "major": 1, "minor": 0 }, "server": [{ "major": 1, "minor": 2 }], "result": { "major": 1, "minor": 0 } },
+    { "name": "unknown major", "client": { "major": 2, "minor": 0 }, "server": [{ "major": 1, "minor": 4 }], "result": null },
+    { "name": "server in transition between majors", "client": { "major": 2, "minor": 1 }, "server": [{ "major": 1, "minor": 4 }, { "major": 2, "minor": 0 }], "result": { "major": 2, "minor": 0 } },
+    { "name": "client sent no version", "client": null, "server": [{ "major": 1, "minor": 0 }], "result": null }
+  ],
+  "sharedCapabilities": [
+    { "client": [], "server": [], "result": [] },
+    { "client": ["decisions"], "server": [], "result": [] },
+    { "client": ["approvals", "decisions"], "server": ["decisions", "approvals"], "result": ["decisions", "approvals"] }
+  ],
+  "parseVersion": [
+    { "input": "1.0", "result": { "major": 1, "minor": 0 } },
+    { "input": "1", "result": { "major": 1, "minor": 0 } },
+    { "input": " 2.3 ", "result": { "major": 2, "minor": 3 } },
+    { "input": "v1", "result": null },
+    { "input": "1.x", "result": null },
+    { "input": "", "result": null }
+  ]
+}

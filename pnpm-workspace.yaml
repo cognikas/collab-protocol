@@ -1,0 +1,7 @@
+# Only the root is a package here; ts/package.json is the manifest consumers install from git.
+packages: []
+
+# Both ship a platform-specific binary from their postinstall script.
+allowBuilds:
+  '@bufbuild/buf': true
+  esbuild: true

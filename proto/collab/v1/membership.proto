@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package collab.v1;
+
+service MembershipService {
+  // Redeems a one-time invite and creates a member. Needs no credential: the
+  // invite is the credential, and it is spent here.
+  rpc Join(JoinRequest) returns (JoinResponse);
+}
+
+message JoinRequest {
+  string invite = 1;
+  // Shown to the other members. The handle is derived from it.
+  string display_name = 2;
+}
+
+message JoinResponse {
+  string member_id = 1;
+  // The only time the secret is ever sent. The server keeps only its hash.
+  string secret = 2;
+  string channel = 3;
+  string display_name = 4;
+  string handle = 5;
+  // Where to open the WebSocket binding.
+  string ws_endpoint = 6;
+}

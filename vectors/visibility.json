@@ -1,0 +1,154 @@
+{
+  "viewer": {
+    "memberId": "A",
+    "topic": "t1",
+    "clientSessionId": "a1"
+  },
+  "cases": [
+    {
+      "name": "topic of the viewer, from another member",
+      "message": {
+        "fromMemberId": "B",
+        "to": {
+          "topic": "t1"
+        }
+      },
+      "visible": true
+    },
+    {
+      "name": "another topic",
+      "message": {
+        "fromMemberId": "B",
+        "to": {
+          "topic": "t2"
+        }
+      },
+      "visible": false
+    },
+    {
+      "name": "to the viewer, any topic",
+      "message": {
+        "fromMemberId": "B",
+        "to": {
+          "memberId": "A"
+        }
+      },
+      "visible": true
+    },
+    {
+      "name": "to the viewer in its topic",
+      "message": {
+        "fromMemberId": "B",
+        "to": {
+          "memberId": "A",
+          "topic": "t1"
+        }
+      },
+      "visible": true
+    },
+    {
+      "name": "to the viewer in another topic",
+      "message": {
+        "fromMemberId": "B",
+        "to": {
+          "memberId": "A",
+          "topic": "t2"
+        }
+      },
+      "visible": false
+    },
+    {
+      "name": "to another member",
+      "message": {
+        "fromMemberId": "B",
+        "to": {
+          "memberId": "C"
+        }
+      },
+      "visible": false
+    },
+    {
+      "name": "no recipient at all",
+      "message": {
+        "fromMemberId": "B"
+      },
+      "visible": false
+    },
+    {
+      "name": "empty recipient",
+      "message": {
+        "fromMemberId": "B",
+        "to": {}
+      },
+      "visible": false
+    },
+    {
+      "name": "own topic message, from another of the viewer's sessions",
+      "message": {
+        "fromMemberId": "A",
+        "fromClientSessionId": "a2",
+        "to": {
+          "topic": "t1"
+        }
+      },
+      "visible": false
+    },
+    {
+      "name": "note to self from another session",
+      "message": {
+        "fromMemberId": "A",
+        "fromClientSessionId": "a2",
+        "to": {
+          "memberId": "A"
+        }
+      },
+      "visible": true
+    },
+    {
+      "name": "note to self from this same session",
+      "message": {
+        "fromMemberId": "A",
+        "fromClientSessionId": "a1",
+        "to": {
+          "memberId": "A"
+        }
+      },
+      "visible": false
+    },
+    {
+      "name": "note to self in this topic, from another session",
+      "message": {
+        "fromMemberId": "A",
+        "fromClientSessionId": "a2",
+        "to": {
+          "memberId": "A",
+          "topic": "t1"
+        }
+      },
+      "visible": true
+    },
+    {
+      "name": "note to self in another topic",
+      "message": {
+        "fromMemberId": "A",
+        "fromClientSessionId": "a2",
+        "to": {
+          "memberId": "A",
+          "topic": "t2"
+        }
+      },
+      "visible": false
+    },
+    {
+      "name": "another member whose session id happens to match",
+      "message": {
+        "fromMemberId": "B",
+        "fromClientSessionId": "a1",
+        "to": {
+          "topic": "t1"
+        }
+      },
+      "visible": true
+    }
+  ]
+}

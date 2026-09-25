@@ -1,0 +1,159 @@
+{
+  "note": "Canonical protobuf JSON for each frame: what a writer must produce and a reader must accept. Fields at their default value are left out.",
+  "cases": [
+    {
+      "name": "subscribe, replay from the start",
+      "schema": "collab.v1.ClientFrame",
+      "json": {
+        "requestId": "r1",
+        "subscribe": {
+          "client": { "name": "collab-channel", "version": "1.0.0", "protocol": { "major": 1 } },
+          "since": 0,
+          "repo": "collab-global",
+          "branch": "main"
+        }
+      }
+    },
+    {
+      "name": "send a done notice to one member in one topic",
+      "schema": "collab.v1.ClientFrame",
+      "json": {
+        "requestId": "r2",
+        "send": {
+          "type": "MESSAGE_TYPE_DONE",
+          "text": "Finished: split the repos",
+          "to": { "handle": "willy", "topic": "collab-producto" },
+          "urgency": "URGENCY_HIGH",
+          "refs": ["README.md"],
+          "done": { "task": "split the repos" }
+        }
+      }
+    },
+    {
+      "name": "heartbeat without a request id",
+      "schema": "collab.v1.ClientFrame",
+      "json": { "heartbeat": {} }
+    },
+    {
+      "name": "a message pushed to a recipient",
+      "schema": "collab.v1.ServerFrame",
+      "json": {
+        "message": {
+          "seq": 52,
+          "channel": "cognikas-dev",
+          "fromMemberId": "01K6D2Q7ZJ9XH3V5W8N4T2R6YB",
+          "fromName": "Willy",
+          "fromHandle": "willy",
+          "fromTopic": "collab-producto",
+          "to": { "memberId": "01K6D2R1B7C4M9P2X5Q8T3V6WA", "handle": "carlos" },
+          "type": "MESSAGE_TYPE_NOTE",
+          "text": "Hola Carlos",
+          "urgency": "URGENCY_NORMAL",
+          "sentAt": "2026-09-25T17:02:11.123Z"
+        }
+      }
+    },
+    {
+      "name": "the claim notice the server writes",
+      "schema": "collab.v1.ServerFrame",
+      "json": {
+        "message": {
+          "seq": 60,
+          "channel": "cognikas-dev",
+          "fromMemberId": "01K6D2R1B7C4M9P2X5Q8T3V6WA",
+          "fromName": "Carlos",
+          "fromHandle": "carlos",
+          "fromTopic": "collab-global",
+          "to": { "topic": "collab-global" },
+          "type": "MESSAGE_TYPE_CLAIM",
+          "text": "Carlos is working on: repos/README.md",
+          "urgency": "URGENCY_LOW",
+          "refs": ["repos/README.md"],
+          "sentAt": "2026-09-25T18:00:00Z",
+          "claim": { "claimId": "01K6D3A0000000000000000000", "expiresAt": "2026-09-25T20:00:00Z" }
+        }
+      }
+    },
+    {
+      "name": "the answer to a send",
+      "schema": "collab.v1.ServerFrame",
+      "json": { "result": { "requestId": "r2", "send": { "seq": 53, "delivered": 1 } } }
+    },
+    {
+      "name": "an error answering a request",
+      "schema": "collab.v1.ServerFrame",
+      "json": {
+        "error": { "code": "ERROR_CODE_UNKNOWN_HANDLE", "message": "No member with that handle. Members: carlos, willy", "requestId": "r3" }
+      }
+    },
+    {
+      "name": "hello after subscribing",
+      "schema": "collab.v1.ServerFrame",
+      "json": {
+        "hello": {
+          "state": {
+            "channel": "cognikas-dev",
+            "selfMemberId": "01K6D2R1B7C4M9P2X5Q8T3V6WA",
+            "handle": "carlos",
+            "topic": "collab-global",
+            "members": [
+              {
+                "memberId": "01K6D2R1B7C4M9P2X5Q8T3V6WA",
+                "displayName": "Carlos",
+                "handle": "carlos",
+                "status": "MEMBER_STATUS_ONLINE",
+                "repo": "collab-global",
+                "branch": "main",
+                "connections": 1,
+                "topics": ["collab-global"],
+                "lastSeenAt": "2026-09-25T18:00:00Z"
+              }
+            ],
+            "contextIndex": [
+              { "key": "canal-fase-1", "version": 2, "title": "Canal fase 1", "summary": "Qué cambia", "authorName": "Willy", "createdAt": "2026-09-24T12:00:00Z" }
+            ],
+            "cursor": 51,
+            "latestSeq": 53
+          },
+          "protocol": { "major": 1 },
+          "serverVersion": "1.0.0"
+        }
+      }
+    },
+    {
+      "name": "the claim list of a topic",
+      "schema": "collab.v1.ServerFrame",
+      "json": {
+        "claims": {
+          "topic": "collab-global",
+          "claims": [
+            {
+              "claimId": "01K6D3A0000000000000000000",
+              "ownerMemberId": "01K6D2R1B7C4M9P2X5Q8T3V6WA",
+              "ownerName": "Carlos",
+              "topic": "collab-global",
+              "paths": ["repos/README.md"],
+              "note": "adding the new repos",
+              "createdAt": "2026-09-25T18:00:00Z",
+              "expiresAt": "2026-09-25T20:00:00Z"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "tolerated": [
+    {
+      "name": "a field from a later minor is ignored",
+      "schema": "collab.v1.ServerFrame",
+      "json": { "result": { "requestId": "r9", "send": { "seq": 7, "addedInV1dot1": true } } },
+      "reads_as": { "result": { "requestId": "r9", "send": { "seq": 7 } } }
+    },
+    {
+      "name": "an enum value from a later minor reads as unset",
+      "schema": "collab.v1.ClientFrame",
+      "json": { "send": { "text": "x", "to": { "topic": "t" }, "urgency": "URGENCY_EXTREME" } },
+      "reads_as": { "send": { "text": "x", "to": { "topic": "t" } } }
+    }
+  ]
+}

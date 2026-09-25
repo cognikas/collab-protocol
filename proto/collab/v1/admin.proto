@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+// Operations for whoever runs the channel. Authenticated with the admin key,
+// which is separate from every member credential.
+package collab.v1;
+
+import "google/protobuf/timestamp.proto";
+
+service AdminService {
+  rpc CreateInvite(CreateInviteRequest) returns (CreateInviteResponse);
+  // Revokes a member and closes every connection it still holds.
+  rpc RevokeMember(RevokeMemberRequest) returns (RevokeMemberResponse);
+}
+
+message CreateInviteRequest {
+  string channel = 1;
+  // So you can tell invites apart before they are redeemed.
+  string label = 2;
+  // Unset or 0: 24 hours. Capped at 7 days.
+  uint32 ttl_seconds = 3;
+}
+
+message CreateInviteResponse {
+  string invite = 1;
+  string channel = 2;
+  google.protobuf.Timestamp expires_at = 3;
+  // Where the invited member's client should point.
+  string api_endpoint = 4;
+}
+
+message RevokeMemberRequest {
+  string member_id = 1;
+}
+
+message RevokeMemberResponse {
+  bool revoked = 1;
+  string member_id = 2;
+  string channel = 3;
+  uint32 closed_connections = 4;
+}

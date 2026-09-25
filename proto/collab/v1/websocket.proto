@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+// The WebSocket binding: how ChannelService travels over one socket. Each
+// frame is one of these messages in protobuf JSON. See bindings/websocket.md.
+package collab.v1;
+
+import "collab/v1/channel.proto";
+import "collab/v1/errors.proto";
+import "collab/v1/model.proto";
+import "google/protobuf/timestamp.proto";
+
+service WebSocketService {
+  // Over HTTP, with the member credential. The ticket opens one socket and
+  // carries the topic and client session id, so the long-lived secret never
+  // appears in a WebSocket URL (which ends up in access logs).
+  rpc IssueTicket(IssueTicketRequest) returns (IssueTicketResponse);
+}
+
+message IssueTicketRequest {}
+
+message IssueTicketResponse {
+  // Opaque, single use, valid for 60 seconds.
+  string ticket = 1;
+  string ws_endpoint = 2;
+  google.protobuf.Timestamp expires_at = 3;
+}
+
+// Client to server. Field numbers match ServerFrame.result so a response
+// lands in the same numbered case as its request.
+message ClientFrame {
+  // Echoed in the Result or Error that answers this frame. Without it, no
+  // Result is sent (errors still are).
+  string request_id = 1;
+
+  oneof request {
+    // Must be the first frame on a socket; answered with a `hello` event.
+    SubscribeRequest subscribe = 10;
+    SendRequest send = 11;
+    AckRequest ack = 12;
+    ClaimRequest claim = 13;
+    ReleaseRequest release = 14;
+    PutContextRequest put_context = 15;
+    GetContextRequest get_context = 16;
+    SetPresenceRequest set_presence = 17;
+    HistoryRequest history = 18;
+    HeartbeatRequest heartbeat = 19;
+  }
+}
+
+// Server to client. Cases 1-5 are SubscribeResponse's, with the same numbers.
+message ServerFrame {
+  oneof frame {
+    HelloEvent hello = 1;
+    Message message = 2;
+    PresenceEvent presence = 3;
+    ClaimsEvent claims = 4;
+    ContextSummary context = 5;
+    Result result = 6;
+    ErrorDetail error = 7;
+  }
+}
+
+// The answer to a ClientFrame that carried a request_id.
+message Result {
+  string request_id = 1;
+
+  oneof response {
+    SendResponse send = 11;
+    AckResponse ack = 12;
+    ClaimResponse claim = 13;
+    ReleaseResponse release = 14;
+    PutContextResponse put_context = 15;
+    GetContextResponse get_context = 16;
+    SetPresenceResponse set_presence = 17;
+    HistoryResponse history = 18;
+    HeartbeatResponse heartbeat = 19;
+  }
+}
