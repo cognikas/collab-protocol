@@ -1,6 +1,6 @@
 {
   "name": "@collab/protocol",
-  "version": "1.0.0-rc.1",
+  "version": "1.0.0-rc.2",
   "description": "Protocolo del canal de Cognikas Collab (collab.v1): tipos generados, reglas y utilidades",
   "type": "module",
   "main": "./dist/index.js",
@@ -9,7 +9,8 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
-    }
+    },
+    "./vectors/*.json": "./vectors/*.json"
   },
   "sideEffects": false,
   "dependencies": {

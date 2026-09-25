@@ -723,7 +723,8 @@ export const ChannelService: GenService<{
     output: typeof HistoryResponseSchema;
   },
   /**
-   * Keeps the member "online": presence goes stale without it.
+   * Keeps the member "online" and re-sends the member list to the channel:
+   * presence goes stale without it.
    *
    * @generated from rpc collab.v1.ChannelService.Heartbeat
    */

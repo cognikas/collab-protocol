@@ -107,8 +107,10 @@ Una reserva avisa «estoy trabajando en estas rutas». Es un aviso, no un bloque
   `HEARTBEAT_SECONDS`.
 - `SetPresence` puede declararlo `IDLE` (u `ONLINE` de nuevo) y actualizar `repo` y `branch`.
   `OFFLINE` lo pone el servidor cuando se va la última sesión.
-- Cada cambio envía `PresenceEvent` con la lista completa de miembros a todo el canal, para que cada
-  sesión sepa quién está y en qué temas.
+- El servidor envía `PresenceEvent` con la lista completa de miembros a todo el canal cuando cambia
+  la presencia de alguien **y con cada `Heartbeat`**. Ese reenvío periódico es lo que mantiene al día
+  la lista de cada sesión: un miembro que deja de dar señales sin desconectarse pasa a `OFFLINE` en
+  el siguiente reenvío, y uno que solo usa HTTP aparece sin haber abierto un socket.
 
 ## Garantías sobre el texto de otros
 

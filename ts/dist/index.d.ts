@@ -12,5 +12,5 @@ export * from './limits.js';
 export * from './version.js';
 export * from './json.js';
 export * from './http.js';
-export { create, isMessage, clone, equals, type MessageInitShape, type MessageShape } from '@bufbuild/protobuf';
+export { create, isMessage, clone, equals, type DescEnum, type DescMessage, type DescMethod, type DescService, type MessageInitShape, type MessageShape, } from '@bufbuild/protobuf';
 export { timestampDate, timestampFromDate, timestampFromMs, timestampMs, timestampNow, type Timestamp } from '@bufbuild/protobuf/wkt';

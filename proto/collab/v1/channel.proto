@@ -24,7 +24,8 @@ service ChannelService {
   rpc GetContext(GetContextRequest) returns (GetContextResponse);
   rpc SetPresence(SetPresenceRequest) returns (SetPresenceResponse);
   rpc History(HistoryRequest) returns (HistoryResponse);
-  // Keeps the member "online": presence goes stale without it.
+  // Keeps the member "online" and re-sends the member list to the channel:
+  // presence goes stale without it.
   rpc Heartbeat(HeartbeatRequest) returns (HeartbeatResponse);
 }
 

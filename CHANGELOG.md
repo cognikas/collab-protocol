@@ -1,5 +1,14 @@
 # Cambios
 
+## 1.0.0-rc.2 — 2026-09-25
+
+- `Heartbeat` también reenvía `PresenceEvent` a todo el canal, como hacía 0.6 con su presencia
+  periódica. Sin eso, las listas de miembros de cada sesión quedaban desactualizadas
+  (`spec/reglas.md`, Presencia).
+- Los vectores se copian a `ts/vectors/` y se exportan como `@collab/protocol/vectors/*.json`, para
+  que quien instala solo `ts/` desde git pueda correrlos.
+- Se reexportan los tipos `DescMethod`, `DescMessage`, `DescService` y `DescEnum`.
+
 ## 1.0.0-rc.1 — 2026-09-25
 
 Primera versión de `collab.v1`, el protocolo de collab-channel 1.0. Conserva el comportamiento del

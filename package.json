@@ -1,6 +1,6 @@
 {
   "name": "collab-protocol",
-  "version": "1.0.0-rc.1",
+  "version": "1.0.0-rc.2",
   "private": true,
   "type": "module",
   "description": "Contrato del canal de Cognikas Collab: esquema Protobuf, bindings, reglas y vectores",
@@ -11,7 +11,7 @@
     "generate": "buf generate",
     "lint": "buf lint && buf format --diff --exit-code",
     "breaking": "node scripts/breaking.mjs",
-    "build": "buf generate && tsc -p ts/tsconfig.build.json",
+    "build": "buf generate && tsc -p ts/tsconfig.build.json && node scripts/copy-vectors.mjs",
     "typecheck": "tsc -p ts/tsconfig.json",
     "test": "vitest run"
   },

@@ -15,3 +15,15 @@ describe('versions', () => {
     expect(fs.existsSync(new URL(`../../proto/collab/v${PROTOCOL_MAJOR}`, import.meta.url))).toBe(true);
   });
 });
+
+describe('ts/vectors', () => {
+  it('is an exact copy of vectors/, the source', () => {
+    const root = new URL('../../vectors/', import.meta.url);
+    const copy = new URL('../vectors/', import.meta.url);
+    const files = fs.readdirSync(root).filter((name) => name.endsWith('.json')).sort();
+    expect(fs.readdirSync(copy).sort()).toEqual(files);
+    for (const file of files) {
+      expect(fs.readFileSync(new URL(file, copy), 'utf8')).toBe(fs.readFileSync(new URL(file, root), 'utf8'));
+    }
+  });
+});

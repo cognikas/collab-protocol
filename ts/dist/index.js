@@ -14,5 +14,5 @@ export * from './json.js';
 export * from './http.js';
 // The runtime pieces consumers need, so they do not depend on @bufbuild/protobuf
 // themselves and cannot end up on a different version of it.
-export { create, isMessage, clone, equals } from '@bufbuild/protobuf';
+export { create, isMessage, clone, equals, } from '@bufbuild/protobuf';
 export { timestampDate, timestampFromDate, timestampFromMs, timestampMs, timestampNow } from '@bufbuild/protobuf/wkt';
