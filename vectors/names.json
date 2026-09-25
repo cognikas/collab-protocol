@@ -1,0 +1,234 @@
+{
+  "slug": [
+    {
+      "input": "Willy",
+      "output": "willy"
+    },
+    {
+      "input": "Carlos Echeverria",
+      "output": "carlos-echeverria"
+    },
+    {
+      "input": "José Pérez",
+      "output": "jose-perez"
+    },
+    {
+      "input": "@willy",
+      "output": "willy"
+    },
+    {
+      "input": "collab-global",
+      "output": "collab-global"
+    },
+    {
+      "input": "Collab Global",
+      "output": "collab-global"
+    },
+    {
+      "input": "Cognikas@main",
+      "output": "cognikas-main"
+    },
+    {
+      "input": "  --Hi__there--  ",
+      "output": "hi__there"
+    },
+    {
+      "input": "ÀÉÎÕÜ ñandú",
+      "output": "aeiou-nandu"
+    },
+    {
+      "input": "日本語",
+      "output": ""
+    },
+    {
+      "input": "a/b\\c",
+      "output": "a-b-c"
+    },
+    {
+      "input": "C:\\Users\\ana\\repo",
+      "output": "c-users-ana-repo"
+    },
+    {
+      "input": "UPPER.case_Mix-ed",
+      "output": "upper.case_mix-ed"
+    },
+    {
+      "input": "...leading.dots",
+      "output": "leading.dots"
+    },
+    {
+      "input": "trailing---",
+      "output": "trailing"
+    },
+    {
+      "input": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "output": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    },
+    {
+      "input": "ﬁnance",
+      "output": "finance"
+    },
+    {
+      "input": "İstanbul",
+      "output": "istanbul"
+    },
+    {
+      "input": "straße",
+      "output": "stra-e"
+    },
+    {
+      "input": "emoji 🚀 rocket",
+      "output": "emoji-rocket"
+    },
+    {
+      "input": "tab\tand\nnewline",
+      "output": "tab-and-newline"
+    },
+    {
+      "input": "zero\u200bwidth",
+      "output": "zero-width"
+    },
+    {
+      "input": "Plan Fase 1 — canal",
+      "output": "plan-fase-1-canal"
+    },
+    {
+      "input": "",
+      "output": ""
+    },
+    {
+      "input": "   ",
+      "output": ""
+    },
+    {
+      "input": "-",
+      "output": ""
+    },
+    {
+      "input": null,
+      "output": ""
+    },
+    {
+      "input": 42,
+      "output": ""
+    }
+  ],
+  "contextKey": [
+    {
+      "input": "canal-fase-1",
+      "output": "canal-fase-1"
+    },
+    {
+      "input": "Plan Fase 1 — canal",
+      "output": "plan-fase-1-canal"
+    },
+    {
+      "input": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "output": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "input": "key#with#hashes",
+      "output": "key-with-hashes"
+    },
+    {
+      "input": "Docs/Arquitectura.md",
+      "output": "docs-arquitectura.md"
+    },
+    {
+      "input": "",
+      "output": ""
+    }
+  ],
+  "isTopic": [
+    {
+      "input": "general",
+      "output": true
+    },
+    {
+      "input": "collab-global",
+      "output": true
+    },
+    {
+      "input": "a",
+      "output": true
+    },
+    {
+      "input": "x.",
+      "output": true
+    },
+    {
+      "input": "-x",
+      "output": false
+    },
+    {
+      "input": ".x",
+      "output": false
+    },
+    {
+      "input": "X",
+      "output": false
+    },
+    {
+      "input": "a b",
+      "output": false
+    },
+    {
+      "input": "",
+      "output": false
+    },
+    {
+      "input": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "output": true
+    },
+    {
+      "input": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "output": false
+    },
+    {
+      "input": "tópico",
+      "output": false
+    },
+    {
+      "input": null,
+      "output": false
+    }
+  ],
+  "isClientSessionId": [
+    {
+      "input": "0b1c8f5e-6a3d-4c1e-9f7a-2d4b6e8a0c12",
+      "output": true
+    },
+    {
+      "input": "smoke-ana",
+      "output": true
+    },
+    {
+      "input": "mcp-check",
+      "output": true
+    },
+    {
+      "input": "a b",
+      "output": false
+    },
+    {
+      "input": "",
+      "output": false
+    },
+    {
+      "input": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "output": true
+    },
+    {
+      "input": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "output": false
+    },
+    {
+      "input": "ses/1",
+      "output": false
+    },
+    {
+      "input": null,
+      "output": false
+    }
+  ]
+}

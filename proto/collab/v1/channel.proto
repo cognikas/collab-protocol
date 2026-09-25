@@ -1,0 +1,176 @@
+syntax = "proto3";
+
+// What a member's client session does on the channel. Every call runs in a
+// call context the binding supplies, not in the request: the member credential,
+// the topic of the calling session and its client session id. See
+// bindings/websocket.md and bindings/http.md.
+package collab.v1;
+
+import "collab/v1/model.proto";
+import "google/protobuf/timestamp.proto";
+
+service ChannelService {
+  // Opens the live stream. The first event is always `hello`, with the state
+  // and the negotiated protocol; after it, events arrive as they happen.
+  rpc Subscribe(SubscribeRequest) returns (stream SubscribeResponse);
+  // The same state `hello` carries, without subscribing.
+  rpc GetState(GetStateRequest) returns (GetStateResponse);
+  rpc Send(SendRequest) returns (SendResponse);
+  // Moves the member's cursor in the caller's topic.
+  rpc Ack(AckRequest) returns (AckResponse);
+  rpc Claim(ClaimRequest) returns (ClaimResponse);
+  rpc Release(ReleaseRequest) returns (ReleaseResponse);
+  rpc PutContext(PutContextRequest) returns (PutContextResponse);
+  rpc GetContext(GetContextRequest) returns (GetContextResponse);
+  rpc SetPresence(SetPresenceRequest) returns (SetPresenceResponse);
+  rpc History(HistoryRequest) returns (HistoryResponse);
+  // Keeps the member "online": presence goes stale without it.
+  rpc Heartbeat(HeartbeatRequest) returns (HeartbeatResponse);
+}
+
+message SubscribeRequest {
+  ClientInfo client = 1;
+  // Replay starts after this seq. Unset: at the member's cursor in this topic.
+  optional uint32 since = 2;
+  string repo = 3;
+  string branch = 4;
+}
+
+// One event on the live stream.
+message SubscribeResponse {
+  oneof event {
+    HelloEvent hello = 1;
+    Message message = 2;
+    PresenceEvent presence = 3;
+    ClaimsEvent claims = 4;
+    ContextSummary context = 5;
+  }
+}
+
+message HelloEvent {
+  ChannelState state = 1;
+  // The version both sides now speak: the client's major, and the lower of the two minors.
+  ProtocolVersion protocol = 2;
+  // Modules both sides implement.
+  repeated string capabilities = 3;
+  string server_version = 4;
+}
+
+// The whole member list, channel-wide, every time anyone's presence changes.
+message PresenceEvent {
+  repeated Member members = 1;
+}
+
+// The whole claim list of one topic, every time it changes. Only sessions in
+// that topic receive it.
+message ClaimsEvent {
+  string topic = 1;
+  repeated Claim claims = 2;
+}
+
+message GetStateRequest {
+  optional uint32 since = 1;
+  // At most this many messages. Unset or 0: 100.
+  uint32 limit = 2;
+}
+
+message GetStateResponse {
+  ChannelState state = 1;
+}
+
+message SendRequest {
+  // NOTE, QUESTION or DONE. The other types are the server's.
+  MessageType type = 1;
+  string text = 2;
+  Recipient to = 3;
+  Urgency urgency = 4;
+  repeated string refs = 5;
+  // Only with type DONE.
+  DonePayload done = 6;
+}
+
+message SendResponse {
+  uint32 seq = 1;
+  // Live sessions it reached. Zero is fine: it waits in history.
+  uint32 delivered = 2;
+  // True when no other member was connected at all, so it also went out as an
+  // offline notification.
+  bool delivered_offline = 3;
+}
+
+message AckRequest {
+  uint32 cursor = 1;
+}
+
+message AckResponse {}
+
+message ClaimRequest {
+  repeated string paths = 1;
+  string note = 2;
+  // Unset or 0: the default of 2 hours. Capped at 24 hours.
+  uint32 ttl_seconds = 3;
+}
+
+message ClaimResponse {
+  Claim claim = 1;
+}
+
+// A claim can be released from any of its owner's sessions.
+message ReleaseRequest {
+  string claim_id = 1;
+}
+
+message ReleaseResponse {
+  // False when there was no such claim of the caller's.
+  bool released = 1;
+}
+
+// Writes a new version of `key` in the caller's topic.
+message PutContextRequest {
+  string key = 1;
+  string title = 2;
+  string summary = 3;
+  string body = 4;
+}
+
+message PutContextResponse {
+  ContextEntry entry = 1;
+}
+
+message GetContextRequest {
+  string key = 1;
+  // Unset: the latest version.
+  optional uint32 version = 2;
+  // Another topic's context, read-only. Empty: the caller's topic.
+  string topic = 3;
+}
+
+message GetContextResponse {
+  ContextEntry entry = 1;
+}
+
+message SetPresenceRequest {
+  // ONLINE or IDLE. OFFLINE is the server's to set, when the last session goes.
+  MemberStatus status = 1;
+  string repo = 2;
+  string branch = 3;
+}
+
+message SetPresenceResponse {}
+
+// The newest `limit` readable messages after `since`, oldest first.
+message HistoryRequest {
+  uint32 since = 1;
+  // Unset or 0: 100. Capped at 200.
+  uint32 limit = 2;
+}
+
+message HistoryResponse {
+  repeated Message messages = 1;
+}
+
+message HeartbeatRequest {}
+
+message HeartbeatResponse {
+  google.protobuf.Timestamp server_time = 1;
+}

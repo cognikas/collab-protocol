@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package collab.v1;
+
+import "collab/v1/model.proto";
+
+service ServerInfoService {
+  // Public: needs no credential. Lets a client check compatibility before it
+  // joins or connects.
+  rpc GetServerInfo(GetServerInfoRequest) returns (GetServerInfoResponse);
+}
+
+message GetServerInfoRequest {}
+
+message GetServerInfoResponse {
+  // The server's own release, for example "1.0.0".
+  string server_version = 1;
+  // One entry per major the server speaks, with the highest minor of each.
+  repeated ProtocolVersion protocols = 2;
+  // Optional modules the server implements. None exist in 1.0.
+  repeated string capabilities = 3;
+}

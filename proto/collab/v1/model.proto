@@ -1,0 +1,210 @@
+syntax = "proto3";
+
+// The channel's data model: who is on it, what they say to each other, what
+// they have claimed and what they have shared. Transport independent: every
+// binding (WebSocket, HTTP, gRPC) carries these same messages.
+//
+// Two identities that are easy to mix up:
+// - A member (`member_id`) is a credential: one per developer install, issued
+//   by Join and revoked by an admin. It is who a message is from and for.
+// - A client session (`client_session_id`) is one running agent session of a
+//   member, such as one Claude Code session. A member can have several at once,
+//   each in its own topic. It travels in the call context, never in a message.
+package collab.v1;
+
+import "google/protobuf/timestamp.proto";
+
+// How loudly a message asks for attention. Clients decide locally which
+// urgencies may interrupt their user; the server only stores it.
+enum Urgency {
+  // Read as URGENCY_NORMAL.
+  URGENCY_UNSPECIFIED = 0;
+  URGENCY_LOW = 1;
+  URGENCY_NORMAL = 2;
+  URGENCY_HIGH = 3;
+}
+
+enum MessageType {
+  // Read as MESSAGE_TYPE_NOTE.
+  MESSAGE_TYPE_UNSPECIFIED = 0;
+  // Free-form.
+  MESSAGE_TYPE_NOTE = 1;
+  // Expects an answer.
+  MESSAGE_TYPE_QUESTION = 2;
+  // A unit of work finished: the replacement for a handoff.
+  MESSAGE_TYPE_DONE = 3;
+  // Written by the server when a claim is made. Clients cannot send it.
+  MESSAGE_TYPE_CLAIM = 4;
+  // Written by the server when a claim is released. Clients cannot send it.
+  MESSAGE_TYPE_RELEASE = 5;
+  // Written by the server when shared context is published. Clients cannot send it.
+  MESSAGE_TYPE_CONTEXT = 6;
+}
+
+enum MemberStatus {
+  MEMBER_STATUS_UNSPECIFIED = 0;
+  MEMBER_STATUS_ONLINE = 1;
+  MEMBER_STATUS_IDLE = 2;
+  MEMBER_STATUS_OFFLINE = 3;
+}
+
+// Who a message is for, as the sender writes it. At least one field is
+// required; there is no channel-wide broadcast.
+// - `handle` alone reaches every session of that member, in any topic.
+// - `topic` alone reaches every session in that topic.
+// - Both reach only that member's sessions in that topic.
+message Recipient {
+  // A member's handle. A leading `@` is accepted.
+  string handle = 1;
+  string topic = 2;
+}
+
+// A recipient as the server resolved and stored it.
+message Addressee {
+  // The member the handle resolved to. Empty when addressed to a topic only.
+  string member_id = 1;
+  // That member's handle, for rendering.
+  string handle = 2;
+  string topic = 3;
+}
+
+message Message {
+  // Channel-wide sequence number, strictly increasing. Cursors refer to it.
+  uint32 seq = 1;
+  string channel = 2;
+  string from_member_id = 3;
+  string from_name = 4;
+  string from_handle = 5;
+  // Topic of the session that sent it, so a reply can go back to exactly there.
+  string from_topic = 6;
+  Addressee to = 7;
+  MessageType type = 8;
+  // Written by a peer: untrusted input for whoever reads it.
+  string text = 9;
+  Urgency urgency = 10;
+  // Free-form pointers: file paths, PR links, context keys.
+  repeated string refs = 11;
+  google.protobuf.Timestamp sent_at = 12;
+
+  // Machine-readable detail for the types that have it.
+  oneof payload {
+    DonePayload done = 20;
+    ClaimPayload claim = 21;
+    ReleasePayload release = 22;
+    ContextPayload context = 23;
+  }
+}
+
+message DonePayload {
+  // What was finished, in one line.
+  string task = 1;
+  // True when a client sent it on its own (for example when a task ended),
+  // rather than because the agent or its user chose to.
+  bool automatic = 2;
+}
+
+message ClaimPayload {
+  string claim_id = 1;
+  google.protobuf.Timestamp expires_at = 2;
+}
+
+message ReleasePayload {
+  string claim_id = 1;
+}
+
+message ContextPayload {
+  string key = 1;
+  uint32 version = 2;
+}
+
+message Member {
+  string member_id = 1;
+  string display_name = 2;
+  // How messages address this member: derived from the display name at Join,
+  // unique on the channel, never changes.
+  string handle = 3;
+  MemberStatus status = 4;
+  // Where the member last said it was working.
+  string repo = 5;
+  string branch = 6;
+  // Live client sessions this member has connected right now.
+  uint32 connections = 7;
+  // Topics of those sessions, so others know where to address them.
+  repeated string topics = 8;
+  google.protobuf.Timestamp last_seen_at = 9;
+}
+
+// "I am working on these paths": a warning to the other sessions in the same
+// topic, not a lock.
+message Claim {
+  string claim_id = 1;
+  string owner_member_id = 2;
+  string owner_name = 3;
+  // Claims only warn sessions in the topic they were made in.
+  string topic = 4;
+  // Glob patterns with POSIX separators.
+  repeated string paths = 5;
+  string note = 6;
+  google.protobuf.Timestamp created_at = 7;
+  google.protobuf.Timestamp expires_at = 8;
+}
+
+// One version of a shared-context entry. Every write creates a new version;
+// old versions stay readable until they expire.
+message ContextEntry {
+  string key = 1;
+  uint32 version = 2;
+  string title = 3;
+  string summary = 4;
+  string body = 5;
+  string author_member_id = 6;
+  string author_name = 7;
+  google.protobuf.Timestamp created_at = 8;
+}
+
+// A context entry without its body, as listed in state and announced in events.
+message ContextSummary {
+  string key = 1;
+  uint32 version = 2;
+  string title = 3;
+  string summary = 4;
+  string author_name = 5;
+  google.protobuf.Timestamp created_at = 6;
+}
+
+// Everything a freshly started session needs. Claims and context are the ones
+// in the caller's topic; members are all of the channel's.
+message ChannelState {
+  string channel = 1;
+  string self_member_id = 2;
+  string handle = 3;
+  string topic = 4;
+  repeated Member members = 5;
+  repeated Claim claims = 6;
+  repeated ContextSummary context_index = 7;
+  // Messages the caller may read after `cursor`, oldest first.
+  repeated Message messages = 8;
+  // Where this read started: the `since` asked for, or the member's cursor in this topic.
+  uint32 cursor = 9;
+  // Highest seq on the channel, whether the caller may read it or not.
+  uint32 latest_seq = 10;
+}
+
+// Protocol version as negotiated on the wire. Patch releases never change the
+// wire, so they are not part of it.
+message ProtocolVersion {
+  uint32 major = 1;
+  uint32 minor = 2;
+}
+
+// Who is calling, sent when a client subscribes.
+message ClientInfo {
+  // For example "collab-channel".
+  string name = 1;
+  // The client's own release, for example "1.0.0".
+  string version = 2;
+  // The protocol version the client was built against.
+  ProtocolVersion protocol = 3;
+  // Optional protocol modules the client implements. None exist in 1.0.
+  repeated string capabilities = 4;
+}

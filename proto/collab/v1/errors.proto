@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package collab.v1;
+
+// Every error any operation can return. Clients branch on the code, never on
+// the message text. Adding a code is a minor change; readers treat a code
+// they do not know as ERROR_CODE_INTERNAL.
+enum ErrorCode {
+  ERROR_CODE_UNSPECIFIED = 0;
+  ERROR_CODE_INTERNAL = 1;
+  // The frame or body could not be parsed, or names no known operation.
+  ERROR_CODE_BAD_REQUEST = 2;
+  ERROR_CODE_NOT_FOUND = 3;
+  // Missing or wrong credentials (member secret, admin key or ticket).
+  ERROR_CODE_UNAUTHENTICATED = 4;
+  // The member was revoked. Retrying cannot help.
+  ERROR_CODE_REVOKED = 5;
+  // The server does not speak the client's protocol major. The message says which ones it does.
+  ERROR_CODE_UNSUPPORTED_PROTOCOL = 6;
+  // A WebSocket frame arrived on a connection the server no longer knows. Reconnect.
+  ERROR_CODE_UNKNOWN_CONNECTION = 7;
+  // The invite is unknown, expired or already used.
+  ERROR_CODE_INVALID_INVITE = 8;
+  ERROR_CODE_INVALID_NAME = 9;
+  // Another member already has the handle this display name produces. The invite is still good.
+  ERROR_CODE_NAME_TAKEN = 10;
+  ERROR_CODE_INVALID_CHANNEL = 11;
+  ERROR_CODE_INVALID_TOPIC = 12;
+  ERROR_CODE_INVALID_CLIENT_SESSION = 13;
+  ERROR_CODE_INVALID_MEMBER = 14;
+  // A message named neither a handle nor a topic.
+  ERROR_CODE_NO_RECIPIENT = 15;
+  // No member has that handle. The message lists the ones that exist.
+  ERROR_CODE_UNKNOWN_HANDLE = 16;
+  ERROR_CODE_EMPTY_MESSAGE = 17;
+  ERROR_CODE_MESSAGE_TOO_LONG = 18;
+  // A type clients may not send (claim, release, context), or a payload that does not match the type.
+  ERROR_CODE_INVALID_TYPE = 19;
+  ERROR_CODE_NO_PATHS = 20;
+  ERROR_CODE_TOO_MANY_PATHS = 21;
+  ERROR_CODE_INVALID_KEY = 22;
+  ERROR_CODE_CONTEXT_TOO_LARGE = 23;
+}
+
+message ErrorDetail {
+  ErrorCode code = 1;
+  // For people. May change between releases; do not parse it.
+  string message = 2;
+  // Set when the error answers a request that carried one.
+  string request_id = 3;
+}
