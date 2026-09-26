@@ -11,7 +11,9 @@
 //   by Join and revoked by an admin. It is who a message is from and for.
 // - A client session (`client_session_id`) is one running agent session of a
 //   member, such as one Claude Code session. A member can have several at once,
-//   each in its own topic. It travels in the call context, never in a message.
+//   each in its own topic. The client names it in the call context; messages
+//   and presence show it so that a message can reach one session. It is not a
+//   credential, and it is only unique within its member.
 
 import type { GenEnum, GenFile, GenMessage } from "@bufbuild/protobuf/codegenv2";
 import { enumDesc, fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv2";
@@ -23,14 +25,16 @@ import type { Message as Message$1 } from "@bufbuild/protobuf";
  * Describes the file collab/v1/model.proto.
  */
 export const file_collab_v1_model: GenFile = /*@__PURE__*/
-  fileDesc("ChVjb2xsYWIvdjEvbW9kZWwucHJvdG8SCWNvbGxhYi52MSIqCglSZWNpcGllbnQSDgoGaGFuZGxlGAEgASgJEg0KBXRvcGljGAIgASgJIj0KCUFkZHJlc3NlZRIRCgltZW1iZXJfaWQYASABKAkSDgoGaGFuZGxlGAIgASgJEg0KBXRvcGljGAMgASgJIuoDCgdNZXNzYWdlEgsKA3NlcRgBIAEoDRIPCgdjaGFubmVsGAIgASgJEhYKDmZyb21fbWVtYmVyX2lkGAMgASgJEhEKCWZyb21fbmFtZRgEIAEoCRITCgtmcm9tX2hhbmRsZRgFIAEoCRISCgpmcm9tX3RvcGljGAYgASgJEiAKAnRvGAcgASgLMhQuY29sbGFiLnYxLkFkZHJlc3NlZRIkCgR0eXBlGAggASgOMhYuY29sbGFiLnYxLk1lc3NhZ2VUeXBlEgwKBHRleHQYCSABKAkSIwoHdXJnZW5jeRgKIAEoDjISLmNvbGxhYi52MS5VcmdlbmN5EgwKBHJlZnMYCyADKAkSKwoHc2VudF9hdBgMIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASJgoEZG9uZRgUIAEoCzIWLmNvbGxhYi52MS5Eb25lUGF5bG9hZEgAEigKBWNsYWltGBUgASgLMhcuY29sbGFiLnYxLkNsYWltUGF5bG9hZEgAEiwKB3JlbGVhc2UYFiABKAsyGS5jb2xsYWIudjEuUmVsZWFzZVBheWxvYWRIABIsCgdjb250ZXh0GBcgASgLMhkuY29sbGFiLnYxLkNvbnRleHRQYXlsb2FkSABCCQoHcGF5bG9hZCIuCgtEb25lUGF5bG9hZBIMCgR0YXNrGAEgASgJEhEKCWF1dG9tYXRpYxgCIAEoCCJQCgxDbGFpbVBheWxvYWQSEAoIY2xhaW1faWQYASABKAkSLgoKZXhwaXJlc19hdBgCIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAiIgoOUmVsZWFzZVBheWxvYWQSEAoIY2xhaW1faWQYASABKAkiLgoOQ29udGV4dFBheWxvYWQSCwoDa2V5GAEgASgJEg8KB3ZlcnNpb24YAiABKA0i3wEKBk1lbWJlchIRCgltZW1iZXJfaWQYASABKAkSFAoMZGlzcGxheV9uYW1lGAIgASgJEg4KBmhhbmRsZRgDIAEoCRInCgZzdGF0dXMYBCABKA4yFy5jb2xsYWIudjEuTWVtYmVyU3RhdHVzEgwKBHJlcG8YBSABKAkSDgoGYnJhbmNoGAYgASgJEhMKC2Nvbm5lY3Rpb25zGAcgASgNEg4KBnRvcGljcxgIIAMoCRIwCgxsYXN0X3NlZW5fYXQYCSABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wItIBCgVDbGFpbRIQCghjbGFpbV9pZBgBIAEoCRIXCg9vd25lcl9tZW1iZXJfaWQYAiABKAkSEgoKb3duZXJfbmFtZRgDIAEoCRINCgV0b3BpYxgEIAEoCRINCgVwYXRocxgFIAMoCRIMCgRub3RlGAYgASgJEi4KCmNyZWF0ZWRfYXQYByABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEi4KCmV4cGlyZXNfYXQYCCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIrkBCgxDb250ZXh0RW50cnkSCwoDa2V5GAEgASgJEg8KB3ZlcnNpb24YAiABKA0SDQoFdGl0bGUYAyABKAkSDwoHc3VtbWFyeRgEIAEoCRIMCgRib2R5GAUgASgJEhgKEGF1dGhvcl9tZW1iZXJfaWQYBiABKAkSEwoLYXV0aG9yX25hbWUYByABKAkSLgoKY3JlYXRlZF9hdBgIIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAikwEKDkNvbnRleHRTdW1tYXJ5EgsKA2tleRgBIAEoCRIPCgd2ZXJzaW9uGAIgASgNEg0KBXRpdGxlGAMgASgJEg8KB3N1bW1hcnkYBCABKAkSEwoLYXV0aG9yX25hbWUYBSABKAkSLgoKY3JlYXRlZF9hdBgGIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAimAIKDENoYW5uZWxTdGF0ZRIPCgdjaGFubmVsGAEgASgJEhYKDnNlbGZfbWVtYmVyX2lkGAIgASgJEg4KBmhhbmRsZRgDIAEoCRINCgV0b3BpYxgEIAEoCRIiCgdtZW1iZXJzGAUgAygLMhEuY29sbGFiLnYxLk1lbWJlchIgCgZjbGFpbXMYBiADKAsyEC5jb2xsYWIudjEuQ2xhaW0SMAoNY29udGV4dF9pbmRleBgHIAMoCzIZLmNvbGxhYi52MS5Db250ZXh0U3VtbWFyeRIkCghtZXNzYWdlcxgIIAMoCzISLmNvbGxhYi52MS5NZXNzYWdlEg4KBmN1cnNvchgJIAEoDRISCgpsYXRlc3Rfc2VxGAogASgNIi8KD1Byb3RvY29sVmVyc2lvbhINCgVtYWpvchgBIAEoDRINCgVtaW5vchgCIAEoDSJvCgpDbGllbnRJbmZvEgwKBG5hbWUYASABKAkSDwoHdmVyc2lvbhgCIAEoCRIsCghwcm90b2NvbBgDIAEoCzIaLmNvbGxhYi52MS5Qcm90b2NvbFZlcnNpb24SFAoMY2FwYWJpbGl0aWVzGAQgAygJKlkKB1VyZ2VuY3kSFwoTVVJHRU5DWV9VTlNQRUNJRklFRBAAEg8KC1VSR0VOQ1lfTE9XEAESEgoOVVJHRU5DWV9OT1JNQUwQAhIQCgxVUkdFTkNZX0hJR0gQAyrAAQoLTWVzc2FnZVR5cGUSHAoYTUVTU0FHRV9UWVBFX1VOU1BFQ0lGSUVEEAASFQoRTUVTU0FHRV9UWVBFX05PVEUQARIZChVNRVNTQUdFX1RZUEVfUVVFU1RJT04QAhIVChFNRVNTQUdFX1RZUEVfRE9ORRADEhYKEk1FU1NBR0VfVFlQRV9DTEFJTRAEEhgKFE1FU1NBR0VfVFlQRV9SRUxFQVNFEAUSGAoUTUVTU0FHRV9UWVBFX0NPTlRFWFQQBip6CgxNZW1iZXJTdGF0dXMSHQoZTUVNQkVSX1NUQVRVU19VTlNQRUNJRklFRBAAEhgKFE1FTUJFUl9TVEFUVVNfT05MSU5FEAESFgoSTUVNQkVSX1NUQVRVU19JRExFEAISGQoVTUVNQkVSX1NUQVRVU19PRkZMSU5FEANiBnByb3RvMw", [file_google_protobuf_timestamp]);
+  fileDesc("ChVjb2xsYWIvdjEvbW9kZWwucHJvdG8SCWNvbGxhYi52MSJFCglSZWNpcGllbnQSDgoGaGFuZGxlGAEgASgJEg0KBXRvcGljGAIgASgJEhkKEWNsaWVudF9zZXNzaW9uX2lkGAMgASgJIlgKCUFkZHJlc3NlZRIRCgltZW1iZXJfaWQYASABKAkSDgoGaGFuZGxlGAIgASgJEg0KBXRvcGljGAMgASgJEhkKEWNsaWVudF9zZXNzaW9uX2lkGAQgASgJIooECgdNZXNzYWdlEgsKA3NlcRgBIAEoDRIPCgdjaGFubmVsGAIgASgJEhYKDmZyb21fbWVtYmVyX2lkGAMgASgJEhEKCWZyb21fbmFtZRgEIAEoCRITCgtmcm9tX2hhbmRsZRgFIAEoCRISCgpmcm9tX3RvcGljGAYgASgJEiAKAnRvGAcgASgLMhQuY29sbGFiLnYxLkFkZHJlc3NlZRIkCgR0eXBlGAggASgOMhYuY29sbGFiLnYxLk1lc3NhZ2VUeXBlEgwKBHRleHQYCSABKAkSIwoHdXJnZW5jeRgKIAEoDjISLmNvbGxhYi52MS5VcmdlbmN5EgwKBHJlZnMYCyADKAkSKwoHc2VudF9hdBgMIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASHgoWZnJvbV9jbGllbnRfc2Vzc2lvbl9pZBgNIAEoCRImCgRkb25lGBQgASgLMhYuY29sbGFiLnYxLkRvbmVQYXlsb2FkSAASKAoFY2xhaW0YFSABKAsyFy5jb2xsYWIudjEuQ2xhaW1QYXlsb2FkSAASLAoHcmVsZWFzZRgWIAEoCzIZLmNvbGxhYi52MS5SZWxlYXNlUGF5bG9hZEgAEiwKB2NvbnRleHQYFyABKAsyGS5jb2xsYWIudjEuQ29udGV4dFBheWxvYWRIAEIJCgdwYXlsb2FkIi4KC0RvbmVQYXlsb2FkEgwKBHRhc2sYASABKAkSEQoJYXV0b21hdGljGAIgASgIIlAKDENsYWltUGF5bG9hZBIQCghjbGFpbV9pZBgBIAEoCRIuCgpleHBpcmVzX2F0GAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCIiCg5SZWxlYXNlUGF5bG9hZBIQCghjbGFpbV9pZBgBIAEoCSIuCg5Db250ZXh0UGF5bG9hZBILCgNrZXkYASABKAkSDwoHdmVyc2lvbhgCIAEoDSKLAgoGTWVtYmVyEhEKCW1lbWJlcl9pZBgBIAEoCRIUCgxkaXNwbGF5X25hbWUYAiABKAkSDgoGaGFuZGxlGAMgASgJEicKBnN0YXR1cxgEIAEoDjIXLmNvbGxhYi52MS5NZW1iZXJTdGF0dXMSDAoEcmVwbxgFIAEoCRIOCgZicmFuY2gYBiABKAkSEwoLY29ubmVjdGlvbnMYByABKA0SDgoGdG9waWNzGAggAygJEjAKDGxhc3Rfc2Vlbl9hdBgJIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASKgoIc2Vzc2lvbnMYCiADKAsyGC5jb2xsYWIudjEuTWVtYmVyU2Vzc2lvbiKJAQoNTWVtYmVyU2Vzc2lvbhIZChFjbGllbnRfc2Vzc2lvbl9pZBgBIAEoCRINCgV0b3BpYxgCIAEoCRIMCgRyZXBvGAMgASgJEg4KBmJyYW5jaBgEIAEoCRIwCgxjb25uZWN0ZWRfYXQYBSABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wItIBCgVDbGFpbRIQCghjbGFpbV9pZBgBIAEoCRIXCg9vd25lcl9tZW1iZXJfaWQYAiABKAkSEgoKb3duZXJfbmFtZRgDIAEoCRINCgV0b3BpYxgEIAEoCRINCgVwYXRocxgFIAMoCRIMCgRub3RlGAYgASgJEi4KCmNyZWF0ZWRfYXQYByABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEi4KCmV4cGlyZXNfYXQYCCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIrkBCgxDb250ZXh0RW50cnkSCwoDa2V5GAEgASgJEg8KB3ZlcnNpb24YAiABKA0SDQoFdGl0bGUYAyABKAkSDwoHc3VtbWFyeRgEIAEoCRIMCgRib2R5GAUgASgJEhgKEGF1dGhvcl9tZW1iZXJfaWQYBiABKAkSEwoLYXV0aG9yX25hbWUYByABKAkSLgoKY3JlYXRlZF9hdBgIIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAikwEKDkNvbnRleHRTdW1tYXJ5EgsKA2tleRgBIAEoCRIPCgd2ZXJzaW9uGAIgASgNEg0KBXRpdGxlGAMgASgJEg8KB3N1bW1hcnkYBCABKAkSEwoLYXV0aG9yX25hbWUYBSABKAkSLgoKY3JlYXRlZF9hdBgGIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAimAIKDENoYW5uZWxTdGF0ZRIPCgdjaGFubmVsGAEgASgJEhYKDnNlbGZfbWVtYmVyX2lkGAIgASgJEg4KBmhhbmRsZRgDIAEoCRINCgV0b3BpYxgEIAEoCRIiCgdtZW1iZXJzGAUgAygLMhEuY29sbGFiLnYxLk1lbWJlchIgCgZjbGFpbXMYBiADKAsyEC5jb2xsYWIudjEuQ2xhaW0SMAoNY29udGV4dF9pbmRleBgHIAMoCzIZLmNvbGxhYi52MS5Db250ZXh0U3VtbWFyeRIkCghtZXNzYWdlcxgIIAMoCzISLmNvbGxhYi52MS5NZXNzYWdlEg4KBmN1cnNvchgJIAEoDRISCgpsYXRlc3Rfc2VxGAogASgNIi8KD1Byb3RvY29sVmVyc2lvbhINCgVtYWpvchgBIAEoDRINCgVtaW5vchgCIAEoDSJvCgpDbGllbnRJbmZvEgwKBG5hbWUYASABKAkSDwoHdmVyc2lvbhgCIAEoCRIsCghwcm90b2NvbBgDIAEoCzIaLmNvbGxhYi52MS5Qcm90b2NvbFZlcnNpb24SFAoMY2FwYWJpbGl0aWVzGAQgAygJKlkKB1VyZ2VuY3kSFwoTVVJHRU5DWV9VTlNQRUNJRklFRBAAEg8KC1VSR0VOQ1lfTE9XEAESEgoOVVJHRU5DWV9OT1JNQUwQAhIQCgxVUkdFTkNZX0hJR0gQAyrAAQoLTWVzc2FnZVR5cGUSHAoYTUVTU0FHRV9UWVBFX1VOU1BFQ0lGSUVEEAASFQoRTUVTU0FHRV9UWVBFX05PVEUQARIZChVNRVNTQUdFX1RZUEVfUVVFU1RJT04QAhIVChFNRVNTQUdFX1RZUEVfRE9ORRADEhYKEk1FU1NBR0VfVFlQRV9DTEFJTRAEEhgKFE1FU1NBR0VfVFlQRV9SRUxFQVNFEAUSGAoUTUVTU0FHRV9UWVBFX0NPTlRFWFQQBip6CgxNZW1iZXJTdGF0dXMSHQoZTUVNQkVSX1NUQVRVU19VTlNQRUNJRklFRBAAEhgKFE1FTUJFUl9TVEFUVVNfT05MSU5FEAESFgoSTUVNQkVSX1NUQVRVU19JRExFEAISGQoVTUVNQkVSX1NUQVRVU19PRkZMSU5FEANiBnByb3RvMw", [file_google_protobuf_timestamp]);
 
 /**
- * Who a message is for, as the sender writes it. At least one field is
+ * Who a message is for, as the sender writes it. A handle or a topic is
  * required; there is no channel-wide broadcast.
  * - `handle` alone reaches every session of that member, in any topic.
  * - `topic` alone reaches every session in that topic.
  * - Both reach only that member's sessions in that topic.
+ * - `client_session_id` narrows any of the above that has a handle to that one
+ *   session of the member.
  *
  * @generated from message collab.v1.Recipient
  */
@@ -46,6 +50,14 @@ export type Recipient = Message$1<"collab.v1.Recipient"> & {
    * @generated from field: string topic = 2;
    */
   topic: string;
+
+  /**
+   * One session of the member named by `handle`, as `Member.sessions` or
+   * `Message.from_client_session_id` show it. Requires `handle`.
+   *
+   * @generated from field: string client_session_id = 3;
+   */
+  clientSessionId: string;
 };
 
 /**
@@ -79,6 +91,13 @@ export type Addressee = Message$1<"collab.v1.Addressee"> & {
    * @generated from field: string topic = 3;
    */
   topic: string;
+
+  /**
+   * The one session of that member it is for. Empty for all of them.
+   *
+   * @generated from field: string client_session_id = 4;
+   */
+  clientSessionId: string;
 };
 
 /**
@@ -159,6 +178,13 @@ export type Message = Message$1<"collab.v1.Message"> & {
    * @generated from field: google.protobuf.Timestamp sent_at = 12;
    */
   sentAt?: Timestamp | undefined;
+
+  /**
+   * Session that sent it, so a reply can go back to exactly that session.
+   *
+   * @generated from field: string from_client_session_id = 13;
+   */
+  fromClientSessionId: string;
 
   /**
    * Machine-readable detail for the types that have it.
@@ -344,6 +370,15 @@ export type Member = Message$1<"collab.v1.Member"> & {
    * @generated from field: google.protobuf.Timestamp last_seen_at = 9;
    */
   lastSeenAt?: Timestamp | undefined;
+
+  /**
+   * The member's live sessions that hold a socket, one per client session id,
+   * oldest first, so others can address one of them. Includes the caller's own.
+   * A session that only uses HTTP counts in `connections` but is not listed.
+   *
+   * @generated from field: repeated collab.v1.MemberSession sessions = 10;
+   */
+  sessions: MemberSession[];
 };
 
 /**
@@ -352,6 +387,49 @@ export type Member = Message$1<"collab.v1.Member"> & {
  */
 export const MemberSchema: GenMessage<Member> = /*@__PURE__*/
   messageDesc(file_collab_v1_model, 7);
+
+/**
+ * One live session of a member.
+ *
+ * @generated from message collab.v1.MemberSession
+ */
+export type MemberSession = Message$1<"collab.v1.MemberSession"> & {
+  /**
+   * @generated from field: string client_session_id = 1;
+   */
+  clientSessionId: string;
+
+  /**
+   * Fixed for the session's lifetime.
+   *
+   * @generated from field: string topic = 2;
+   */
+  topic: string;
+
+  /**
+   * Where this session said it was working.
+   *
+   * @generated from field: string repo = 3;
+   */
+  repo: string;
+
+  /**
+   * @generated from field: string branch = 4;
+   */
+  branch: string;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp connected_at = 5;
+   */
+  connectedAt?: Timestamp | undefined;
+};
+
+/**
+ * Describes the message collab.v1.MemberSession.
+ * Use `create(MemberSessionSchema)` to create a new message.
+ */
+export const MemberSessionSchema: GenMessage<MemberSession> = /*@__PURE__*/
+  messageDesc(file_collab_v1_model, 8);
 
 /**
  * "I am working on these paths": a warning to the other sessions in the same
@@ -410,7 +488,7 @@ export type Claim = Message$1<"collab.v1.Claim"> & {
  * Use `create(ClaimSchema)` to create a new message.
  */
 export const ClaimSchema: GenMessage<Claim> = /*@__PURE__*/
-  messageDesc(file_collab_v1_model, 8);
+  messageDesc(file_collab_v1_model, 9);
 
 /**
  * One version of a shared-context entry. Every write creates a new version;
@@ -465,7 +543,7 @@ export type ContextEntry = Message$1<"collab.v1.ContextEntry"> & {
  * Use `create(ContextEntrySchema)` to create a new message.
  */
 export const ContextEntrySchema: GenMessage<ContextEntry> = /*@__PURE__*/
-  messageDesc(file_collab_v1_model, 9);
+  messageDesc(file_collab_v1_model, 10);
 
 /**
  * A context entry without its body, as listed in state and announced in events.
@@ -509,7 +587,7 @@ export type ContextSummary = Message$1<"collab.v1.ContextSummary"> & {
  * Use `create(ContextSummarySchema)` to create a new message.
  */
 export const ContextSummarySchema: GenMessage<ContextSummary> = /*@__PURE__*/
-  messageDesc(file_collab_v1_model, 10);
+  messageDesc(file_collab_v1_model, 11);
 
 /**
  * Everything a freshly started session needs. Claims and context are the ones
@@ -580,7 +658,7 @@ export type ChannelState = Message$1<"collab.v1.ChannelState"> & {
  * Use `create(ChannelStateSchema)` to create a new message.
  */
 export const ChannelStateSchema: GenMessage<ChannelState> = /*@__PURE__*/
-  messageDesc(file_collab_v1_model, 11);
+  messageDesc(file_collab_v1_model, 12);
 
 /**
  * Protocol version as negotiated on the wire. Patch releases never change the
@@ -605,7 +683,7 @@ export type ProtocolVersion = Message$1<"collab.v1.ProtocolVersion"> & {
  * Use `create(ProtocolVersionSchema)` to create a new message.
  */
 export const ProtocolVersionSchema: GenMessage<ProtocolVersion> = /*@__PURE__*/
-  messageDesc(file_collab_v1_model, 12);
+  messageDesc(file_collab_v1_model, 13);
 
 /**
  * Who is calling, sent when a client subscribes.
@@ -647,7 +725,7 @@ export type ClientInfo = Message$1<"collab.v1.ClientInfo"> & {
  * Use `create(ClientInfoSchema)` to create a new message.
  */
 export const ClientInfoSchema: GenMessage<ClientInfo> = /*@__PURE__*/
-  messageDesc(file_collab_v1_model, 13);
+  messageDesc(file_collab_v1_model, 14);
 
 /**
  * How loudly a message asks for attention. Clients decide locally which

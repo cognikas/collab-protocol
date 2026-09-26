@@ -26,6 +26,7 @@ enum ErrorCode {
   ERROR_CODE_NAME_TAKEN = 10;
   ERROR_CODE_INVALID_CHANNEL = 11;
   ERROR_CODE_INVALID_TOPIC = 12;
+  // A client session id that is malformed, or one in a recipient without the handle of its member.
   ERROR_CODE_INVALID_CLIENT_SESSION = 13;
   ERROR_CODE_INVALID_MEMBER = 14;
   // A message named neither a handle nor a topic.

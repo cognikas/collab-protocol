@@ -131,6 +131,8 @@ export enum ErrorCode {
   INVALID_TOPIC = 12,
 
   /**
+   * A client session id that is malformed, or one in a recipient without the handle of its member.
+   *
    * @generated from enum value: ERROR_CODE_INVALID_CLIENT_SESSION = 13;
    */
   INVALID_CLIENT_SESSION = 13,

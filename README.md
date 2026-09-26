@@ -23,7 +23,7 @@ Sin registro de paquetes: una dependencia git fijada a un tag.
 
 ```json
 "dependencies": {
-  "@collab/protocol": "github:cognikas/collab-protocol#v1.0.0-rc.2&path:/ts"
+  "@collab/protocol": "github:cognikas/collab-protocol#v1.0.0-rc.3&path:/ts"
 }
 ```
 

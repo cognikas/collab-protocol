@@ -33,7 +33,9 @@ contrato.
   (`handleOf`), es único en el canal y no cambia.
 - **Sesión de cliente** (`client_session_id`): una sesión de agente en marcha de un miembro, por
   ejemplo una sesión de Claude Code. Un miembro puede tener varias a la vez, cada una en su tema.
-  Viaja en el contexto de la llamada, nunca dentro de un mensaje.
+  El cliente la declara en el contexto de la llamada. Los mensajes (`from_client_session_id`) y la
+  presencia (`Member.sessions`) la muestran para que un mensaje pueda ir a una sola sesión
+  (`Recipient.client_session_id`). Solo es única dentro de su miembro y no es una credencial.
 - **Tema** (`topic`): el tema de una sesión, por ejemplo el repo en el que trabaja. Decide qué
   mensajes, reservas y contexto ve esa sesión. Una sesión tiene un tema fijo mientras dura.
 - **Contexto de la llamada**: quién llama y desde dónde. Lo aporta el binding, no la petición: la

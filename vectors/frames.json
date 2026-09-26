@@ -30,6 +30,18 @@
       }
     },
     {
+      "name": "send a question to one session of a member",
+      "schema": "collab.v1.ClientFrame",
+      "json": {
+        "requestId": "r4",
+        "send": {
+          "type": "MESSAGE_TYPE_QUESTION",
+          "text": "¿Ya subiste la rama?",
+          "to": { "handle": "willy", "clientSessionId": "3f2a91c0-5b1e-4c0a-9d7e-2f6a1b3c4d5e" }
+        }
+      }
+    },
+    {
       "name": "heartbeat without a request id",
       "schema": "collab.v1.ClientFrame",
       "json": { "heartbeat": {} }
@@ -50,6 +62,26 @@
           "text": "Hola Carlos",
           "urgency": "URGENCY_NORMAL",
           "sentAt": "2026-09-25T17:02:11.123Z"
+        }
+      }
+    },
+    {
+      "name": "a message pushed to one session, saying which session sent it",
+      "schema": "collab.v1.ServerFrame",
+      "json": {
+        "message": {
+          "seq": 54,
+          "channel": "cognikas-dev",
+          "fromMemberId": "01K6D2R1B7C4M9P2X5Q8T3V6WA",
+          "fromName": "Carlos",
+          "fromHandle": "carlos",
+          "fromTopic": "collab-global",
+          "to": { "memberId": "01K6D2Q7ZJ9XH3V5W8N4T2R6YB", "handle": "willy", "clientSessionId": "3f2a91c0-5b1e-4c0a-9d7e-2f6a1b3c4d5e" },
+          "type": "MESSAGE_TYPE_QUESTION",
+          "text": "¿Ya subiste la rama?",
+          "urgency": "URGENCY_NORMAL",
+          "sentAt": "2026-09-25T19:30:00Z",
+          "fromClientSessionId": "64bc4a7f-dd57-480d-ab11-d8cb48417276"
         }
       }
     },
@@ -117,6 +149,43 @@
           },
           "protocol": { "major": 1 },
           "serverVersion": "1.0.0"
+        }
+      }
+    },
+    {
+      "name": "presence of a member with two sessions in the same topic",
+      "schema": "collab.v1.ServerFrame",
+      "json": {
+        "presence": {
+          "members": [
+            {
+              "memberId": "01K6D2Q7ZJ9XH3V5W8N4T2R6YB",
+              "displayName": "Willy",
+              "handle": "willy",
+              "status": "MEMBER_STATUS_ONLINE",
+              "repo": "collab-plugin",
+              "branch": "main",
+              "connections": 2,
+              "topics": ["beta-1.0"],
+              "lastSeenAt": "2026-09-25T19:30:00Z",
+              "sessions": [
+                {
+                  "clientSessionId": "3f2a91c0-5b1e-4c0a-9d7e-2f6a1b3c4d5e",
+                  "topic": "beta-1.0",
+                  "repo": "collab-plugin",
+                  "branch": "main",
+                  "connectedAt": "2026-09-25T17:00:00Z"
+                },
+                {
+                  "clientSessionId": "a81b77d2-0c4f-4e7a-8b1d-6e9f0a2b3c4d",
+                  "topic": "beta-1.0",
+                  "repo": "collab-plugin",
+                  "branch": "feat/sesiones",
+                  "connectedAt": "2026-09-25T19:25:00Z"
+                }
+              ]
+            }
+          ]
         }
       }
     },

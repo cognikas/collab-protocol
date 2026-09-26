@@ -1,6 +1,6 @@
 {
   "name": "collab-protocol",
-  "version": "1.0.0-rc.2",
+  "version": "1.0.0-rc.3",
   "private": true,
   "type": "module",
   "description": "Contrato del canal de Cognikas Collab: esquema Protobuf, bindings, reglas y vectores",

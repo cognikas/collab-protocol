@@ -149,6 +149,98 @@
         }
       },
       "visible": true
+    },
+    {
+      "name": "to this session of the viewer",
+      "message": {
+        "fromMemberId": "B",
+        "to": {
+          "memberId": "A",
+          "clientSessionId": "a1"
+        }
+      },
+      "visible": true
+    },
+    {
+      "name": "to another session of the viewer",
+      "message": {
+        "fromMemberId": "B",
+        "to": {
+          "memberId": "A",
+          "clientSessionId": "a2"
+        }
+      },
+      "visible": false
+    },
+    {
+      "name": "to this session of the viewer, in its topic",
+      "message": {
+        "fromMemberId": "B",
+        "to": {
+          "memberId": "A",
+          "topic": "t1",
+          "clientSessionId": "a1"
+        }
+      },
+      "visible": true
+    },
+    {
+      "name": "to this session of the viewer, in another topic",
+      "message": {
+        "fromMemberId": "B",
+        "to": {
+          "memberId": "A",
+          "topic": "t2",
+          "clientSessionId": "a1"
+        }
+      },
+      "visible": false
+    },
+    {
+      "name": "a session without a member names nobody",
+      "message": {
+        "fromMemberId": "B",
+        "to": {
+          "topic": "t1",
+          "clientSessionId": "a1"
+        }
+      },
+      "visible": false
+    },
+    {
+      "name": "to another member's session with the same id",
+      "message": {
+        "fromMemberId": "B",
+        "to": {
+          "memberId": "B",
+          "clientSessionId": "a1"
+        }
+      },
+      "visible": false
+    },
+    {
+      "name": "to this session, from another of the viewer's sessions",
+      "message": {
+        "fromMemberId": "A",
+        "fromClientSessionId": "a2",
+        "to": {
+          "memberId": "A",
+          "clientSessionId": "a1"
+        }
+      },
+      "visible": true
+    },
+    {
+      "name": "to this session, from this same session",
+      "message": {
+        "fromMemberId": "A",
+        "fromClientSessionId": "a1",
+        "to": {
+          "memberId": "A",
+          "clientSessionId": "a1"
+        }
+      },
+      "visible": false
     }
   ]
 }

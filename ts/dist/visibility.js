@@ -7,6 +7,8 @@
 /**
  * - `to.memberId` limits it to that member's sessions, `to.topic` to sessions in
  *   that topic; with both, both must match. A message with neither is read by nobody.
+ * - `to.clientSessionId` limits it further to that one session of `to.memberId`.
+ *   Without a member it names nobody.
  * - The session that sent it never gets it back.
  * - The sender's other sessions only get it when it names the sender as the
  *   member: a message to a topic is for the other people in it, so two sessions
@@ -19,6 +21,8 @@ export function visibleTo(viewer, message) {
     if (to.memberId && to.memberId !== viewer.memberId)
         return false;
     if (to.topic && to.topic !== viewer.topic)
+        return false;
+    if (to.clientSessionId && (!to.memberId || to.clientSessionId !== viewer.clientSessionId))
         return false;
     if (message.fromMemberId === viewer.memberId) {
         if (to.memberId !== viewer.memberId)
