@@ -12,8 +12,9 @@ export interface Viewer {
     clientSessionId: string;
 }
 /**
- * The fields the rule reads. `fromClientSessionId` is the sending session: the
- * server keeps it with the stored message and never sends it to anyone.
+ * The fields the rule reads. `fromClientSessionId` is the sending session, and
+ * `to.clientSessionId` one session of `to.memberId`: session ids are only unique
+ * within a member.
  */
 export interface VisibilitySubject {
     fromMemberId: string;
@@ -21,11 +22,14 @@ export interface VisibilitySubject {
     to?: {
         memberId?: string;
         topic?: string;
+        clientSessionId?: string;
     };
 }
 /**
  * - `to.memberId` limits it to that member's sessions, `to.topic` to sessions in
  *   that topic; with both, both must match. A message with neither is read by nobody.
+ * - `to.clientSessionId` limits it further to that one session of `to.memberId`.
+ *   Without a member it names nobody.
  * - The session that sent it never gets it back.
  * - The sender's other sessions only get it when it names the sender as the
  *   member: a message to a topic is for the other people in it, so two sessions

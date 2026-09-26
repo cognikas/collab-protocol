@@ -9,7 +9,9 @@ syntax = "proto3";
 //   by Join and revoked by an admin. It is who a message is from and for.
 // - A client session (`client_session_id`) is one running agent session of a
 //   member, such as one Claude Code session. A member can have several at once,
-//   each in its own topic. It travels in the call context, never in a message.
+//   each in its own topic. The client names it in the call context; messages
+//   and presence show it so that a message can reach one session. It is not a
+//   credential, and it is only unique within its member.
 package collab.v1;
 
 import "google/protobuf/timestamp.proto";
@@ -48,15 +50,20 @@ enum MemberStatus {
   MEMBER_STATUS_OFFLINE = 3;
 }
 
-// Who a message is for, as the sender writes it. At least one field is
+// Who a message is for, as the sender writes it. A handle or a topic is
 // required; there is no channel-wide broadcast.
 // - `handle` alone reaches every session of that member, in any topic.
 // - `topic` alone reaches every session in that topic.
 // - Both reach only that member's sessions in that topic.
+// - `client_session_id` narrows any of the above that has a handle to that one
+//   session of the member.
 message Recipient {
   // A member's handle. A leading `@` is accepted.
   string handle = 1;
   string topic = 2;
+  // One session of the member named by `handle`, as `Member.sessions` or
+  // `Message.from_client_session_id` show it. Requires `handle`.
+  string client_session_id = 3;
 }
 
 // A recipient as the server resolved and stored it.
@@ -66,6 +73,8 @@ message Addressee {
   // That member's handle, for rendering.
   string handle = 2;
   string topic = 3;
+  // The one session of that member it is for. Empty for all of them.
+  string client_session_id = 4;
 }
 
 message Message {
@@ -85,6 +94,8 @@ message Message {
   // Free-form pointers: file paths, PR links, context keys.
   repeated string refs = 11;
   google.protobuf.Timestamp sent_at = 12;
+  // Session that sent it, so a reply can go back to exactly that session.
+  string from_client_session_id = 13;
 
   // Machine-readable detail for the types that have it.
   oneof payload {
@@ -132,6 +143,21 @@ message Member {
   // Topics of those sessions, so others know where to address them.
   repeated string topics = 8;
   google.protobuf.Timestamp last_seen_at = 9;
+  // The member's live sessions that hold a socket, one per client session id,
+  // oldest first, so others can address one of them. Includes the caller's own.
+  // A session that only uses HTTP counts in `connections` but is not listed.
+  repeated MemberSession sessions = 10;
+}
+
+// One live session of a member.
+message MemberSession {
+  string client_session_id = 1;
+  // Fixed for the session's lifetime.
+  string topic = 2;
+  // Where this session said it was working.
+  string repo = 3;
+  string branch = 4;
+  google.protobuf.Timestamp connected_at = 5;
 }
 
 // "I am working on these paths": a warning to the other sessions in the same

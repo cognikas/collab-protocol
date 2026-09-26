@@ -6,11 +6,13 @@ import type { Message as Message$1 } from "@bufbuild/protobuf";
  */
 export declare const file_collab_v1_model: GenFile;
 /**
- * Who a message is for, as the sender writes it. At least one field is
+ * Who a message is for, as the sender writes it. A handle or a topic is
  * required; there is no channel-wide broadcast.
  * - `handle` alone reaches every session of that member, in any topic.
  * - `topic` alone reaches every session in that topic.
  * - Both reach only that member's sessions in that topic.
+ * - `client_session_id` narrows any of the above that has a handle to that one
+ *   session of the member.
  *
  * @generated from message collab.v1.Recipient
  */
@@ -25,6 +27,13 @@ export type Recipient = Message$1<"collab.v1.Recipient"> & {
      * @generated from field: string topic = 2;
      */
     topic: string;
+    /**
+     * One session of the member named by `handle`, as `Member.sessions` or
+     * `Message.from_client_session_id` show it. Requires `handle`.
+     *
+     * @generated from field: string client_session_id = 3;
+     */
+    clientSessionId: string;
 };
 /**
  * Describes the message collab.v1.Recipient.
@@ -53,6 +62,12 @@ export type Addressee = Message$1<"collab.v1.Addressee"> & {
      * @generated from field: string topic = 3;
      */
     topic: string;
+    /**
+     * The one session of that member it is for. Empty for all of them.
+     *
+     * @generated from field: string client_session_id = 4;
+     */
+    clientSessionId: string;
 };
 /**
  * Describes the message collab.v1.Addressee.
@@ -119,6 +134,12 @@ export type Message = Message$1<"collab.v1.Message"> & {
      * @generated from field: google.protobuf.Timestamp sent_at = 12;
      */
     sentAt?: Timestamp | undefined;
+    /**
+     * Session that sent it, so a reply can go back to exactly that session.
+     *
+     * @generated from field: string from_client_session_id = 13;
+     */
+    fromClientSessionId: string;
     /**
      * Machine-readable detail for the types that have it.
      *
@@ -280,12 +301,56 @@ export type Member = Message$1<"collab.v1.Member"> & {
      * @generated from field: google.protobuf.Timestamp last_seen_at = 9;
      */
     lastSeenAt?: Timestamp | undefined;
+    /**
+     * The member's live sessions that hold a socket, one per client session id,
+     * oldest first, so others can address one of them. Includes the caller's own.
+     * A session that only uses HTTP counts in `connections` but is not listed.
+     *
+     * @generated from field: repeated collab.v1.MemberSession sessions = 10;
+     */
+    sessions: MemberSession[];
 };
 /**
  * Describes the message collab.v1.Member.
  * Use `create(MemberSchema)` to create a new message.
  */
 export declare const MemberSchema: GenMessage<Member>;
+/**
+ * One live session of a member.
+ *
+ * @generated from message collab.v1.MemberSession
+ */
+export type MemberSession = Message$1<"collab.v1.MemberSession"> & {
+    /**
+     * @generated from field: string client_session_id = 1;
+     */
+    clientSessionId: string;
+    /**
+     * Fixed for the session's lifetime.
+     *
+     * @generated from field: string topic = 2;
+     */
+    topic: string;
+    /**
+     * Where this session said it was working.
+     *
+     * @generated from field: string repo = 3;
+     */
+    repo: string;
+    /**
+     * @generated from field: string branch = 4;
+     */
+    branch: string;
+    /**
+     * @generated from field: google.protobuf.Timestamp connected_at = 5;
+     */
+    connectedAt?: Timestamp | undefined;
+};
+/**
+ * Describes the message collab.v1.MemberSession.
+ * Use `create(MemberSessionSchema)` to create a new message.
+ */
+export declare const MemberSessionSchema: GenMessage<MemberSession>;
 /**
  * "I am working on these paths": a warning to the other sessions in the same
  * topic, not a lock.
