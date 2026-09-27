@@ -21,7 +21,7 @@ export interface Viewer {
 export interface VisibilitySubject {
   fromMemberId: string;
   fromClientSessionId?: string;
-  to?: { memberId?: string; topic?: string; clientSessionId?: string };
+  to?: { memberId?: string; topic?: string; clientSessionId?: string; includeSender?: boolean };
 }
 
 /**
@@ -32,7 +32,9 @@ export interface VisibilitySubject {
  * - The session that sent it never gets it back.
  * - The sender's other sessions only get it when it names the sender as the
  *   member: a message to a topic is for the other people in it, so two sessions
- *   of the same developer do not interrupt each other with every `done`.
+ *   of the same developer do not interrupt each other with every `done`. Unless
+ *   `to.includeSender`, which the server sets on its task notices: what one
+ *   session did to a shared list, the developer's other sessions need to know.
  */
 export function visibleTo(viewer: Viewer, message: VisibilitySubject): boolean {
   const to = message.to;
@@ -42,7 +44,7 @@ export function visibleTo(viewer: Viewer, message: VisibilitySubject): boolean {
   if (to.clientSessionId && (!to.memberId || to.clientSessionId !== viewer.clientSessionId)) return false;
 
   if (message.fromMemberId === viewer.memberId) {
-    if (to.memberId !== viewer.memberId) return false;
+    if (to.memberId !== viewer.memberId && !to.includeSender) return false;
     if (message.fromClientSessionId === viewer.clientSessionId) return false;
   }
   return true;

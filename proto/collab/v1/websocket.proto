@@ -44,6 +44,9 @@ message ClientFrame {
     SetPresenceRequest set_presence = 17;
     HistoryRequest history = 18;
     HeartbeatRequest heartbeat = 19;
+    CreateTaskListRequest create_task_list = 20;
+    AddTasksRequest add_tasks = 21;
+    UpdateTaskRequest update_task = 22;
   }
 }
 
@@ -74,5 +77,8 @@ message Result {
     SetPresenceResponse set_presence = 17;
     HistoryResponse history = 18;
     HeartbeatResponse heartbeat = 19;
+    CreateTaskListResponse create_task_list = 20;
+    AddTasksResponse add_tasks = 21;
+    UpdateTaskResponse update_task = 22;
   }
 }

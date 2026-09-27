@@ -1,5 +1,31 @@
 # Cambios
 
+## 1.0.0-rc.4 — 2026-09-27
+
+- **Listas de tareas** compartidas por tema (`TaskList`, `Task`, `TaskStatus`), con cuatro
+  operaciones nuevas en `ChannelService`:
+  - `CreateTaskList` crea una lista y es idempotente.
+  - `AddTasks` agrega tareas numeradas por lista.
+  - `UpdateTask` toma, reporta avance, suelta, termina o descarta una tarea.
+  - `ListTasks` devuelve las abiertas por defecto y las cerradas cuando se piden. Solo existe por
+    HTTP.
+
+  Quien tiene una tarea es su dueño. Descartar es un borrado suave: la tarea queda, con su motivo
+  (`spec/reglas.md`, Tareas).
+- Cada cambio escribe un mensaje `MESSAGE_TYPE_TASK`, con el payload `TaskPayload`, al tema de la
+  lista. Los cierres tienen urgencia `NORMAL` y el resto `LOW`.
+- **`Addressee.include_sender`:** con él, un aviso también llega a las otras sesiones de quien lo
+  causó. Solo lo pone el servidor, en los avisos de tareas, y `visibleTo()` lo aplica
+  (`spec/reglas.md`, Visibilidad).
+- **`ChannelState.task_lists`:** las listas del tema con tareas abiertas y sus contadores.
+- `ClientFrame` y `Result` tienen tres casos nuevos: `create_task_list`, `add_tasks` y
+  `update_task`.
+- **Códigos de error nuevos:** `ERROR_CODE_INVALID_TASK`, `ERROR_CODE_TASK_TAKEN` (409),
+  `ERROR_CODE_TASK_CLOSED` (409) y `ERROR_CODE_NOT_TASK_HOLDER` (403).
+- **Otros agregados:** `taskListKey()` y los límites de tareas en `limits.ts`.
+- Nuevos vectores de visibilidad, de nombres y de formato. Los existentes no cambian.
+- El protocolo sigue siendo `1.0`: todo es aditivo y 1.0 aún no se ha publicado.
+
 ## 1.0.0-rc.3 — 2026-09-25
 
 - Un mensaje puede ir a **una sola sesión** de un miembro: `Recipient.client_session_id`, junto con

@@ -135,7 +135,7 @@ export declare enum ErrorCode {
      */
     MESSAGE_TOO_LONG = 18,
     /**
-     * A type clients may not send (claim, release, context), or a payload that does not match the type.
+     * A type clients may not send (claim, release, context, task), or a payload that does not match the type.
      *
      * @generated from enum value: ERROR_CODE_INVALID_TYPE = 19;
      */
@@ -155,7 +155,34 @@ export declare enum ErrorCode {
     /**
      * @generated from enum value: ERROR_CODE_CONTEXT_TOO_LARGE = 23;
      */
-    CONTEXT_TOO_LARGE = 23
+    CONTEXT_TOO_LARGE = 23,
+    /**
+     * A task without a title, a field over its limit, too many tasks in one call
+     * or in one list, a percent over 100, or a change with no reason or note
+     * where one is required.
+     *
+     * @generated from enum value: ERROR_CODE_INVALID_TASK = 24;
+     */
+    INVALID_TASK = 24,
+    /**
+     * Someone else has the task checked out. The message says who and since when.
+     *
+     * @generated from enum value: ERROR_CODE_TASK_TAKEN = 25;
+     */
+    TASK_TAKEN = 25,
+    /**
+     * The task is already done or dismissed.
+     *
+     * @generated from enum value: ERROR_CODE_TASK_CLOSED = 26;
+     */
+    TASK_CLOSED = 26,
+    /**
+     * Only the holder reports on, releases or finishes a task in progress; only
+     * its creator or its holder dismisses it.
+     *
+     * @generated from enum value: ERROR_CODE_NOT_TASK_HOLDER = 27;
+     */
+    NOT_TASK_HOLDER = 27
 }
 /**
  * Describes the enum collab.v1.ErrorCode.

@@ -1,5 +1,5 @@
 import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
-import type { AckRequest, AckResponse, ClaimRequest, ClaimResponse, ClaimsEvent, GetContextRequest, GetContextResponse, HeartbeatRequest, HeartbeatResponse, HelloEvent, HistoryRequest, HistoryResponse, PresenceEvent, PutContextRequest, PutContextResponse, ReleaseRequest, ReleaseResponse, SendRequest, SendResponse, SetPresenceRequest, SetPresenceResponse, SubscribeRequest } from "./channel_pb.js";
+import type { AckRequest, AckResponse, AddTasksRequest, AddTasksResponse, ClaimRequest, ClaimResponse, ClaimsEvent, CreateTaskListRequest, CreateTaskListResponse, GetContextRequest, GetContextResponse, HeartbeatRequest, HeartbeatResponse, HelloEvent, HistoryRequest, HistoryResponse, PresenceEvent, PutContextRequest, PutContextResponse, ReleaseRequest, ReleaseResponse, SendRequest, SendResponse, SetPresenceRequest, SetPresenceResponse, SubscribeRequest, UpdateTaskRequest, UpdateTaskResponse } from "./channel_pb.js";
 import type { ErrorDetail } from "./errors_pb.js";
 import type { ContextSummary, Message as Message$1 } from "./model_pb.js";
 import type { Timestamp } from "@bufbuild/protobuf/wkt";
@@ -120,6 +120,24 @@ export type ClientFrame = Message<"collab.v1.ClientFrame"> & {
          */
         value: HeartbeatRequest;
         case: "heartbeat";
+    } | {
+        /**
+         * @generated from field: collab.v1.CreateTaskListRequest create_task_list = 20;
+         */
+        value: CreateTaskListRequest;
+        case: "createTaskList";
+    } | {
+        /**
+         * @generated from field: collab.v1.AddTasksRequest add_tasks = 21;
+         */
+        value: AddTasksRequest;
+        case: "addTasks";
+    } | {
+        /**
+         * @generated from field: collab.v1.UpdateTaskRequest update_task = 22;
+         */
+        value: UpdateTaskRequest;
+        case: "updateTask";
     } | {
         case: undefined;
         value?: undefined;
@@ -258,6 +276,24 @@ export type Result = Message<"collab.v1.Result"> & {
          */
         value: HeartbeatResponse;
         case: "heartbeat";
+    } | {
+        /**
+         * @generated from field: collab.v1.CreateTaskListResponse create_task_list = 20;
+         */
+        value: CreateTaskListResponse;
+        case: "createTaskList";
+    } | {
+        /**
+         * @generated from field: collab.v1.AddTasksResponse add_tasks = 21;
+         */
+        value: AddTasksResponse;
+        case: "addTasks";
+    } | {
+        /**
+         * @generated from field: collab.v1.UpdateTaskResponse update_task = 22;
+         */
+        value: UpdateTaskResponse;
+        case: "updateTask";
     } | {
         case: undefined;
         value?: undefined;

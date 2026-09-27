@@ -7,7 +7,7 @@ contrato.
 
 | Documento | Contenido |
 |---|---|
-| [`reglas.md`](reglas.md) | Direccionamiento, visibilidad, cursores, reservas, contexto, presencia, límites y garantías sobre el texto |
+| [`reglas.md`](reglas.md) | Direccionamiento, visibilidad, cursores, reservas, contexto, tareas, presencia, límites y garantías sobre el texto |
 | [`versionado.md`](versionado.md) | Versiones, negociación, compatibilidad entre versiones menores, capacidades |
 | [`../bindings/websocket.md`](../bindings/websocket.md) | Cómo viajan las operaciones y los eventos por un WebSocket |
 | [`../bindings/http.md`](../bindings/http.md) | Cómo viajan las operaciones unarias por HTTP |
@@ -15,7 +15,7 @@ contrato.
 
 ## Capas
 
-1. **Modelo** (`model.proto`, `errors.proto`): mensajes, miembros, reservas, contexto, estado, errores.
+1. **Modelo** (`model.proto`, `errors.proto`): mensajes, miembros, reservas, contexto, tareas, estado, errores.
 2. **Operaciones** (`channel.proto`, `membership.proto`, `admin.proto`, `server_info.proto`):
    servicios Protobuf. Se definen como servicios aunque 1.0 no use gRPC, para que gRPC sea un binding
    más y no un rediseño.
@@ -25,8 +25,8 @@ contrato.
 
 ## Conceptos
 
-- **Canal**: el espacio de un equipo. Todo lo que existe (miembros, mensajes, reservas, contexto)
-  pertenece a un canal.
+- **Canal**: el espacio de un equipo. Todo lo que existe (miembros, mensajes, reservas, contexto,
+  listas de tareas) pertenece a un canal.
 - **Miembro** (`member_id`): una credencial, una por instalación de cada desarrollador. La emite
   `Join` al canjear una invitación y la revoca un administrador. Es de quién es un mensaje y para quién.
 - **Handle**: cómo se nombra a un miembro al escribirle. Se deriva del nombre visible al unirse
@@ -37,7 +37,10 @@ contrato.
   presencia (`Member.sessions`) la muestran para que un mensaje pueda ir a una sola sesión
   (`Recipient.client_session_id`). Solo es única dentro de su miembro y no es una credencial.
 - **Tema** (`topic`): el tema de una sesión, por ejemplo el repo en el que trabaja. Decide qué
-  mensajes, reservas y contexto ve esa sesión. Una sesión tiene un tema fijo mientras dura.
+  mensajes, reservas, contexto y listas de tareas ve esa sesión. Una sesión tiene un tema fijo
+  mientras dura.
+- **Lista de tareas**: un checklist con nombre dentro de un tema. Sus tareas se toman, se reporta
+  su avance y se cierran como hechas o descartadas; cada cambio se avisa al tema.
 - **Contexto de la llamada**: quién llama y desde dónde. Lo aporta el binding, no la petición: la
   credencial del miembro, el tema de la sesión y su `client_session_id`.
 

@@ -209,6 +209,199 @@
           ]
         }
       }
+    },
+    {
+      "name": "create a task list",
+      "schema": "collab.v1.ClientFrame",
+      "json": { "requestId": "r10", "createTaskList": { "key": "rc5", "title": "rc.5: seguimiento" } }
+    },
+    {
+      "name": "add two tasks to a list",
+      "schema": "collab.v1.ClientFrame",
+      "json": {
+        "requestId": "r11",
+        "addTasks": {
+          "list": "rc5",
+          "tasks": [
+            { "title": "Probar el watchdog en vivo", "refs": ["plugin/src/daemon.ts"] },
+            { "title": "Revisar allowed-tools de los comandos" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "check out a task",
+      "schema": "collab.v1.ClientFrame",
+      "json": { "requestId": "r12", "updateTask": { "list": "rc5", "number": 1, "checkout": {} } }
+    },
+    {
+      "name": "report progress on a task in a named topic",
+      "schema": "collab.v1.ClientFrame",
+      "json": {
+        "requestId": "r13",
+        "updateTask": { "topic": "collab-global", "list": "rc5", "number": 1, "progress": { "text": "bg-spare verificado", "percent": 60 } }
+      }
+    },
+    {
+      "name": "dismiss a task without a request id",
+      "schema": "collab.v1.ClientFrame",
+      "json": { "updateTask": { "list": "rc5", "number": 2, "dismiss": { "reason": "Ya no aplica" } } }
+    },
+    {
+      "name": "the answer to adding tasks",
+      "schema": "collab.v1.ServerFrame",
+      "json": {
+        "result": {
+          "requestId": "r11",
+          "addTasks": {
+            "tasks": [
+              {
+                "list": "rc5",
+                "topic": "collab-global",
+                "number": 1,
+                "title": "Probar el watchdog en vivo",
+                "refs": ["plugin/src/daemon.ts"],
+                "status": "TASK_STATUS_OPEN",
+                "createdByMemberId": "01K6D2R1B7C4M9P2X5Q8T3V6WA",
+                "createdByName": "Carlos",
+                "createdAt": "2026-09-27T20:00:00Z",
+                "updatedAt": "2026-09-27T20:00:00Z"
+              }
+            ],
+            "list": {
+              "key": "rc5",
+              "topic": "collab-global",
+              "title": "rc.5: seguimiento",
+              "createdByMemberId": "01K6D2R1B7C4M9P2X5Q8T3V6WA",
+              "createdByName": "Carlos",
+              "createdAt": "2026-09-27T19:59:00Z",
+              "updatedAt": "2026-09-27T20:00:00Z",
+              "open": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "the answer to finishing a task",
+      "schema": "collab.v1.ServerFrame",
+      "json": {
+        "result": {
+          "requestId": "r14",
+          "updateTask": {
+            "task": {
+              "list": "rc5",
+              "topic": "collab-global",
+              "number": 1,
+              "title": "Probar el watchdog en vivo",
+              "status": "TASK_STATUS_DONE",
+              "createdByMemberId": "01K6D2R1B7C4M9P2X5Q8T3V6WA",
+              "createdByName": "Carlos",
+              "createdAt": "2026-09-27T20:00:00Z",
+              "holder": {
+                "memberId": "01K6D2Q7ZJ9XH3V5W8N4T2R6YB",
+                "handle": "willy",
+                "name": "Willy",
+                "clientSessionId": "3f2a91c0-5b1e-4c0a-9d7e-2f6a1b3c4d5e",
+                "since": "2026-09-27T20:05:00Z"
+              },
+              "lastProgress": { "text": "bg-spare verificado", "percent": 60, "authorName": "Willy", "at": "2026-09-27T20:30:00Z" },
+              "progressCount": 1,
+              "closedByMemberId": "01K6D2Q7ZJ9XH3V5W8N4T2R6YB",
+              "closedByName": "Willy",
+              "closedAt": "2026-09-27T21:00:00Z",
+              "resolution": "El watchdog cierra el daemon en 3 minutos",
+              "updatedAt": "2026-09-27T21:00:00Z"
+            },
+            "list": {
+              "key": "rc5",
+              "topic": "collab-global",
+              "title": "rc.5: seguimiento",
+              "createdByMemberId": "01K6D2R1B7C4M9P2X5Q8T3V6WA",
+              "createdByName": "Carlos",
+              "createdAt": "2026-09-27T19:59:00Z",
+              "updatedAt": "2026-09-27T21:00:00Z",
+              "open": 1,
+              "done": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "the task notice the server writes, for the actor's other sessions too",
+      "schema": "collab.v1.ServerFrame",
+      "json": {
+        "message": {
+          "seq": 70,
+          "channel": "cognikas-dev",
+          "fromMemberId": "01K6D2Q7ZJ9XH3V5W8N4T2R6YB",
+          "fromName": "Willy",
+          "fromHandle": "willy",
+          "fromTopic": "collab-global",
+          "to": { "topic": "collab-global", "includeSender": true },
+          "type": "MESSAGE_TYPE_TASK",
+          "text": "Willy finished rc5#1: Probar el watchdog en vivo — El watchdog cierra el daemon en 3 minutos",
+          "urgency": "URGENCY_NORMAL",
+          "sentAt": "2026-09-27T21:00:00Z",
+          "fromClientSessionId": "3f2a91c0-5b1e-4c0a-9d7e-2f6a1b3c4d5e",
+          "task": {
+            "list": {
+              "key": "rc5",
+              "topic": "collab-global",
+              "title": "rc.5: seguimiento",
+              "createdByMemberId": "01K6D2R1B7C4M9P2X5Q8T3V6WA",
+              "createdByName": "Carlos",
+              "createdAt": "2026-09-27T19:59:00Z",
+              "updatedAt": "2026-09-27T21:00:00Z",
+              "open": 1,
+              "done": 1
+            },
+            "numbers": [1],
+            "event": "TASK_EVENT_DONE"
+          }
+        }
+      }
+    },
+    {
+      "name": "checking out a task someone else holds",
+      "schema": "collab.v1.ServerFrame",
+      "json": {
+        "error": { "code": "ERROR_CODE_TASK_TAKEN", "message": "Willy has rc5#1 checked out since 2026-09-27T20:05:00Z", "requestId": "r15" }
+      }
+    },
+    {
+      "name": "hello with the topic's task lists",
+      "schema": "collab.v1.ServerFrame",
+      "json": {
+        "hello": {
+          "state": {
+            "channel": "cognikas-dev",
+            "selfMemberId": "01K6D2R1B7C4M9P2X5Q8T3V6WA",
+            "handle": "carlos",
+            "topic": "collab-global",
+            "cursor": 70,
+            "latestSeq": 70,
+            "taskLists": [
+              {
+                "key": "rc5",
+                "topic": "collab-global",
+                "title": "rc.5: seguimiento",
+                "createdByMemberId": "01K6D2R1B7C4M9P2X5Q8T3V6WA",
+                "createdByName": "Carlos",
+                "createdAt": "2026-09-27T19:59:00Z",
+                "updatedAt": "2026-09-27T21:00:00Z",
+                "open": 1,
+                "inProgress": 2,
+                "done": 1,
+                "dismissed": 1
+              }
+            ]
+          },
+          "protocol": { "major": 1 },
+          "serverVersion": "1.0.0"
+        }
+      }
     }
   ],
   "tolerated": [

@@ -31,10 +31,11 @@ servidor no habla la mayor del cliente, responde `ERROR_CODE_UNSUPPORTED_PROTOCO
 
 ## Operaciones
 
-Cada operación unaria es un caso de `ClientFrame.request`. Si el frame lleva `requestId`, la
-respuesta llega como `result` con el mismo `requestId` y el caso correspondiente de
-`Result.response` (mismo número de campo que la petición). Sin `requestId`, no hay `result`; los
-errores se envían igual.
+Cada operación unaria de `ChannelService` es un caso de `ClientFrame.request`, salvo `GetState` y
+`ListTasks`, que solo existen por HTTP porque su respuesta puede superar el tamaño de un mensaje. Si
+el frame lleva `requestId`, la respuesta llega como `result` con el mismo `requestId` y el caso
+correspondiente de `Result.response` (mismo número de campo que la petición). Sin `requestId`, no
+hay `result`; los errores se envían igual.
 
 ```json
 { "requestId": "r2", "send": { "text": "listo", "to": { "topic": "collab-global" } } }

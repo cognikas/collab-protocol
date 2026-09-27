@@ -3,7 +3,7 @@ import { type ProtocolVersion } from './gen/collab/v1/model_pb.js';
 export declare const PROTOCOL_MAJOR = 1;
 export declare const PROTOCOL_MINOR = 0;
 /** The release of this repo, patch and pre-release included. Never on the wire. */
-export declare const PROTOCOL_RELEASE = "1.0.0-rc.3";
+export declare const PROTOCOL_RELEASE = "1.0.0-rc.4";
 export declare const PROTOCOL: ProtocolVersion;
 /**
  * The version both sides speak, or undefined when the server has no version

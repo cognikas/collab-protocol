@@ -139,6 +139,32 @@
       "output": ""
     }
   ],
+  "taskListKey": [
+    {
+      "input": "rc5",
+      "output": "rc5"
+    },
+    {
+      "input": "Beta 1.0 — pendientes",
+      "output": "beta-1.0-pendientes"
+    },
+    {
+      "input": "list#with#hashes",
+      "output": "list-with-hashes"
+    },
+    {
+      "input": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "output": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "input": "",
+      "output": ""
+    },
+    {
+      "input": null,
+      "output": ""
+    }
+  ],
   "isTopic": [
     {
       "input": "general",

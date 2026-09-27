@@ -6,7 +6,8 @@ referencia en `ts/src/` y vectores en `vectors/`, esos son la definición; este 
 ## Nombres
 
 `slug()` (`ts/src/names.ts`, `vectors/names.json`) produce todos los nombres del canal: temas,
-handles, nombres de canal y, con 100 caracteres de máximo, claves de contexto. Solo letras
+handles, nombres de canal, claves de listas de tareas (`taskListKey()`) y, con 100 caracteres de
+máximo, claves de contexto. Solo letras
 minúsculas, dígitos, `.`, `_` y `-`, empezando por letra o dígito. Los acentos se pliegan
 («José» es `jose`). Hasta 64 caracteres.
 
@@ -53,6 +54,10 @@ si dos caminos deciden distinto, un mensaje aparece en uno y no en el otro.
 - Las otras sesiones del remitente solo lo reciben si el mensaje lo nombra a él como miembro. Un
   mensaje a un tema es para las otras personas del tema, y así dos sesiones del mismo desarrollador
   no se interrumpen con cada `done`.
+- La excepción es `to.include_sender`: con él, las otras sesiones del remitente también lo
+  reciben (la que lo envió sigue sin recibirlo). Solo lo pone el servidor, en los avisos de tareas:
+  lo que una sesión hizo en una lista compartida lo tienen que saber también las otras sesiones de
+  ese desarrollador en el tema. `Recipient` no lo tiene.
 
 Para aplicar la segunda regla, el servidor guarda con cada mensaje la `client_session_id` de la
 sesión que lo envió, y la entrega en `from_client_session_id` para que una respuesta pueda volver a
@@ -68,10 +73,12 @@ enviar como ella exige el secreto de su miembro.
 - Los clientes solo envían `NOTE`, `QUESTION` y `DONE`. El payload `done` solo acompaña a `DONE`.
   Cualquier otra combinación falla con `ERROR_CODE_INVALID_TYPE`.
 - El servidor escribe `CLAIM`, `RELEASE` y `CONTEXT` al tema correspondiente, con urgencia `LOW` y su
-  payload, cada vez que alguien reserva, libera o publica.
+  payload, cada vez que alguien reserva, libera o publica. También escribe `TASK` con cada cambio en
+  una lista de tareas (ver [Tareas](#tareas)).
 - Los mensajes caducan a los `MESSAGE_TTL_SECONDS` (30 días).
-- Si al enviar no hay **ningún otro miembro** conectado, la urgencia no es `LOW` y el mensaje no es
-  para el propio remitente, el servidor puede avisar por un canal externo (en 1.0, un email vía SNS).
+- Si al enviar no hay **ningún otro miembro** conectado, la urgencia no es `LOW`, el mensaje no es
+  para el propio remitente y no es un aviso de tareas, el servidor puede avisar por un canal externo
+  (en 1.0, un email vía SNS).
   `SendResponse.delivered_offline` dice si lo hizo. Que nadie esté conectado en el tema es normal:
   el mensaje espera en el historial.
 
@@ -117,6 +124,64 @@ Una reserva avisa «estoy trabajando en estas rutas». Es un aviso, no un bloque
 - Cada escritura envía un evento `context` (sin el cuerpo) a las sesiones del tema y un mensaje
   `CONTEXT` al tema.
 
+## Tareas
+
+Una lista de tareas es un checklist con nombre dentro de un tema: sirve para repartirse el trabajo
+y dejar constancia de cómo avanzó. Un tema puede tener varias.
+
+- **Listas.** `CreateTaskList` crea la lista en el tema de la sesión. La clave pasa por
+  `taskListKey()`; si queda vacía, `ERROR_CODE_INVALID_KEY`. Crear una clave que ya existe en el tema
+  no es un error: devuelve la lista tal cual, con `created: false`.
+- **Tareas.** `AddTasks` agrega tareas a una lista del tema de la sesión, numeradas desde 1 en el
+  orden en que llegan (`rc5#3`). El número no se reutiliza. Entre 1 y `MAX_TASKS_PER_ADD` por
+  llamada y hasta `MAX_TASKS_PER_LIST` por lista; un título vacío, un campo por encima de su límite o
+  demasiadas tareas fallan con `ERROR_CODE_INVALID_TASK`. Una lista o tarea que no existe,
+  `ERROR_CODE_NOT_FOUND`.
+- **Estados.** Una tarea está `OPEN` (nadie la tiene), `IN_PROGRESS` (la tiene `holder`), `DONE` o
+  `DISMISSED`. Las dos primeras son abiertas y las dos últimas cerradas. Una tarea cerrada no
+  cambia más (`ERROR_CODE_TASK_CLOSED`), y nada se borra: descartar es un borrado suave.
+- **Quién puede qué** (`UpdateTask`). Los permisos son del miembro, no de la sesión: quien tiene una
+  tarea puede actuar sobre ella desde cualquiera de sus sesiones y temas, nombrando el `topic` de la
+  lista.
+
+  | Cambio | Desde | Quién | Queda |
+  |---|---|---|---|
+  | `checkout` | `OPEN` | cualquiera | `IN_PROGRESS` |
+  | `checkout` | `IN_PROGRESS` propia | su holder (pasa a la sesión que llama) | `IN_PROGRESS` |
+  | `checkout` con `takeover` | `IN_PROGRESS` ajena sin cambios en `TASK_STALE_SECONDS` (2 h) | cualquiera | `IN_PROGRESS` |
+  | `progress` | `IN_PROGRESS` | su holder | `IN_PROGRESS` |
+  | `release` | `IN_PROGRESS` | su holder | `OPEN` |
+  | `finish` | `OPEN` (la toma y la termina) o `IN_PROGRESS` propia | cualquiera, o su holder | `DONE` |
+  | `dismiss` | `OPEN` o `IN_PROGRESS` | quien la creó o su holder | `DISMISSED` |
+
+  Tomar una tarea ajena sin `takeover`, o antes de tiempo, falla con `ERROR_CODE_TASK_TAKEN`, y el
+  texto del error dice quién la tiene y desde cuándo. Cualquier otro cambio que el miembro no puede
+  hacer falla con `ERROR_CODE_NOT_TASK_HOLDER`. `progress` exige texto y `dismiss` exige motivo
+  (`ERROR_CODE_INVALID_TASK`); `percent` va de 0 a 100.
+- **Lo que queda.** `holder` se conserva al terminar (dice quién la hizo) y se borra al soltarla.
+  `last_progress` es el último reporte; los anteriores quedan en los mensajes del canal.
+  `resolution` guarda el resumen de `finish` o el motivo de `dismiss`. Las tareas y las listas no
+  caducan.
+- **Consultas.** `ListTasks` lee el tema de la sesión o, si nombra otro `topic`, ese tema. Por
+  defecto devuelve solo las abiertas (`TASK_FILTER_OPEN`); las cerradas se piden con
+  `TASK_FILTER_CLOSED` o `TASK_FILTER_ALL`. Las abiertas van por lista y número; las cerradas
+  después, de la más reciente a la más antigua. `truncated` dice si `limit` dejó tareas fuera.
+  `ListTasks` es solo HTTP, como `GetState`: una lista entera puede superar el límite de un mensaje
+  de WebSocket. `ChannelState.task_lists` trae las listas del tema que tienen tareas abiertas, con
+  sus contadores.
+- **Avisos.** Cada cambio escribe un mensaje `TASK` a `{topic: <tema de la lista>, include_sender:
+  true}`, con el payload `task`: la lista con sus contadores después del cambio, los números de las
+  tareas y el evento. Llega a todas las sesiones del tema salvo la que actuó, incluidas las otras
+  sesiones de quien actuó. Un `AddTasks` escribe un solo aviso. El texto lo escribe el servidor.
+
+  | Evento | Urgencia |
+  |---|---|
+  | `ADDED`, `CHECKED_OUT`, `PROGRESS`, `RELEASED` | `LOW` |
+  | `DONE`, `DISMISSED`, y `CHECKED_OUT` cuando es un `takeover` | `NORMAL` |
+
+  Así los reportes de avance no interrumpen a nadie por sí solos, y el cierre de una tarea sí. Los
+  avisos de tareas nunca salen por el canal externo de avisos.
+
 ## Presencia
 
 - Un miembro está `ONLINE` mientras tenga alguna sesión conectada que haya dado señales en los
@@ -143,7 +208,8 @@ protocolo no puede impedir que un mensaje contenga instrucciones; lo que sí gar
 (`ts/src/sanitize.ts`, `vectors/sanitize.json`):
 
 - Los campos cortos que se muestran en línea (nombres, ramas, rutas, notas, títulos, resúmenes,
-  referencias, tarea de un `done`) pasan por `cleanLine()`: una sola línea, sin caracteres de
+  referencias, tarea de un `done`, títulos de tareas y de listas, reportes de avance, resúmenes y
+  motivos de cierre) pasan por `cleanLine()`: una sola línea, sin caracteres de
   control ni separadores de línea Unicode ni controles de dirección, y recortados a su límite.
 - El texto de los mensajes y el cuerpo del contexto pasan por `cleanText()`: conservan saltos de
   línea y tabuladores, pierden el resto de caracteres de control y los controles de dirección.
@@ -167,6 +233,15 @@ una versión mayor nueva; subirlo es un cambio menor.
 | Repo o rama en la presencia | 200 caracteres |
 | Nota de una reserva, resumen de un contexto, tarea de un `done` | 500 caracteres |
 | Título de un contexto | 200 caracteres |
+| Título de una lista de tareas | 200 caracteres |
+| Título de una tarea | 300 caracteres |
+| Referencias por tarea | 5, de hasta 300 caracteres |
+| Reporte de avance, resumen de `finish`, motivo de `dismiss`, nota de `release` | 500 caracteres |
+| Tareas por `AddTasks` | 25 |
+| Tareas por lista | 500 |
+| Tareas por `ListTasks` | 100 por defecto, 500 como máximo |
+| Listas de tareas en el estado | 50 |
+| Tiempo sin cambios para tomar una tarea ajena | 2 h |
 | Mensajes por `History` | 100 por defecto, 200 como máximo |
 | Mensajes en el estado | 100 por defecto, 500 como máximo |
 | Invitación | 24 h por defecto, 7 días como máximo |

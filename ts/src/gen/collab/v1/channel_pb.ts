@@ -7,9 +7,9 @@
 // the topic of the calling session and its client session id. See
 // bindings/websocket.md and bindings/http.md.
 
-import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
-import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { ChannelState, Claim, ClientInfo, ContextEntry, ContextSummary, DonePayload, Member, MemberStatus, Message as Message$1, MessageType, ProtocolVersion, Recipient, Urgency } from "./model_pb.js";
+import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
+import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import type { ChannelState, Claim, ClientInfo, ContextEntry, ContextSummary, DonePayload, Member, MemberStatus, Message as Message$1, MessageType, ProtocolVersion, Recipient, Task, TaskList, Urgency } from "./model_pb.js";
 import { file_collab_v1_model } from "./model_pb.js";
 import type { Timestamp } from "@bufbuild/protobuf/wkt";
 import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
@@ -19,7 +19,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file collab/v1/channel.proto.
  */
 export const file_collab_v1_channel: GenFile = /*@__PURE__*/
-  fileDesc("Chdjb2xsYWIvdjEvY2hhbm5lbC5wcm90bxIJY29sbGFiLnYxInUKEFN1YnNjcmliZVJlcXVlc3QSJQoGY2xpZW50GAEgASgLMhUuY29sbGFiLnYxLkNsaWVudEluZm8SEgoFc2luY2UYAiABKA1IAIgBARIMCgRyZXBvGAMgASgJEg4KBmJyYW5jaBgEIAEoCUIICgZfc2luY2Ui8QEKEVN1YnNjcmliZVJlc3BvbnNlEiYKBWhlbGxvGAEgASgLMhUuY29sbGFiLnYxLkhlbGxvRXZlbnRIABIlCgdtZXNzYWdlGAIgASgLMhIuY29sbGFiLnYxLk1lc3NhZ2VIABIsCghwcmVzZW5jZRgDIAEoCzIYLmNvbGxhYi52MS5QcmVzZW5jZUV2ZW50SAASKAoGY2xhaW1zGAQgASgLMhYuY29sbGFiLnYxLkNsYWltc0V2ZW50SAASLAoHY29udGV4dBgFIAEoCzIZLmNvbGxhYi52MS5Db250ZXh0U3VtbWFyeUgAQgcKBWV2ZW50IpABCgpIZWxsb0V2ZW50EiYKBXN0YXRlGAEgASgLMhcuY29sbGFiLnYxLkNoYW5uZWxTdGF0ZRIsCghwcm90b2NvbBgCIAEoCzIaLmNvbGxhYi52MS5Qcm90b2NvbFZlcnNpb24SFAoMY2FwYWJpbGl0aWVzGAMgAygJEhYKDnNlcnZlcl92ZXJzaW9uGAQgASgJIjMKDVByZXNlbmNlRXZlbnQSIgoHbWVtYmVycxgBIAMoCzIRLmNvbGxhYi52MS5NZW1iZXIiPgoLQ2xhaW1zRXZlbnQSDQoFdG9waWMYASABKAkSIAoGY2xhaW1zGAIgAygLMhAuY29sbGFiLnYxLkNsYWltIj4KD0dldFN0YXRlUmVxdWVzdBISCgVzaW5jZRgBIAEoDUgAiAEBEg0KBWxpbWl0GAIgASgNQggKBl9zaW5jZSI6ChBHZXRTdGF0ZVJlc3BvbnNlEiYKBXN0YXRlGAEgASgLMhcuY29sbGFiLnYxLkNoYW5uZWxTdGF0ZSK8AQoLU2VuZFJlcXVlc3QSJAoEdHlwZRgBIAEoDjIWLmNvbGxhYi52MS5NZXNzYWdlVHlwZRIMCgR0ZXh0GAIgASgJEiAKAnRvGAMgASgLMhQuY29sbGFiLnYxLlJlY2lwaWVudBIjCgd1cmdlbmN5GAQgASgOMhIuY29sbGFiLnYxLlVyZ2VuY3kSDAoEcmVmcxgFIAMoCRIkCgRkb25lGAYgASgLMhYuY29sbGFiLnYxLkRvbmVQYXlsb2FkIkkKDFNlbmRSZXNwb25zZRILCgNzZXEYASABKA0SEQoJZGVsaXZlcmVkGAIgASgNEhkKEWRlbGl2ZXJlZF9vZmZsaW5lGAMgASgIIhwKCkFja1JlcXVlc3QSDgoGY3Vyc29yGAEgASgNIg0KC0Fja1Jlc3BvbnNlIkAKDENsYWltUmVxdWVzdBINCgVwYXRocxgBIAMoCRIMCgRub3RlGAIgASgJEhMKC3R0bF9zZWNvbmRzGAMgASgNIjAKDUNsYWltUmVzcG9uc2USHwoFY2xhaW0YASABKAsyEC5jb2xsYWIudjEuQ2xhaW0iIgoOUmVsZWFzZVJlcXVlc3QSEAoIY2xhaW1faWQYASABKAkiIwoPUmVsZWFzZVJlc3BvbnNlEhAKCHJlbGVhc2VkGAEgASgIIk4KEVB1dENvbnRleHRSZXF1ZXN0EgsKA2tleRgBIAEoCRINCgV0aXRsZRgCIAEoCRIPCgdzdW1tYXJ5GAMgASgJEgwKBGJvZHkYBCABKAkiPAoSUHV0Q29udGV4dFJlc3BvbnNlEiYKBWVudHJ5GAEgASgLMhcuY29sbGFiLnYxLkNvbnRleHRFbnRyeSJRChFHZXRDb250ZXh0UmVxdWVzdBILCgNrZXkYASABKAkSFAoHdmVyc2lvbhgCIAEoDUgAiAEBEg0KBXRvcGljGAMgASgJQgoKCF92ZXJzaW9uIjwKEkdldENvbnRleHRSZXNwb25zZRImCgVlbnRyeRgBIAEoCzIXLmNvbGxhYi52MS5Db250ZXh0RW50cnkiWwoSU2V0UHJlc2VuY2VSZXF1ZXN0EicKBnN0YXR1cxgBIAEoDjIXLmNvbGxhYi52MS5NZW1iZXJTdGF0dXMSDAoEcmVwbxgCIAEoCRIOCgZicmFuY2gYAyABKAkiFQoTU2V0UHJlc2VuY2VSZXNwb25zZSIuCg5IaXN0b3J5UmVxdWVzdBINCgVzaW5jZRgBIAEoDRINCgVsaW1pdBgCIAEoDSI3Cg9IaXN0b3J5UmVzcG9uc2USJAoIbWVzc2FnZXMYASADKAsyEi5jb2xsYWIudjEuTWVzc2FnZSISChBIZWFydGJlYXRSZXF1ZXN0IkQKEUhlYXJ0YmVhdFJlc3BvbnNlEi8KC3NlcnZlcl90aW1lGAEgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcDL6BQoOQ2hhbm5lbFNlcnZpY2USSAoJU3Vic2NyaWJlEhsuY29sbGFiLnYxLlN1YnNjcmliZVJlcXVlc3QaHC5jb2xsYWIudjEuU3Vic2NyaWJlUmVzcG9uc2UwARJDCghHZXRTdGF0ZRIaLmNvbGxhYi52MS5HZXRTdGF0ZVJlcXVlc3QaGy5jb2xsYWIudjEuR2V0U3RhdGVSZXNwb25zZRI3CgRTZW5kEhYuY29sbGFiLnYxLlNlbmRSZXF1ZXN0GhcuY29sbGFiLnYxLlNlbmRSZXNwb25zZRI0CgNBY2sSFS5jb2xsYWIudjEuQWNrUmVxdWVzdBoWLmNvbGxhYi52MS5BY2tSZXNwb25zZRI6CgVDbGFpbRIXLmNvbGxhYi52MS5DbGFpbVJlcXVlc3QaGC5jb2xsYWIudjEuQ2xhaW1SZXNwb25zZRJACgdSZWxlYXNlEhkuY29sbGFiLnYxLlJlbGVhc2VSZXF1ZXN0GhouY29sbGFiLnYxLlJlbGVhc2VSZXNwb25zZRJJCgpQdXRDb250ZXh0EhwuY29sbGFiLnYxLlB1dENvbnRleHRSZXF1ZXN0Gh0uY29sbGFiLnYxLlB1dENvbnRleHRSZXNwb25zZRJJCgpHZXRDb250ZXh0EhwuY29sbGFiLnYxLkdldENvbnRleHRSZXF1ZXN0Gh0uY29sbGFiLnYxLkdldENvbnRleHRSZXNwb25zZRJMCgtTZXRQcmVzZW5jZRIdLmNvbGxhYi52MS5TZXRQcmVzZW5jZVJlcXVlc3QaHi5jb2xsYWIudjEuU2V0UHJlc2VuY2VSZXNwb25zZRJACgdIaXN0b3J5EhkuY29sbGFiLnYxLkhpc3RvcnlSZXF1ZXN0GhouY29sbGFiLnYxLkhpc3RvcnlSZXNwb25zZRJGCglIZWFydGJlYXQSGy5jb2xsYWIudjEuSGVhcnRiZWF0UmVxdWVzdBocLmNvbGxhYi52MS5IZWFydGJlYXRSZXNwb25zZWIGcHJvdG8z", [file_collab_v1_model, file_google_protobuf_timestamp]);
+  fileDesc("Chdjb2xsYWIvdjEvY2hhbm5lbC5wcm90bxIJY29sbGFiLnYxInUKEFN1YnNjcmliZVJlcXVlc3QSJQoGY2xpZW50GAEgASgLMhUuY29sbGFiLnYxLkNsaWVudEluZm8SEgoFc2luY2UYAiABKA1IAIgBARIMCgRyZXBvGAMgASgJEg4KBmJyYW5jaBgEIAEoCUIICgZfc2luY2Ui8QEKEVN1YnNjcmliZVJlc3BvbnNlEiYKBWhlbGxvGAEgASgLMhUuY29sbGFiLnYxLkhlbGxvRXZlbnRIABIlCgdtZXNzYWdlGAIgASgLMhIuY29sbGFiLnYxLk1lc3NhZ2VIABIsCghwcmVzZW5jZRgDIAEoCzIYLmNvbGxhYi52MS5QcmVzZW5jZUV2ZW50SAASKAoGY2xhaW1zGAQgASgLMhYuY29sbGFiLnYxLkNsYWltc0V2ZW50SAASLAoHY29udGV4dBgFIAEoCzIZLmNvbGxhYi52MS5Db250ZXh0U3VtbWFyeUgAQgcKBWV2ZW50IpABCgpIZWxsb0V2ZW50EiYKBXN0YXRlGAEgASgLMhcuY29sbGFiLnYxLkNoYW5uZWxTdGF0ZRIsCghwcm90b2NvbBgCIAEoCzIaLmNvbGxhYi52MS5Qcm90b2NvbFZlcnNpb24SFAoMY2FwYWJpbGl0aWVzGAMgAygJEhYKDnNlcnZlcl92ZXJzaW9uGAQgASgJIjMKDVByZXNlbmNlRXZlbnQSIgoHbWVtYmVycxgBIAMoCzIRLmNvbGxhYi52MS5NZW1iZXIiPgoLQ2xhaW1zRXZlbnQSDQoFdG9waWMYASABKAkSIAoGY2xhaW1zGAIgAygLMhAuY29sbGFiLnYxLkNsYWltIj4KD0dldFN0YXRlUmVxdWVzdBISCgVzaW5jZRgBIAEoDUgAiAEBEg0KBWxpbWl0GAIgASgNQggKBl9zaW5jZSI6ChBHZXRTdGF0ZVJlc3BvbnNlEiYKBXN0YXRlGAEgASgLMhcuY29sbGFiLnYxLkNoYW5uZWxTdGF0ZSK8AQoLU2VuZFJlcXVlc3QSJAoEdHlwZRgBIAEoDjIWLmNvbGxhYi52MS5NZXNzYWdlVHlwZRIMCgR0ZXh0GAIgASgJEiAKAnRvGAMgASgLMhQuY29sbGFiLnYxLlJlY2lwaWVudBIjCgd1cmdlbmN5GAQgASgOMhIuY29sbGFiLnYxLlVyZ2VuY3kSDAoEcmVmcxgFIAMoCRIkCgRkb25lGAYgASgLMhYuY29sbGFiLnYxLkRvbmVQYXlsb2FkIkkKDFNlbmRSZXNwb25zZRILCgNzZXEYASABKA0SEQoJZGVsaXZlcmVkGAIgASgNEhkKEWRlbGl2ZXJlZF9vZmZsaW5lGAMgASgIIhwKCkFja1JlcXVlc3QSDgoGY3Vyc29yGAEgASgNIg0KC0Fja1Jlc3BvbnNlIkAKDENsYWltUmVxdWVzdBINCgVwYXRocxgBIAMoCRIMCgRub3RlGAIgASgJEhMKC3R0bF9zZWNvbmRzGAMgASgNIjAKDUNsYWltUmVzcG9uc2USHwoFY2xhaW0YASABKAsyEC5jb2xsYWIudjEuQ2xhaW0iIgoOUmVsZWFzZVJlcXVlc3QSEAoIY2xhaW1faWQYASABKAkiIwoPUmVsZWFzZVJlc3BvbnNlEhAKCHJlbGVhc2VkGAEgASgIIk4KEVB1dENvbnRleHRSZXF1ZXN0EgsKA2tleRgBIAEoCRINCgV0aXRsZRgCIAEoCRIPCgdzdW1tYXJ5GAMgASgJEgwKBGJvZHkYBCABKAkiPAoSUHV0Q29udGV4dFJlc3BvbnNlEiYKBWVudHJ5GAEgASgLMhcuY29sbGFiLnYxLkNvbnRleHRFbnRyeSJRChFHZXRDb250ZXh0UmVxdWVzdBILCgNrZXkYASABKAkSFAoHdmVyc2lvbhgCIAEoDUgAiAEBEg0KBXRvcGljGAMgASgJQgoKCF92ZXJzaW9uIjwKEkdldENvbnRleHRSZXNwb25zZRImCgVlbnRyeRgBIAEoCzIXLmNvbGxhYi52MS5Db250ZXh0RW50cnkiWwoSU2V0UHJlc2VuY2VSZXF1ZXN0EicKBnN0YXR1cxgBIAEoDjIXLmNvbGxhYi52MS5NZW1iZXJTdGF0dXMSDAoEcmVwbxgCIAEoCRIOCgZicmFuY2gYAyABKAkiFQoTU2V0UHJlc2VuY2VSZXNwb25zZSIuCg5IaXN0b3J5UmVxdWVzdBINCgVzaW5jZRgBIAEoDRINCgVsaW1pdBgCIAEoDSI3Cg9IaXN0b3J5UmVzcG9uc2USJAoIbWVzc2FnZXMYASADKAsyEi5jb2xsYWIudjEuTWVzc2FnZSISChBIZWFydGJlYXRSZXF1ZXN0IkQKEUhlYXJ0YmVhdFJlc3BvbnNlEi8KC3NlcnZlcl90aW1lGAEgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCIzChVDcmVhdGVUYXNrTGlzdFJlcXVlc3QSCwoDa2V5GAEgASgJEg0KBXRpdGxlGAIgASgJIkwKFkNyZWF0ZVRhc2tMaXN0UmVzcG9uc2USIQoEbGlzdBgBIAEoCzITLmNvbGxhYi52MS5UYXNrTGlzdBIPCgdjcmVhdGVkGAIgASgIIiYKB05ld1Rhc2sSDQoFdGl0bGUYASABKAkSDAoEcmVmcxgCIAMoCSJCCg9BZGRUYXNrc1JlcXVlc3QSDAoEbGlzdBgBIAEoCRIhCgV0YXNrcxgCIAMoCzISLmNvbGxhYi52MS5OZXdUYXNrIlUKEEFkZFRhc2tzUmVzcG9uc2USHgoFdGFza3MYASADKAsyDy5jb2xsYWIudjEuVGFzaxIhCgRsaXN0GAIgASgLMhMuY29sbGFiLnYxLlRhc2tMaXN0IiAKDFRhc2tDaGVja291dBIQCgh0YWtlb3ZlchgBIAEoCCI+CgxUYXNrUHJvZ3Jlc3MSDAoEdGV4dBgBIAEoCRIUCgdwZXJjZW50GAIgASgNSACIAQFCCgoIX3BlcmNlbnQiGwoLVGFza1JlbGVhc2USDAoEbm90ZRgBIAEoCSIdCgpUYXNrRmluaXNoEg8KB3N1bW1hcnkYASABKAkiHQoLVGFza0Rpc21pc3MSDgoGcmVhc29uGAEgASgJIqMCChFVcGRhdGVUYXNrUmVxdWVzdBINCgV0b3BpYxgBIAEoCRIMCgRsaXN0GAIgASgJEg4KBm51bWJlchgDIAEoDRIrCghjaGVja291dBgKIAEoCzIXLmNvbGxhYi52MS5UYXNrQ2hlY2tvdXRIABIrCghwcm9ncmVzcxgLIAEoCzIXLmNvbGxhYi52MS5UYXNrUHJvZ3Jlc3NIABIpCgdyZWxlYXNlGAwgASgLMhYuY29sbGFiLnYxLlRhc2tSZWxlYXNlSAASJwoGZmluaXNoGA0gASgLMhUuY29sbGFiLnYxLlRhc2tGaW5pc2hIABIpCgdkaXNtaXNzGA4gASgLMhYuY29sbGFiLnYxLlRhc2tEaXNtaXNzSABCCAoGY2hhbmdlIlYKElVwZGF0ZVRhc2tSZXNwb25zZRIdCgR0YXNrGAEgASgLMg8uY29sbGFiLnYxLlRhc2sSIQoEbGlzdBgCIAEoCzITLmNvbGxhYi52MS5UYXNrTGlzdCJlChBMaXN0VGFza3NSZXF1ZXN0Eg0KBXRvcGljGAEgASgJEgwKBGxpc3QYAiABKAkSJQoGZmlsdGVyGAMgASgOMhUuY29sbGFiLnYxLlRhc2tGaWx0ZXISDQoFbGltaXQYBCABKA0iagoRTGlzdFRhc2tzUmVzcG9uc2USIgoFbGlzdHMYASADKAsyEy5jb2xsYWIudjEuVGFza0xpc3QSHgoFdGFza3MYAiADKAsyDy5jb2xsYWIudjEuVGFzaxIRCgl0cnVuY2F0ZWQYAyABKAgqbAoKVGFza0ZpbHRlchIbChdUQVNLX0ZJTFRFUl9VTlNQRUNJRklFRBAAEhQKEFRBU0tfRklMVEVSX09QRU4QARIWChJUQVNLX0ZJTFRFUl9DTE9TRUQQAhITCg9UQVNLX0ZJTFRFUl9BTEwQAzKpCAoOQ2hhbm5lbFNlcnZpY2USSAoJU3Vic2NyaWJlEhsuY29sbGFiLnYxLlN1YnNjcmliZVJlcXVlc3QaHC5jb2xsYWIudjEuU3Vic2NyaWJlUmVzcG9uc2UwARJDCghHZXRTdGF0ZRIaLmNvbGxhYi52MS5HZXRTdGF0ZVJlcXVlc3QaGy5jb2xsYWIudjEuR2V0U3RhdGVSZXNwb25zZRI3CgRTZW5kEhYuY29sbGFiLnYxLlNlbmRSZXF1ZXN0GhcuY29sbGFiLnYxLlNlbmRSZXNwb25zZRI0CgNBY2sSFS5jb2xsYWIudjEuQWNrUmVxdWVzdBoWLmNvbGxhYi52MS5BY2tSZXNwb25zZRI6CgVDbGFpbRIXLmNvbGxhYi52MS5DbGFpbVJlcXVlc3QaGC5jb2xsYWIudjEuQ2xhaW1SZXNwb25zZRJACgdSZWxlYXNlEhkuY29sbGFiLnYxLlJlbGVhc2VSZXF1ZXN0GhouY29sbGFiLnYxLlJlbGVhc2VSZXNwb25zZRJJCgpQdXRDb250ZXh0EhwuY29sbGFiLnYxLlB1dENvbnRleHRSZXF1ZXN0Gh0uY29sbGFiLnYxLlB1dENvbnRleHRSZXNwb25zZRJJCgpHZXRDb250ZXh0EhwuY29sbGFiLnYxLkdldENvbnRleHRSZXF1ZXN0Gh0uY29sbGFiLnYxLkdldENvbnRleHRSZXNwb25zZRJMCgtTZXRQcmVzZW5jZRIdLmNvbGxhYi52MS5TZXRQcmVzZW5jZVJlcXVlc3QaHi5jb2xsYWIudjEuU2V0UHJlc2VuY2VSZXNwb25zZRJACgdIaXN0b3J5EhkuY29sbGFiLnYxLkhpc3RvcnlSZXF1ZXN0GhouY29sbGFiLnYxLkhpc3RvcnlSZXNwb25zZRJGCglIZWFydGJlYXQSGy5jb2xsYWIudjEuSGVhcnRiZWF0UmVxdWVzdBocLmNvbGxhYi52MS5IZWFydGJlYXRSZXNwb25zZRJVCg5DcmVhdGVUYXNrTGlzdBIgLmNvbGxhYi52MS5DcmVhdGVUYXNrTGlzdFJlcXVlc3QaIS5jb2xsYWIudjEuQ3JlYXRlVGFza0xpc3RSZXNwb25zZRJDCghBZGRUYXNrcxIaLmNvbGxhYi52MS5BZGRUYXNrc1JlcXVlc3QaGy5jb2xsYWIudjEuQWRkVGFza3NSZXNwb25zZRJJCgpVcGRhdGVUYXNrEhwuY29sbGFiLnYxLlVwZGF0ZVRhc2tSZXF1ZXN0Gh0uY29sbGFiLnYxLlVwZGF0ZVRhc2tSZXNwb25zZRJGCglMaXN0VGFza3MSGy5jb2xsYWIudjEuTGlzdFRhc2tzUmVxdWVzdBocLmNvbGxhYi52MS5MaXN0VGFza3NSZXNwb25zZWIGcHJvdG8z", [file_collab_v1_model, file_google_protobuf_timestamp]);
 
 /**
  * @generated from message collab.v1.SubscribeRequest
@@ -632,6 +632,435 @@ export const HeartbeatResponseSchema: GenMessage<HeartbeatResponse> = /*@__PURE_
   messageDesc(file_collab_v1_channel, 24);
 
 /**
+ * Creates a task list in the caller's topic.
+ *
+ * @generated from message collab.v1.CreateTaskListRequest
+ */
+export type CreateTaskListRequest = Message<"collab.v1.CreateTaskListRequest"> & {
+  /**
+   * Goes through taskListKey().
+   *
+   * @generated from field: string key = 1;
+   */
+  key: string;
+
+  /**
+   * Empty: the key.
+   *
+   * @generated from field: string title = 2;
+   */
+  title: string;
+};
+
+/**
+ * Describes the message collab.v1.CreateTaskListRequest.
+ * Use `create(CreateTaskListRequestSchema)` to create a new message.
+ */
+export const CreateTaskListRequestSchema: GenMessage<CreateTaskListRequest> = /*@__PURE__*/
+  messageDesc(file_collab_v1_channel, 25);
+
+/**
+ * @generated from message collab.v1.CreateTaskListResponse
+ */
+export type CreateTaskListResponse = Message<"collab.v1.CreateTaskListResponse"> & {
+  /**
+   * @generated from field: collab.v1.TaskList list = 1;
+   */
+  list?: TaskList | undefined;
+
+  /**
+   * False when the topic already had a list with that key: it is returned
+   * as it is, title included.
+   *
+   * @generated from field: bool created = 2;
+   */
+  created: boolean;
+};
+
+/**
+ * Describes the message collab.v1.CreateTaskListResponse.
+ * Use `create(CreateTaskListResponseSchema)` to create a new message.
+ */
+export const CreateTaskListResponseSchema: GenMessage<CreateTaskListResponse> = /*@__PURE__*/
+  messageDesc(file_collab_v1_channel, 26);
+
+/**
+ * @generated from message collab.v1.NewTask
+ */
+export type NewTask = Message<"collab.v1.NewTask"> & {
+  /**
+   * @generated from field: string title = 1;
+   */
+  title: string;
+
+  /**
+   * @generated from field: repeated string refs = 2;
+   */
+  refs: string[];
+};
+
+/**
+ * Describes the message collab.v1.NewTask.
+ * Use `create(NewTaskSchema)` to create a new message.
+ */
+export const NewTaskSchema: GenMessage<NewTask> = /*@__PURE__*/
+  messageDesc(file_collab_v1_channel, 27);
+
+/**
+ * Adds tasks to a list in the caller's topic, numbered in the order given.
+ *
+ * @generated from message collab.v1.AddTasksRequest
+ */
+export type AddTasksRequest = Message<"collab.v1.AddTasksRequest"> & {
+  /**
+   * The list's key.
+   *
+   * @generated from field: string list = 1;
+   */
+  list: string;
+
+  /**
+   * @generated from field: repeated collab.v1.NewTask tasks = 2;
+   */
+  tasks: NewTask[];
+};
+
+/**
+ * Describes the message collab.v1.AddTasksRequest.
+ * Use `create(AddTasksRequestSchema)` to create a new message.
+ */
+export const AddTasksRequestSchema: GenMessage<AddTasksRequest> = /*@__PURE__*/
+  messageDesc(file_collab_v1_channel, 28);
+
+/**
+ * @generated from message collab.v1.AddTasksResponse
+ */
+export type AddTasksResponse = Message<"collab.v1.AddTasksResponse"> & {
+  /**
+   * @generated from field: repeated collab.v1.Task tasks = 1;
+   */
+  tasks: Task[];
+
+  /**
+   * @generated from field: collab.v1.TaskList list = 2;
+   */
+  list?: TaskList | undefined;
+};
+
+/**
+ * Describes the message collab.v1.AddTasksResponse.
+ * Use `create(AddTasksResponseSchema)` to create a new message.
+ */
+export const AddTasksResponseSchema: GenMessage<AddTasksResponse> = /*@__PURE__*/
+  messageDesc(file_collab_v1_channel, 29);
+
+/**
+ * Takes a task: an open one, or one of the caller's own (which moves it to
+ * the calling session). One someone else holds only with `takeover`, and
+ * only once its holder has not updated it for TASK_STALE_SECONDS.
+ *
+ * @generated from message collab.v1.TaskCheckout
+ */
+export type TaskCheckout = Message<"collab.v1.TaskCheckout"> & {
+  /**
+   * @generated from field: bool takeover = 1;
+   */
+  takeover: boolean;
+};
+
+/**
+ * Describes the message collab.v1.TaskCheckout.
+ * Use `create(TaskCheckoutSchema)` to create a new message.
+ */
+export const TaskCheckoutSchema: GenMessage<TaskCheckout> = /*@__PURE__*/
+  messageDesc(file_collab_v1_channel, 30);
+
+/**
+ * A progress report from the holder.
+ *
+ * @generated from message collab.v1.TaskProgress
+ */
+export type TaskProgress = Message<"collab.v1.TaskProgress"> & {
+  /**
+   * @generated from field: string text = 1;
+   */
+  text: string;
+
+  /**
+   * 0 to 100.
+   *
+   * @generated from field: optional uint32 percent = 2;
+   */
+  percent?: number | undefined;
+};
+
+/**
+ * Describes the message collab.v1.TaskProgress.
+ * Use `create(TaskProgressSchema)` to create a new message.
+ */
+export const TaskProgressSchema: GenMessage<TaskProgress> = /*@__PURE__*/
+  messageDesc(file_collab_v1_channel, 31);
+
+/**
+ * Gives a task back: the holder's, and it goes back to open.
+ *
+ * @generated from message collab.v1.TaskRelease
+ */
+export type TaskRelease = Message<"collab.v1.TaskRelease"> & {
+  /**
+   * @generated from field: string note = 1;
+   */
+  note: string;
+};
+
+/**
+ * Describes the message collab.v1.TaskRelease.
+ * Use `create(TaskReleaseSchema)` to create a new message.
+ */
+export const TaskReleaseSchema: GenMessage<TaskRelease> = /*@__PURE__*/
+  messageDesc(file_collab_v1_channel, 32);
+
+/**
+ * Finishes a task: an open one, which the caller takes and finishes in one
+ * step, or one the caller holds.
+ *
+ * @generated from message collab.v1.TaskFinish
+ */
+export type TaskFinish = Message<"collab.v1.TaskFinish"> & {
+  /**
+   * What was done, in one line.
+   *
+   * @generated from field: string summary = 1;
+   */
+  summary: string;
+};
+
+/**
+ * Describes the message collab.v1.TaskFinish.
+ * Use `create(TaskFinishSchema)` to create a new message.
+ */
+export const TaskFinishSchema: GenMessage<TaskFinish> = /*@__PURE__*/
+  messageDesc(file_collab_v1_channel, 33);
+
+/**
+ * Closes a task as something that will not be done. Its creator or its
+ * holder can; the reason is required.
+ *
+ * @generated from message collab.v1.TaskDismiss
+ */
+export type TaskDismiss = Message<"collab.v1.TaskDismiss"> & {
+  /**
+   * @generated from field: string reason = 1;
+   */
+  reason: string;
+};
+
+/**
+ * Describes the message collab.v1.TaskDismiss.
+ * Use `create(TaskDismissSchema)` to create a new message.
+ */
+export const TaskDismissSchema: GenMessage<TaskDismiss> = /*@__PURE__*/
+  messageDesc(file_collab_v1_channel, 34);
+
+/**
+ * @generated from message collab.v1.UpdateTaskRequest
+ */
+export type UpdateTaskRequest = Message<"collab.v1.UpdateTaskRequest"> & {
+  /**
+   * The list's topic. Empty: the caller's topic.
+   *
+   * @generated from field: string topic = 1;
+   */
+  topic: string;
+
+  /**
+   * @generated from field: string list = 2;
+   */
+  list: string;
+
+  /**
+   * @generated from field: uint32 number = 3;
+   */
+  number: number;
+
+  /**
+   * @generated from oneof collab.v1.UpdateTaskRequest.change
+   */
+  change: {
+    /**
+     * @generated from field: collab.v1.TaskCheckout checkout = 10;
+     */
+    value: TaskCheckout;
+    case: "checkout";
+  } | {
+    /**
+     * @generated from field: collab.v1.TaskProgress progress = 11;
+     */
+    value: TaskProgress;
+    case: "progress";
+  } | {
+    /**
+     * @generated from field: collab.v1.TaskRelease release = 12;
+     */
+    value: TaskRelease;
+    case: "release";
+  } | {
+    /**
+     * @generated from field: collab.v1.TaskFinish finish = 13;
+     */
+    value: TaskFinish;
+    case: "finish";
+  } | {
+    /**
+     * @generated from field: collab.v1.TaskDismiss dismiss = 14;
+     */
+    value: TaskDismiss;
+    case: "dismiss";
+  } | { case: undefined; value?: undefined };
+};
+
+/**
+ * Describes the message collab.v1.UpdateTaskRequest.
+ * Use `create(UpdateTaskRequestSchema)` to create a new message.
+ */
+export const UpdateTaskRequestSchema: GenMessage<UpdateTaskRequest> = /*@__PURE__*/
+  messageDesc(file_collab_v1_channel, 35);
+
+/**
+ * @generated from message collab.v1.UpdateTaskResponse
+ */
+export type UpdateTaskResponse = Message<"collab.v1.UpdateTaskResponse"> & {
+  /**
+   * @generated from field: collab.v1.Task task = 1;
+   */
+  task?: Task | undefined;
+
+  /**
+   * @generated from field: collab.v1.TaskList list = 2;
+   */
+  list?: TaskList | undefined;
+};
+
+/**
+ * Describes the message collab.v1.UpdateTaskResponse.
+ * Use `create(UpdateTaskResponseSchema)` to create a new message.
+ */
+export const UpdateTaskResponseSchema: GenMessage<UpdateTaskResponse> = /*@__PURE__*/
+  messageDesc(file_collab_v1_channel, 36);
+
+/**
+ * @generated from message collab.v1.ListTasksRequest
+ */
+export type ListTasksRequest = Message<"collab.v1.ListTasksRequest"> & {
+  /**
+   * Empty: the caller's topic.
+   *
+   * @generated from field: string topic = 1;
+   */
+  topic: string;
+
+  /**
+   * One list's key. Empty: every list in the topic.
+   *
+   * @generated from field: string list = 2;
+   */
+  list: string;
+
+  /**
+   * @generated from field: collab.v1.TaskFilter filter = 3;
+   */
+  filter: TaskFilter;
+
+  /**
+   * At most this many tasks. Unset or 0: 100. Capped at 500.
+   *
+   * @generated from field: uint32 limit = 4;
+   */
+  limit: number;
+};
+
+/**
+ * Describes the message collab.v1.ListTasksRequest.
+ * Use `create(ListTasksRequestSchema)` to create a new message.
+ */
+export const ListTasksRequestSchema: GenMessage<ListTasksRequest> = /*@__PURE__*/
+  messageDesc(file_collab_v1_channel, 37);
+
+/**
+ * @generated from message collab.v1.ListTasksResponse
+ */
+export type ListTasksResponse = Message<"collab.v1.ListTasksResponse"> & {
+  /**
+   * The lists asked for, most recently changed first: with the open filter,
+   * only those with open tasks.
+   *
+   * @generated from field: repeated collab.v1.TaskList lists = 1;
+   */
+  lists: TaskList[];
+
+  /**
+   * Open tasks by list, then number. Closed tasks after them, most recently
+   * closed first.
+   *
+   * @generated from field: repeated collab.v1.Task tasks = 2;
+   */
+  tasks: Task[];
+
+  /**
+   * True when `limit` left tasks out.
+   *
+   * @generated from field: bool truncated = 3;
+   */
+  truncated: boolean;
+};
+
+/**
+ * Describes the message collab.v1.ListTasksResponse.
+ * Use `create(ListTasksResponseSchema)` to create a new message.
+ */
+export const ListTasksResponseSchema: GenMessage<ListTasksResponse> = /*@__PURE__*/
+  messageDesc(file_collab_v1_channel, 38);
+
+/**
+ * Which tasks ListTasks returns.
+ *
+ * @generated from enum collab.v1.TaskFilter
+ */
+export enum TaskFilter {
+  /**
+   * Read as TASK_FILTER_OPEN.
+   *
+   * @generated from enum value: TASK_FILTER_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * Open and in progress.
+   *
+   * @generated from enum value: TASK_FILTER_OPEN = 1;
+   */
+  OPEN = 1,
+
+  /**
+   * Done and dismissed.
+   *
+   * @generated from enum value: TASK_FILTER_CLOSED = 2;
+   */
+  CLOSED = 2,
+
+  /**
+   * @generated from enum value: TASK_FILTER_ALL = 3;
+   */
+  ALL = 3,
+}
+
+/**
+ * Describes the enum collab.v1.TaskFilter.
+ */
+export const TaskFilterSchema: GenEnum<TaskFilter> = /*@__PURE__*/
+  enumDesc(file_collab_v1_channel, 0);
+
+/**
  * @generated from service collab.v1.ChannelService
  */
 export const ChannelService: GenService<{
@@ -732,6 +1161,43 @@ export const ChannelService: GenService<{
     methodKind: "unary";
     input: typeof HeartbeatRequestSchema;
     output: typeof HeartbeatResponseSchema;
+  },
+  /**
+   * Task lists. Every change is announced to the list's topic with a TASK
+   * message, so no separate event exists for them.
+   *
+   * @generated from rpc collab.v1.ChannelService.CreateTaskList
+   */
+  createTaskList: {
+    methodKind: "unary";
+    input: typeof CreateTaskListRequestSchema;
+    output: typeof CreateTaskListResponseSchema;
+  },
+  /**
+   * @generated from rpc collab.v1.ChannelService.AddTasks
+   */
+  addTasks: {
+    methodKind: "unary";
+    input: typeof AddTasksRequestSchema;
+    output: typeof AddTasksResponseSchema;
+  },
+  /**
+   * @generated from rpc collab.v1.ChannelService.UpdateTask
+   */
+  updateTask: {
+    methodKind: "unary";
+    input: typeof UpdateTaskRequestSchema;
+    output: typeof UpdateTaskResponseSchema;
+  },
+  /**
+   * HTTP only, like GetState: a whole list can outgrow a WebSocket message.
+   *
+   * @generated from rpc collab.v1.ChannelService.ListTasks
+   */
+  listTasks: {
+    methodKind: "unary";
+    input: typeof ListTasksRequestSchema;
+    output: typeof ListTasksResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_collab_v1_channel, 0);

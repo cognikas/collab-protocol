@@ -6,7 +6,7 @@ import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
 /**
  * Describes the file collab/v1/model.proto.
  */
-export const file_collab_v1_model = /*@__PURE__*/ fileDesc("ChVjb2xsYWIvdjEvbW9kZWwucHJvdG8SCWNvbGxhYi52MSJFCglSZWNpcGllbnQSDgoGaGFuZGxlGAEgASgJEg0KBXRvcGljGAIgASgJEhkKEWNsaWVudF9zZXNzaW9uX2lkGAMgASgJIlgKCUFkZHJlc3NlZRIRCgltZW1iZXJfaWQYASABKAkSDgoGaGFuZGxlGAIgASgJEg0KBXRvcGljGAMgASgJEhkKEWNsaWVudF9zZXNzaW9uX2lkGAQgASgJIooECgdNZXNzYWdlEgsKA3NlcRgBIAEoDRIPCgdjaGFubmVsGAIgASgJEhYKDmZyb21fbWVtYmVyX2lkGAMgASgJEhEKCWZyb21fbmFtZRgEIAEoCRITCgtmcm9tX2hhbmRsZRgFIAEoCRISCgpmcm9tX3RvcGljGAYgASgJEiAKAnRvGAcgASgLMhQuY29sbGFiLnYxLkFkZHJlc3NlZRIkCgR0eXBlGAggASgOMhYuY29sbGFiLnYxLk1lc3NhZ2VUeXBlEgwKBHRleHQYCSABKAkSIwoHdXJnZW5jeRgKIAEoDjISLmNvbGxhYi52MS5VcmdlbmN5EgwKBHJlZnMYCyADKAkSKwoHc2VudF9hdBgMIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASHgoWZnJvbV9jbGllbnRfc2Vzc2lvbl9pZBgNIAEoCRImCgRkb25lGBQgASgLMhYuY29sbGFiLnYxLkRvbmVQYXlsb2FkSAASKAoFY2xhaW0YFSABKAsyFy5jb2xsYWIudjEuQ2xhaW1QYXlsb2FkSAASLAoHcmVsZWFzZRgWIAEoCzIZLmNvbGxhYi52MS5SZWxlYXNlUGF5bG9hZEgAEiwKB2NvbnRleHQYFyABKAsyGS5jb2xsYWIudjEuQ29udGV4dFBheWxvYWRIAEIJCgdwYXlsb2FkIi4KC0RvbmVQYXlsb2FkEgwKBHRhc2sYASABKAkSEQoJYXV0b21hdGljGAIgASgIIlAKDENsYWltUGF5bG9hZBIQCghjbGFpbV9pZBgBIAEoCRIuCgpleHBpcmVzX2F0GAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCIiCg5SZWxlYXNlUGF5bG9hZBIQCghjbGFpbV9pZBgBIAEoCSIuCg5Db250ZXh0UGF5bG9hZBILCgNrZXkYASABKAkSDwoHdmVyc2lvbhgCIAEoDSKLAgoGTWVtYmVyEhEKCW1lbWJlcl9pZBgBIAEoCRIUCgxkaXNwbGF5X25hbWUYAiABKAkSDgoGaGFuZGxlGAMgASgJEicKBnN0YXR1cxgEIAEoDjIXLmNvbGxhYi52MS5NZW1iZXJTdGF0dXMSDAoEcmVwbxgFIAEoCRIOCgZicmFuY2gYBiABKAkSEwoLY29ubmVjdGlvbnMYByABKA0SDgoGdG9waWNzGAggAygJEjAKDGxhc3Rfc2Vlbl9hdBgJIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASKgoIc2Vzc2lvbnMYCiADKAsyGC5jb2xsYWIudjEuTWVtYmVyU2Vzc2lvbiKJAQoNTWVtYmVyU2Vzc2lvbhIZChFjbGllbnRfc2Vzc2lvbl9pZBgBIAEoCRINCgV0b3BpYxgCIAEoCRIMCgRyZXBvGAMgASgJEg4KBmJyYW5jaBgEIAEoCRIwCgxjb25uZWN0ZWRfYXQYBSABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wItIBCgVDbGFpbRIQCghjbGFpbV9pZBgBIAEoCRIXCg9vd25lcl9tZW1iZXJfaWQYAiABKAkSEgoKb3duZXJfbmFtZRgDIAEoCRINCgV0b3BpYxgEIAEoCRINCgVwYXRocxgFIAMoCRIMCgRub3RlGAYgASgJEi4KCmNyZWF0ZWRfYXQYByABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEi4KCmV4cGlyZXNfYXQYCCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIrkBCgxDb250ZXh0RW50cnkSCwoDa2V5GAEgASgJEg8KB3ZlcnNpb24YAiABKA0SDQoFdGl0bGUYAyABKAkSDwoHc3VtbWFyeRgEIAEoCRIMCgRib2R5GAUgASgJEhgKEGF1dGhvcl9tZW1iZXJfaWQYBiABKAkSEwoLYXV0aG9yX25hbWUYByABKAkSLgoKY3JlYXRlZF9hdBgIIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAikwEKDkNvbnRleHRTdW1tYXJ5EgsKA2tleRgBIAEoCRIPCgd2ZXJzaW9uGAIgASgNEg0KBXRpdGxlGAMgASgJEg8KB3N1bW1hcnkYBCABKAkSEwoLYXV0aG9yX25hbWUYBSABKAkSLgoKY3JlYXRlZF9hdBgGIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAimAIKDENoYW5uZWxTdGF0ZRIPCgdjaGFubmVsGAEgASgJEhYKDnNlbGZfbWVtYmVyX2lkGAIgASgJEg4KBmhhbmRsZRgDIAEoCRINCgV0b3BpYxgEIAEoCRIiCgdtZW1iZXJzGAUgAygLMhEuY29sbGFiLnYxLk1lbWJlchIgCgZjbGFpbXMYBiADKAsyEC5jb2xsYWIudjEuQ2xhaW0SMAoNY29udGV4dF9pbmRleBgHIAMoCzIZLmNvbGxhYi52MS5Db250ZXh0U3VtbWFyeRIkCghtZXNzYWdlcxgIIAMoCzISLmNvbGxhYi52MS5NZXNzYWdlEg4KBmN1cnNvchgJIAEoDRISCgpsYXRlc3Rfc2VxGAogASgNIi8KD1Byb3RvY29sVmVyc2lvbhINCgVtYWpvchgBIAEoDRINCgVtaW5vchgCIAEoDSJvCgpDbGllbnRJbmZvEgwKBG5hbWUYASABKAkSDwoHdmVyc2lvbhgCIAEoCRIsCghwcm90b2NvbBgDIAEoCzIaLmNvbGxhYi52MS5Qcm90b2NvbFZlcnNpb24SFAoMY2FwYWJpbGl0aWVzGAQgAygJKlkKB1VyZ2VuY3kSFwoTVVJHRU5DWV9VTlNQRUNJRklFRBAAEg8KC1VSR0VOQ1lfTE9XEAESEgoOVVJHRU5DWV9OT1JNQUwQAhIQCgxVUkdFTkNZX0hJR0gQAyrAAQoLTWVzc2FnZVR5cGUSHAoYTUVTU0FHRV9UWVBFX1VOU1BFQ0lGSUVEEAASFQoRTUVTU0FHRV9UWVBFX05PVEUQARIZChVNRVNTQUdFX1RZUEVfUVVFU1RJT04QAhIVChFNRVNTQUdFX1RZUEVfRE9ORRADEhYKEk1FU1NBR0VfVFlQRV9DTEFJTRAEEhgKFE1FU1NBR0VfVFlQRV9SRUxFQVNFEAUSGAoUTUVTU0FHRV9UWVBFX0NPTlRFWFQQBip6CgxNZW1iZXJTdGF0dXMSHQoZTUVNQkVSX1NUQVRVU19VTlNQRUNJRklFRBAAEhgKFE1FTUJFUl9TVEFUVVNfT05MSU5FEAESFgoSTUVNQkVSX1NUQVRVU19JRExFEAISGQoVTUVNQkVSX1NUQVRVU19PRkZMSU5FEANiBnByb3RvMw", [file_google_protobuf_timestamp]);
+export const file_collab_v1_model = /*@__PURE__*/ fileDesc("ChVjb2xsYWIvdjEvbW9kZWwucHJvdG8SCWNvbGxhYi52MSJFCglSZWNpcGllbnQSDgoGaGFuZGxlGAEgASgJEg0KBXRvcGljGAIgASgJEhkKEWNsaWVudF9zZXNzaW9uX2lkGAMgASgJInAKCUFkZHJlc3NlZRIRCgltZW1iZXJfaWQYASABKAkSDgoGaGFuZGxlGAIgASgJEg0KBXRvcGljGAMgASgJEhkKEWNsaWVudF9zZXNzaW9uX2lkGAQgASgJEhYKDmluY2x1ZGVfc2VuZGVyGAUgASgIIrIECgdNZXNzYWdlEgsKA3NlcRgBIAEoDRIPCgdjaGFubmVsGAIgASgJEhYKDmZyb21fbWVtYmVyX2lkGAMgASgJEhEKCWZyb21fbmFtZRgEIAEoCRITCgtmcm9tX2hhbmRsZRgFIAEoCRISCgpmcm9tX3RvcGljGAYgASgJEiAKAnRvGAcgASgLMhQuY29sbGFiLnYxLkFkZHJlc3NlZRIkCgR0eXBlGAggASgOMhYuY29sbGFiLnYxLk1lc3NhZ2VUeXBlEgwKBHRleHQYCSABKAkSIwoHdXJnZW5jeRgKIAEoDjISLmNvbGxhYi52MS5VcmdlbmN5EgwKBHJlZnMYCyADKAkSKwoHc2VudF9hdBgMIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASHgoWZnJvbV9jbGllbnRfc2Vzc2lvbl9pZBgNIAEoCRImCgRkb25lGBQgASgLMhYuY29sbGFiLnYxLkRvbmVQYXlsb2FkSAASKAoFY2xhaW0YFSABKAsyFy5jb2xsYWIudjEuQ2xhaW1QYXlsb2FkSAASLAoHcmVsZWFzZRgWIAEoCzIZLmNvbGxhYi52MS5SZWxlYXNlUGF5bG9hZEgAEiwKB2NvbnRleHQYFyABKAsyGS5jb2xsYWIudjEuQ29udGV4dFBheWxvYWRIABImCgR0YXNrGBggASgLMhYuY29sbGFiLnYxLlRhc2tQYXlsb2FkSABCCQoHcGF5bG9hZCIuCgtEb25lUGF5bG9hZBIMCgR0YXNrGAEgASgJEhEKCWF1dG9tYXRpYxgCIAEoCCJQCgxDbGFpbVBheWxvYWQSEAoIY2xhaW1faWQYASABKAkSLgoKZXhwaXJlc19hdBgCIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAiIgoOUmVsZWFzZVBheWxvYWQSEAoIY2xhaW1faWQYASABKAkiLgoOQ29udGV4dFBheWxvYWQSCwoDa2V5GAEgASgJEg8KB3ZlcnNpb24YAiABKA0ihAEKC1Rhc2tQYXlsb2FkEiEKBGxpc3QYASABKAsyEy5jb2xsYWIudjEuVGFza0xpc3QSDwoHbnVtYmVycxgCIAMoDRIjCgVldmVudBgDIAEoDjIULmNvbGxhYi52MS5UYXNrRXZlbnQSHAoUcHJldmlvdXNfaG9sZGVyX25hbWUYBCABKAkiiwIKBk1lbWJlchIRCgltZW1iZXJfaWQYASABKAkSFAoMZGlzcGxheV9uYW1lGAIgASgJEg4KBmhhbmRsZRgDIAEoCRInCgZzdGF0dXMYBCABKA4yFy5jb2xsYWIudjEuTWVtYmVyU3RhdHVzEgwKBHJlcG8YBSABKAkSDgoGYnJhbmNoGAYgASgJEhMKC2Nvbm5lY3Rpb25zGAcgASgNEg4KBnRvcGljcxgIIAMoCRIwCgxsYXN0X3NlZW5fYXQYCSABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEioKCHNlc3Npb25zGAogAygLMhguY29sbGFiLnYxLk1lbWJlclNlc3Npb24iiQEKDU1lbWJlclNlc3Npb24SGQoRY2xpZW50X3Nlc3Npb25faWQYASABKAkSDQoFdG9waWMYAiABKAkSDAoEcmVwbxgDIAEoCRIOCgZicmFuY2gYBCABKAkSMAoMY29ubmVjdGVkX2F0GAUgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCLSAQoFQ2xhaW0SEAoIY2xhaW1faWQYASABKAkSFwoPb3duZXJfbWVtYmVyX2lkGAIgASgJEhIKCm93bmVyX25hbWUYAyABKAkSDQoFdG9waWMYBCABKAkSDQoFcGF0aHMYBSADKAkSDAoEbm90ZRgGIAEoCRIuCgpjcmVhdGVkX2F0GAcgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgpleHBpcmVzX2F0GAggASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCK5AQoMQ29udGV4dEVudHJ5EgsKA2tleRgBIAEoCRIPCgd2ZXJzaW9uGAIgASgNEg0KBXRpdGxlGAMgASgJEg8KB3N1bW1hcnkYBCABKAkSDAoEYm9keRgFIAEoCRIYChBhdXRob3JfbWVtYmVyX2lkGAYgASgJEhMKC2F1dGhvcl9uYW1lGAcgASgJEi4KCmNyZWF0ZWRfYXQYCCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIpMBCg5Db250ZXh0U3VtbWFyeRILCgNrZXkYASABKAkSDwoHdmVyc2lvbhgCIAEoDRINCgV0aXRsZRgDIAEoCRIPCgdzdW1tYXJ5GAQgASgJEhMKC2F1dGhvcl9uYW1lGAUgASgJEi4KCmNyZWF0ZWRfYXQYBiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIpACCghUYXNrTGlzdBILCgNrZXkYASABKAkSDQoFdG9waWMYAiABKAkSDQoFdGl0bGUYAyABKAkSHAoUY3JlYXRlZF9ieV9tZW1iZXJfaWQYBCABKAkSFwoPY3JlYXRlZF9ieV9uYW1lGAUgASgJEi4KCmNyZWF0ZWRfYXQYBiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEi4KCnVwZGF0ZWRfYXQYByABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEgwKBG9wZW4YCCABKA0SEwoLaW5fcHJvZ3Jlc3MYCSABKA0SDAoEZG9uZRgKIAEoDRIRCglkaXNtaXNzZWQYCyABKA0igwEKClRhc2tIb2xkZXISEQoJbWVtYmVyX2lkGAEgASgJEg4KBmhhbmRsZRgCIAEoCRIMCgRuYW1lGAMgASgJEhkKEWNsaWVudF9zZXNzaW9uX2lkGAQgASgJEikKBXNpbmNlGAUgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCJ3CghUYXNrTm90ZRIMCgR0ZXh0GAEgASgJEhQKB3BlcmNlbnQYAiABKA1IAIgBARITCgthdXRob3JfbmFtZRgDIAEoCRImCgJhdBgEIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBCCgoIX3BlcmNlbnQi8QMKBFRhc2sSDAoEbGlzdBgBIAEoCRINCgV0b3BpYxgCIAEoCRIOCgZudW1iZXIYAyABKA0SDQoFdGl0bGUYBCABKAkSDAoEcmVmcxgFIAMoCRIlCgZzdGF0dXMYBiABKA4yFS5jb2xsYWIudjEuVGFza1N0YXR1cxIcChRjcmVhdGVkX2J5X21lbWJlcl9pZBgHIAEoCRIXCg9jcmVhdGVkX2J5X25hbWUYCCABKAkSLgoKY3JlYXRlZF9hdBgJIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASJQoGaG9sZGVyGAogASgLMhUuY29sbGFiLnYxLlRhc2tIb2xkZXISKgoNbGFzdF9wcm9ncmVzcxgLIAEoCzITLmNvbGxhYi52MS5UYXNrTm90ZRIWCg5wcm9ncmVzc19jb3VudBgMIAEoDRIbChNjbG9zZWRfYnlfbWVtYmVyX2lkGA0gASgJEhYKDmNsb3NlZF9ieV9uYW1lGA4gASgJEi0KCWNsb3NlZF9hdBgPIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASEgoKcmVzb2x1dGlvbhgQIAEoCRIuCgp1cGRhdGVkX2F0GBEgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCLBAgoMQ2hhbm5lbFN0YXRlEg8KB2NoYW5uZWwYASABKAkSFgoOc2VsZl9tZW1iZXJfaWQYAiABKAkSDgoGaGFuZGxlGAMgASgJEg0KBXRvcGljGAQgASgJEiIKB21lbWJlcnMYBSADKAsyES5jb2xsYWIudjEuTWVtYmVyEiAKBmNsYWltcxgGIAMoCzIQLmNvbGxhYi52MS5DbGFpbRIwCg1jb250ZXh0X2luZGV4GAcgAygLMhkuY29sbGFiLnYxLkNvbnRleHRTdW1tYXJ5EiQKCG1lc3NhZ2VzGAggAygLMhIuY29sbGFiLnYxLk1lc3NhZ2USDgoGY3Vyc29yGAkgASgNEhIKCmxhdGVzdF9zZXEYCiABKA0SJwoKdGFza19saXN0cxgLIAMoCzITLmNvbGxhYi52MS5UYXNrTGlzdCIvCg9Qcm90b2NvbFZlcnNpb24SDQoFbWFqb3IYASABKA0SDQoFbWlub3IYAiABKA0ibwoKQ2xpZW50SW5mbxIMCgRuYW1lGAEgASgJEg8KB3ZlcnNpb24YAiABKAkSLAoIcHJvdG9jb2wYAyABKAsyGi5jb2xsYWIudjEuUHJvdG9jb2xWZXJzaW9uEhQKDGNhcGFiaWxpdGllcxgEIAMoCSpZCgdVcmdlbmN5EhcKE1VSR0VOQ1lfVU5TUEVDSUZJRUQQABIPCgtVUkdFTkNZX0xPVxABEhIKDlVSR0VOQ1lfTk9STUFMEAISEAoMVVJHRU5DWV9ISUdIEAMq1wEKC01lc3NhZ2VUeXBlEhwKGE1FU1NBR0VfVFlQRV9VTlNQRUNJRklFRBAAEhUKEU1FU1NBR0VfVFlQRV9OT1RFEAESGQoVTUVTU0FHRV9UWVBFX1FVRVNUSU9OEAISFQoRTUVTU0FHRV9UWVBFX0RPTkUQAxIWChJNRVNTQUdFX1RZUEVfQ0xBSU0QBBIYChRNRVNTQUdFX1RZUEVfUkVMRUFTRRAFEhgKFE1FU1NBR0VfVFlQRV9DT05URVhUEAYSFQoRTUVTU0FHRV9UWVBFX1RBU0sQByp6CgxNZW1iZXJTdGF0dXMSHQoZTUVNQkVSX1NUQVRVU19VTlNQRUNJRklFRBAAEhgKFE1FTUJFUl9TVEFUVVNfT05MSU5FEAESFgoSTUVNQkVSX1NUQVRVU19JRExFEAISGQoVTUVNQkVSX1NUQVRVU19PRkZMSU5FEAMqjQEKClRhc2tTdGF0dXMSGwoXVEFTS19TVEFUVVNfVU5TUEVDSUZJRUQQABIUChBUQVNLX1NUQVRVU19PUEVOEAESGwoXVEFTS19TVEFUVVNfSU5fUFJPR1JFU1MQAhIUChBUQVNLX1NUQVRVU19ET05FEAMSGQoVVEFTS19TVEFUVVNfRElTTUlTU0VEEAQqugEKCVRhc2tFdmVudBIaChZUQVNLX0VWRU5UX1VOU1BFQ0lGSUVEEAASFAoQVEFTS19FVkVOVF9BRERFRBABEhoKFlRBU0tfRVZFTlRfQ0hFQ0tFRF9PVVQQAhIXChNUQVNLX0VWRU5UX1BST0dSRVNTEAMSFwoTVEFTS19FVkVOVF9SRUxFQVNFRBAEEhMKD1RBU0tfRVZFTlRfRE9ORRAFEhgKFFRBU0tfRVZFTlRfRElTTUlTU0VEEAZiBnByb3RvMw", [file_google_protobuf_timestamp]);
 /**
  * Describes the message collab.v1.Recipient.
  * Use `create(RecipientSchema)` to create a new message.
@@ -43,45 +43,70 @@ export const ReleasePayloadSchema = /*@__PURE__*/ messageDesc(file_collab_v1_mod
  */
 export const ContextPayloadSchema = /*@__PURE__*/ messageDesc(file_collab_v1_model, 6);
 /**
+ * Describes the message collab.v1.TaskPayload.
+ * Use `create(TaskPayloadSchema)` to create a new message.
+ */
+export const TaskPayloadSchema = /*@__PURE__*/ messageDesc(file_collab_v1_model, 7);
+/**
  * Describes the message collab.v1.Member.
  * Use `create(MemberSchema)` to create a new message.
  */
-export const MemberSchema = /*@__PURE__*/ messageDesc(file_collab_v1_model, 7);
+export const MemberSchema = /*@__PURE__*/ messageDesc(file_collab_v1_model, 8);
 /**
  * Describes the message collab.v1.MemberSession.
  * Use `create(MemberSessionSchema)` to create a new message.
  */
-export const MemberSessionSchema = /*@__PURE__*/ messageDesc(file_collab_v1_model, 8);
+export const MemberSessionSchema = /*@__PURE__*/ messageDesc(file_collab_v1_model, 9);
 /**
  * Describes the message collab.v1.Claim.
  * Use `create(ClaimSchema)` to create a new message.
  */
-export const ClaimSchema = /*@__PURE__*/ messageDesc(file_collab_v1_model, 9);
+export const ClaimSchema = /*@__PURE__*/ messageDesc(file_collab_v1_model, 10);
 /**
  * Describes the message collab.v1.ContextEntry.
  * Use `create(ContextEntrySchema)` to create a new message.
  */
-export const ContextEntrySchema = /*@__PURE__*/ messageDesc(file_collab_v1_model, 10);
+export const ContextEntrySchema = /*@__PURE__*/ messageDesc(file_collab_v1_model, 11);
 /**
  * Describes the message collab.v1.ContextSummary.
  * Use `create(ContextSummarySchema)` to create a new message.
  */
-export const ContextSummarySchema = /*@__PURE__*/ messageDesc(file_collab_v1_model, 11);
+export const ContextSummarySchema = /*@__PURE__*/ messageDesc(file_collab_v1_model, 12);
+/**
+ * Describes the message collab.v1.TaskList.
+ * Use `create(TaskListSchema)` to create a new message.
+ */
+export const TaskListSchema = /*@__PURE__*/ messageDesc(file_collab_v1_model, 13);
+/**
+ * Describes the message collab.v1.TaskHolder.
+ * Use `create(TaskHolderSchema)` to create a new message.
+ */
+export const TaskHolderSchema = /*@__PURE__*/ messageDesc(file_collab_v1_model, 14);
+/**
+ * Describes the message collab.v1.TaskNote.
+ * Use `create(TaskNoteSchema)` to create a new message.
+ */
+export const TaskNoteSchema = /*@__PURE__*/ messageDesc(file_collab_v1_model, 15);
+/**
+ * Describes the message collab.v1.Task.
+ * Use `create(TaskSchema)` to create a new message.
+ */
+export const TaskSchema = /*@__PURE__*/ messageDesc(file_collab_v1_model, 16);
 /**
  * Describes the message collab.v1.ChannelState.
  * Use `create(ChannelStateSchema)` to create a new message.
  */
-export const ChannelStateSchema = /*@__PURE__*/ messageDesc(file_collab_v1_model, 12);
+export const ChannelStateSchema = /*@__PURE__*/ messageDesc(file_collab_v1_model, 17);
 /**
  * Describes the message collab.v1.ProtocolVersion.
  * Use `create(ProtocolVersionSchema)` to create a new message.
  */
-export const ProtocolVersionSchema = /*@__PURE__*/ messageDesc(file_collab_v1_model, 13);
+export const ProtocolVersionSchema = /*@__PURE__*/ messageDesc(file_collab_v1_model, 18);
 /**
  * Describes the message collab.v1.ClientInfo.
  * Use `create(ClientInfoSchema)` to create a new message.
  */
-export const ClientInfoSchema = /*@__PURE__*/ messageDesc(file_collab_v1_model, 14);
+export const ClientInfoSchema = /*@__PURE__*/ messageDesc(file_collab_v1_model, 19);
 /**
  * How loudly a message asks for attention. Clients decide locally which
  * urgencies may interrupt their user; the server only stores it.
@@ -160,6 +185,13 @@ export var MessageType;
      * @generated from enum value: MESSAGE_TYPE_CONTEXT = 6;
      */
     MessageType[MessageType["CONTEXT"] = 6] = "CONTEXT";
+    /**
+     * Written by the server when a task list changes: tasks added, checked out,
+     * reported on, released, finished or dismissed. Clients cannot send it.
+     *
+     * @generated from enum value: MESSAGE_TYPE_TASK = 7;
+     */
+    MessageType[MessageType["TASK"] = 7] = "TASK";
 })(MessageType || (MessageType = {}));
 /**
  * Describes the enum collab.v1.MessageType.
@@ -191,3 +223,85 @@ export var MemberStatus;
  * Describes the enum collab.v1.MemberStatus.
  */
 export const MemberStatusSchema = /*@__PURE__*/ enumDesc(file_collab_v1_model, 2);
+/**
+ * Where a task is. OPEN and IN_PROGRESS are open; DONE and DISMISSED are
+ * closed, and a closed task never changes again.
+ *
+ * @generated from enum collab.v1.TaskStatus
+ */
+export var TaskStatus;
+(function (TaskStatus) {
+    /**
+     * @generated from enum value: TASK_STATUS_UNSPECIFIED = 0;
+     */
+    TaskStatus[TaskStatus["UNSPECIFIED"] = 0] = "UNSPECIFIED";
+    /**
+     * Nobody holds it.
+     *
+     * @generated from enum value: TASK_STATUS_OPEN = 1;
+     */
+    TaskStatus[TaskStatus["OPEN"] = 1] = "OPEN";
+    /**
+     * Checked out by `Task.holder`.
+     *
+     * @generated from enum value: TASK_STATUS_IN_PROGRESS = 2;
+     */
+    TaskStatus[TaskStatus["IN_PROGRESS"] = 2] = "IN_PROGRESS";
+    /**
+     * @generated from enum value: TASK_STATUS_DONE = 3;
+     */
+    TaskStatus[TaskStatus["DONE"] = 3] = "DONE";
+    /**
+     * Set aside as something that will not be done: a soft purge. It is kept,
+     * with the reason, and shows up when closed tasks are asked for.
+     *
+     * @generated from enum value: TASK_STATUS_DISMISSED = 4;
+     */
+    TaskStatus[TaskStatus["DISMISSED"] = 4] = "DISMISSED";
+})(TaskStatus || (TaskStatus = {}));
+/**
+ * Describes the enum collab.v1.TaskStatus.
+ */
+export const TaskStatusSchema = /*@__PURE__*/ enumDesc(file_collab_v1_model, 3);
+/**
+ * What happened to a task, in the notice the server writes for it.
+ *
+ * @generated from enum collab.v1.TaskEvent
+ */
+export var TaskEvent;
+(function (TaskEvent) {
+    /**
+     * @generated from enum value: TASK_EVENT_UNSPECIFIED = 0;
+     */
+    TaskEvent[TaskEvent["UNSPECIFIED"] = 0] = "UNSPECIFIED";
+    /**
+     * @generated from enum value: TASK_EVENT_ADDED = 1;
+     */
+    TaskEvent[TaskEvent["ADDED"] = 1] = "ADDED";
+    /**
+     * Also a takeover, with TaskPayload.previous_holder_name set.
+     *
+     * @generated from enum value: TASK_EVENT_CHECKED_OUT = 2;
+     */
+    TaskEvent[TaskEvent["CHECKED_OUT"] = 2] = "CHECKED_OUT";
+    /**
+     * @generated from enum value: TASK_EVENT_PROGRESS = 3;
+     */
+    TaskEvent[TaskEvent["PROGRESS"] = 3] = "PROGRESS";
+    /**
+     * @generated from enum value: TASK_EVENT_RELEASED = 4;
+     */
+    TaskEvent[TaskEvent["RELEASED"] = 4] = "RELEASED";
+    /**
+     * @generated from enum value: TASK_EVENT_DONE = 5;
+     */
+    TaskEvent[TaskEvent["DONE"] = 5] = "DONE";
+    /**
+     * @generated from enum value: TASK_EVENT_DISMISSED = 6;
+     */
+    TaskEvent[TaskEvent["DISMISSED"] = 6] = "DISMISSED";
+})(TaskEvent || (TaskEvent = {}));
+/**
+ * Describes the enum collab.v1.TaskEvent.
+ */
+export const TaskEventSchema = /*@__PURE__*/ enumDesc(file_collab_v1_model, 4);

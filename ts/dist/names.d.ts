@@ -18,5 +18,7 @@ export declare function isTopic(value: unknown): value is string;
 export declare function handleOf(displayName: unknown): string;
 /** Stable, URL-ish keys: the same alphabet as a slug, up to 100 characters. */
 export declare function contextKey(key: unknown): string;
+/** A task list's key within its topic: a slug, like a topic name. */
+export declare function taskListKey(key: unknown): string;
 /** Claude Code session ids are UUIDs; scripts use short names like `smoke-ana`. */
 export declare function isClientSessionId(value: unknown): value is string;

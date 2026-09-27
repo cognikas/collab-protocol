@@ -241,6 +241,66 @@
         }
       },
       "visible": false
+    },
+    {
+      "name": "task notice to the topic, from another of the viewer's sessions",
+      "message": {
+        "fromMemberId": "A",
+        "fromClientSessionId": "a2",
+        "to": {
+          "topic": "t1",
+          "includeSender": true
+        }
+      },
+      "visible": true
+    },
+    {
+      "name": "task notice to the topic, from this same session",
+      "message": {
+        "fromMemberId": "A",
+        "fromClientSessionId": "a1",
+        "to": {
+          "topic": "t1",
+          "includeSender": true
+        }
+      },
+      "visible": false
+    },
+    {
+      "name": "task notice to another topic, from another of the viewer's sessions",
+      "message": {
+        "fromMemberId": "A",
+        "fromClientSessionId": "a2",
+        "to": {
+          "topic": "t2",
+          "includeSender": true
+        }
+      },
+      "visible": false
+    },
+    {
+      "name": "task notice to the topic, from another member",
+      "message": {
+        "fromMemberId": "B",
+        "fromClientSessionId": "b1",
+        "to": {
+          "topic": "t1",
+          "includeSender": true
+        }
+      },
+      "visible": true
+    },
+    {
+      "name": "task notice to another topic, from another member",
+      "message": {
+        "fromMemberId": "B",
+        "fromClientSessionId": "b1",
+        "to": {
+          "topic": "t2",
+          "includeSender": true
+        }
+      },
+      "visible": false
     }
   ]
 }
