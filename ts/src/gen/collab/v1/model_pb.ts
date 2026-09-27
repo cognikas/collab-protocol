@@ -3,7 +3,8 @@
 /* eslint-disable */
 
 // The channel's data model: who is on it, what they say to each other, what
-// they have claimed and what they have shared. Transport independent: every
+// they have claimed, what they have shared and the tasks they are working
+// through. Transport independent: every
 // binding (WebSocket, HTTP, gRPC) carries these same messages.
 //
 // Two identities that are easy to mix up:
@@ -25,7 +26,7 @@ import type { Message as Message$1 } from "@bufbuild/protobuf";
  * Describes the file collab/v1/model.proto.
  */
 export const file_collab_v1_model: GenFile = /*@__PURE__*/
-  fileDesc("ChVjb2xsYWIvdjEvbW9kZWwucHJvdG8SCWNvbGxhYi52MSJFCglSZWNpcGllbnQSDgoGaGFuZGxlGAEgASgJEg0KBXRvcGljGAIgASgJEhkKEWNsaWVudF9zZXNzaW9uX2lkGAMgASgJIlgKCUFkZHJlc3NlZRIRCgltZW1iZXJfaWQYASABKAkSDgoGaGFuZGxlGAIgASgJEg0KBXRvcGljGAMgASgJEhkKEWNsaWVudF9zZXNzaW9uX2lkGAQgASgJIooECgdNZXNzYWdlEgsKA3NlcRgBIAEoDRIPCgdjaGFubmVsGAIgASgJEhYKDmZyb21fbWVtYmVyX2lkGAMgASgJEhEKCWZyb21fbmFtZRgEIAEoCRITCgtmcm9tX2hhbmRsZRgFIAEoCRISCgpmcm9tX3RvcGljGAYgASgJEiAKAnRvGAcgASgLMhQuY29sbGFiLnYxLkFkZHJlc3NlZRIkCgR0eXBlGAggASgOMhYuY29sbGFiLnYxLk1lc3NhZ2VUeXBlEgwKBHRleHQYCSABKAkSIwoHdXJnZW5jeRgKIAEoDjISLmNvbGxhYi52MS5VcmdlbmN5EgwKBHJlZnMYCyADKAkSKwoHc2VudF9hdBgMIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASHgoWZnJvbV9jbGllbnRfc2Vzc2lvbl9pZBgNIAEoCRImCgRkb25lGBQgASgLMhYuY29sbGFiLnYxLkRvbmVQYXlsb2FkSAASKAoFY2xhaW0YFSABKAsyFy5jb2xsYWIudjEuQ2xhaW1QYXlsb2FkSAASLAoHcmVsZWFzZRgWIAEoCzIZLmNvbGxhYi52MS5SZWxlYXNlUGF5bG9hZEgAEiwKB2NvbnRleHQYFyABKAsyGS5jb2xsYWIudjEuQ29udGV4dFBheWxvYWRIAEIJCgdwYXlsb2FkIi4KC0RvbmVQYXlsb2FkEgwKBHRhc2sYASABKAkSEQoJYXV0b21hdGljGAIgASgIIlAKDENsYWltUGF5bG9hZBIQCghjbGFpbV9pZBgBIAEoCRIuCgpleHBpcmVzX2F0GAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCIiCg5SZWxlYXNlUGF5bG9hZBIQCghjbGFpbV9pZBgBIAEoCSIuCg5Db250ZXh0UGF5bG9hZBILCgNrZXkYASABKAkSDwoHdmVyc2lvbhgCIAEoDSKLAgoGTWVtYmVyEhEKCW1lbWJlcl9pZBgBIAEoCRIUCgxkaXNwbGF5X25hbWUYAiABKAkSDgoGaGFuZGxlGAMgASgJEicKBnN0YXR1cxgEIAEoDjIXLmNvbGxhYi52MS5NZW1iZXJTdGF0dXMSDAoEcmVwbxgFIAEoCRIOCgZicmFuY2gYBiABKAkSEwoLY29ubmVjdGlvbnMYByABKA0SDgoGdG9waWNzGAggAygJEjAKDGxhc3Rfc2Vlbl9hdBgJIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASKgoIc2Vzc2lvbnMYCiADKAsyGC5jb2xsYWIudjEuTWVtYmVyU2Vzc2lvbiKJAQoNTWVtYmVyU2Vzc2lvbhIZChFjbGllbnRfc2Vzc2lvbl9pZBgBIAEoCRINCgV0b3BpYxgCIAEoCRIMCgRyZXBvGAMgASgJEg4KBmJyYW5jaBgEIAEoCRIwCgxjb25uZWN0ZWRfYXQYBSABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wItIBCgVDbGFpbRIQCghjbGFpbV9pZBgBIAEoCRIXCg9vd25lcl9tZW1iZXJfaWQYAiABKAkSEgoKb3duZXJfbmFtZRgDIAEoCRINCgV0b3BpYxgEIAEoCRINCgVwYXRocxgFIAMoCRIMCgRub3RlGAYgASgJEi4KCmNyZWF0ZWRfYXQYByABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEi4KCmV4cGlyZXNfYXQYCCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIrkBCgxDb250ZXh0RW50cnkSCwoDa2V5GAEgASgJEg8KB3ZlcnNpb24YAiABKA0SDQoFdGl0bGUYAyABKAkSDwoHc3VtbWFyeRgEIAEoCRIMCgRib2R5GAUgASgJEhgKEGF1dGhvcl9tZW1iZXJfaWQYBiABKAkSEwoLYXV0aG9yX25hbWUYByABKAkSLgoKY3JlYXRlZF9hdBgIIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAikwEKDkNvbnRleHRTdW1tYXJ5EgsKA2tleRgBIAEoCRIPCgd2ZXJzaW9uGAIgASgNEg0KBXRpdGxlGAMgASgJEg8KB3N1bW1hcnkYBCABKAkSEwoLYXV0aG9yX25hbWUYBSABKAkSLgoKY3JlYXRlZF9hdBgGIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAimAIKDENoYW5uZWxTdGF0ZRIPCgdjaGFubmVsGAEgASgJEhYKDnNlbGZfbWVtYmVyX2lkGAIgASgJEg4KBmhhbmRsZRgDIAEoCRINCgV0b3BpYxgEIAEoCRIiCgdtZW1iZXJzGAUgAygLMhEuY29sbGFiLnYxLk1lbWJlchIgCgZjbGFpbXMYBiADKAsyEC5jb2xsYWIudjEuQ2xhaW0SMAoNY29udGV4dF9pbmRleBgHIAMoCzIZLmNvbGxhYi52MS5Db250ZXh0U3VtbWFyeRIkCghtZXNzYWdlcxgIIAMoCzISLmNvbGxhYi52MS5NZXNzYWdlEg4KBmN1cnNvchgJIAEoDRISCgpsYXRlc3Rfc2VxGAogASgNIi8KD1Byb3RvY29sVmVyc2lvbhINCgVtYWpvchgBIAEoDRINCgVtaW5vchgCIAEoDSJvCgpDbGllbnRJbmZvEgwKBG5hbWUYASABKAkSDwoHdmVyc2lvbhgCIAEoCRIsCghwcm90b2NvbBgDIAEoCzIaLmNvbGxhYi52MS5Qcm90b2NvbFZlcnNpb24SFAoMY2FwYWJpbGl0aWVzGAQgAygJKlkKB1VyZ2VuY3kSFwoTVVJHRU5DWV9VTlNQRUNJRklFRBAAEg8KC1VSR0VOQ1lfTE9XEAESEgoOVVJHRU5DWV9OT1JNQUwQAhIQCgxVUkdFTkNZX0hJR0gQAyrAAQoLTWVzc2FnZVR5cGUSHAoYTUVTU0FHRV9UWVBFX1VOU1BFQ0lGSUVEEAASFQoRTUVTU0FHRV9UWVBFX05PVEUQARIZChVNRVNTQUdFX1RZUEVfUVVFU1RJT04QAhIVChFNRVNTQUdFX1RZUEVfRE9ORRADEhYKEk1FU1NBR0VfVFlQRV9DTEFJTRAEEhgKFE1FU1NBR0VfVFlQRV9SRUxFQVNFEAUSGAoUTUVTU0FHRV9UWVBFX0NPTlRFWFQQBip6CgxNZW1iZXJTdGF0dXMSHQoZTUVNQkVSX1NUQVRVU19VTlNQRUNJRklFRBAAEhgKFE1FTUJFUl9TVEFUVVNfT05MSU5FEAESFgoSTUVNQkVSX1NUQVRVU19JRExFEAISGQoVTUVNQkVSX1NUQVRVU19PRkZMSU5FEANiBnByb3RvMw", [file_google_protobuf_timestamp]);
+  fileDesc("ChVjb2xsYWIvdjEvbW9kZWwucHJvdG8SCWNvbGxhYi52MSJFCglSZWNpcGllbnQSDgoGaGFuZGxlGAEgASgJEg0KBXRvcGljGAIgASgJEhkKEWNsaWVudF9zZXNzaW9uX2lkGAMgASgJInAKCUFkZHJlc3NlZRIRCgltZW1iZXJfaWQYASABKAkSDgoGaGFuZGxlGAIgASgJEg0KBXRvcGljGAMgASgJEhkKEWNsaWVudF9zZXNzaW9uX2lkGAQgASgJEhYKDmluY2x1ZGVfc2VuZGVyGAUgASgIIrIECgdNZXNzYWdlEgsKA3NlcRgBIAEoDRIPCgdjaGFubmVsGAIgASgJEhYKDmZyb21fbWVtYmVyX2lkGAMgASgJEhEKCWZyb21fbmFtZRgEIAEoCRITCgtmcm9tX2hhbmRsZRgFIAEoCRISCgpmcm9tX3RvcGljGAYgASgJEiAKAnRvGAcgASgLMhQuY29sbGFiLnYxLkFkZHJlc3NlZRIkCgR0eXBlGAggASgOMhYuY29sbGFiLnYxLk1lc3NhZ2VUeXBlEgwKBHRleHQYCSABKAkSIwoHdXJnZW5jeRgKIAEoDjISLmNvbGxhYi52MS5VcmdlbmN5EgwKBHJlZnMYCyADKAkSKwoHc2VudF9hdBgMIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASHgoWZnJvbV9jbGllbnRfc2Vzc2lvbl9pZBgNIAEoCRImCgRkb25lGBQgASgLMhYuY29sbGFiLnYxLkRvbmVQYXlsb2FkSAASKAoFY2xhaW0YFSABKAsyFy5jb2xsYWIudjEuQ2xhaW1QYXlsb2FkSAASLAoHcmVsZWFzZRgWIAEoCzIZLmNvbGxhYi52MS5SZWxlYXNlUGF5bG9hZEgAEiwKB2NvbnRleHQYFyABKAsyGS5jb2xsYWIudjEuQ29udGV4dFBheWxvYWRIABImCgR0YXNrGBggASgLMhYuY29sbGFiLnYxLlRhc2tQYXlsb2FkSABCCQoHcGF5bG9hZCIuCgtEb25lUGF5bG9hZBIMCgR0YXNrGAEgASgJEhEKCWF1dG9tYXRpYxgCIAEoCCJQCgxDbGFpbVBheWxvYWQSEAoIY2xhaW1faWQYASABKAkSLgoKZXhwaXJlc19hdBgCIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAiIgoOUmVsZWFzZVBheWxvYWQSEAoIY2xhaW1faWQYASABKAkiLgoOQ29udGV4dFBheWxvYWQSCwoDa2V5GAEgASgJEg8KB3ZlcnNpb24YAiABKA0ihAEKC1Rhc2tQYXlsb2FkEiEKBGxpc3QYASABKAsyEy5jb2xsYWIudjEuVGFza0xpc3QSDwoHbnVtYmVycxgCIAMoDRIjCgVldmVudBgDIAEoDjIULmNvbGxhYi52MS5UYXNrRXZlbnQSHAoUcHJldmlvdXNfaG9sZGVyX25hbWUYBCABKAkiiwIKBk1lbWJlchIRCgltZW1iZXJfaWQYASABKAkSFAoMZGlzcGxheV9uYW1lGAIgASgJEg4KBmhhbmRsZRgDIAEoCRInCgZzdGF0dXMYBCABKA4yFy5jb2xsYWIudjEuTWVtYmVyU3RhdHVzEgwKBHJlcG8YBSABKAkSDgoGYnJhbmNoGAYgASgJEhMKC2Nvbm5lY3Rpb25zGAcgASgNEg4KBnRvcGljcxgIIAMoCRIwCgxsYXN0X3NlZW5fYXQYCSABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEioKCHNlc3Npb25zGAogAygLMhguY29sbGFiLnYxLk1lbWJlclNlc3Npb24iiQEKDU1lbWJlclNlc3Npb24SGQoRY2xpZW50X3Nlc3Npb25faWQYASABKAkSDQoFdG9waWMYAiABKAkSDAoEcmVwbxgDIAEoCRIOCgZicmFuY2gYBCABKAkSMAoMY29ubmVjdGVkX2F0GAUgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCLSAQoFQ2xhaW0SEAoIY2xhaW1faWQYASABKAkSFwoPb3duZXJfbWVtYmVyX2lkGAIgASgJEhIKCm93bmVyX25hbWUYAyABKAkSDQoFdG9waWMYBCABKAkSDQoFcGF0aHMYBSADKAkSDAoEbm90ZRgGIAEoCRIuCgpjcmVhdGVkX2F0GAcgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgpleHBpcmVzX2F0GAggASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCK5AQoMQ29udGV4dEVudHJ5EgsKA2tleRgBIAEoCRIPCgd2ZXJzaW9uGAIgASgNEg0KBXRpdGxlGAMgASgJEg8KB3N1bW1hcnkYBCABKAkSDAoEYm9keRgFIAEoCRIYChBhdXRob3JfbWVtYmVyX2lkGAYgASgJEhMKC2F1dGhvcl9uYW1lGAcgASgJEi4KCmNyZWF0ZWRfYXQYCCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIpMBCg5Db250ZXh0U3VtbWFyeRILCgNrZXkYASABKAkSDwoHdmVyc2lvbhgCIAEoDRINCgV0aXRsZRgDIAEoCRIPCgdzdW1tYXJ5GAQgASgJEhMKC2F1dGhvcl9uYW1lGAUgASgJEi4KCmNyZWF0ZWRfYXQYBiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIpACCghUYXNrTGlzdBILCgNrZXkYASABKAkSDQoFdG9waWMYAiABKAkSDQoFdGl0bGUYAyABKAkSHAoUY3JlYXRlZF9ieV9tZW1iZXJfaWQYBCABKAkSFwoPY3JlYXRlZF9ieV9uYW1lGAUgASgJEi4KCmNyZWF0ZWRfYXQYBiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEi4KCnVwZGF0ZWRfYXQYByABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEgwKBG9wZW4YCCABKA0SEwoLaW5fcHJvZ3Jlc3MYCSABKA0SDAoEZG9uZRgKIAEoDRIRCglkaXNtaXNzZWQYCyABKA0igwEKClRhc2tIb2xkZXISEQoJbWVtYmVyX2lkGAEgASgJEg4KBmhhbmRsZRgCIAEoCRIMCgRuYW1lGAMgASgJEhkKEWNsaWVudF9zZXNzaW9uX2lkGAQgASgJEikKBXNpbmNlGAUgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCJ3CghUYXNrTm90ZRIMCgR0ZXh0GAEgASgJEhQKB3BlcmNlbnQYAiABKA1IAIgBARITCgthdXRob3JfbmFtZRgDIAEoCRImCgJhdBgEIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBCCgoIX3BlcmNlbnQi8QMKBFRhc2sSDAoEbGlzdBgBIAEoCRINCgV0b3BpYxgCIAEoCRIOCgZudW1iZXIYAyABKA0SDQoFdGl0bGUYBCABKAkSDAoEcmVmcxgFIAMoCRIlCgZzdGF0dXMYBiABKA4yFS5jb2xsYWIudjEuVGFza1N0YXR1cxIcChRjcmVhdGVkX2J5X21lbWJlcl9pZBgHIAEoCRIXCg9jcmVhdGVkX2J5X25hbWUYCCABKAkSLgoKY3JlYXRlZF9hdBgJIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASJQoGaG9sZGVyGAogASgLMhUuY29sbGFiLnYxLlRhc2tIb2xkZXISKgoNbGFzdF9wcm9ncmVzcxgLIAEoCzITLmNvbGxhYi52MS5UYXNrTm90ZRIWCg5wcm9ncmVzc19jb3VudBgMIAEoDRIbChNjbG9zZWRfYnlfbWVtYmVyX2lkGA0gASgJEhYKDmNsb3NlZF9ieV9uYW1lGA4gASgJEi0KCWNsb3NlZF9hdBgPIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASEgoKcmVzb2x1dGlvbhgQIAEoCRIuCgp1cGRhdGVkX2F0GBEgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCLBAgoMQ2hhbm5lbFN0YXRlEg8KB2NoYW5uZWwYASABKAkSFgoOc2VsZl9tZW1iZXJfaWQYAiABKAkSDgoGaGFuZGxlGAMgASgJEg0KBXRvcGljGAQgASgJEiIKB21lbWJlcnMYBSADKAsyES5jb2xsYWIudjEuTWVtYmVyEiAKBmNsYWltcxgGIAMoCzIQLmNvbGxhYi52MS5DbGFpbRIwCg1jb250ZXh0X2luZGV4GAcgAygLMhkuY29sbGFiLnYxLkNvbnRleHRTdW1tYXJ5EiQKCG1lc3NhZ2VzGAggAygLMhIuY29sbGFiLnYxLk1lc3NhZ2USDgoGY3Vyc29yGAkgASgNEhIKCmxhdGVzdF9zZXEYCiABKA0SJwoKdGFza19saXN0cxgLIAMoCzITLmNvbGxhYi52MS5UYXNrTGlzdCIvCg9Qcm90b2NvbFZlcnNpb24SDQoFbWFqb3IYASABKA0SDQoFbWlub3IYAiABKA0ibwoKQ2xpZW50SW5mbxIMCgRuYW1lGAEgASgJEg8KB3ZlcnNpb24YAiABKAkSLAoIcHJvdG9jb2wYAyABKAsyGi5jb2xsYWIudjEuUHJvdG9jb2xWZXJzaW9uEhQKDGNhcGFiaWxpdGllcxgEIAMoCSpZCgdVcmdlbmN5EhcKE1VSR0VOQ1lfVU5TUEVDSUZJRUQQABIPCgtVUkdFTkNZX0xPVxABEhIKDlVSR0VOQ1lfTk9STUFMEAISEAoMVVJHRU5DWV9ISUdIEAMq1wEKC01lc3NhZ2VUeXBlEhwKGE1FU1NBR0VfVFlQRV9VTlNQRUNJRklFRBAAEhUKEU1FU1NBR0VfVFlQRV9OT1RFEAESGQoVTUVTU0FHRV9UWVBFX1FVRVNUSU9OEAISFQoRTUVTU0FHRV9UWVBFX0RPTkUQAxIWChJNRVNTQUdFX1RZUEVfQ0xBSU0QBBIYChRNRVNTQUdFX1RZUEVfUkVMRUFTRRAFEhgKFE1FU1NBR0VfVFlQRV9DT05URVhUEAYSFQoRTUVTU0FHRV9UWVBFX1RBU0sQByp6CgxNZW1iZXJTdGF0dXMSHQoZTUVNQkVSX1NUQVRVU19VTlNQRUNJRklFRBAAEhgKFE1FTUJFUl9TVEFUVVNfT05MSU5FEAESFgoSTUVNQkVSX1NUQVRVU19JRExFEAISGQoVTUVNQkVSX1NUQVRVU19PRkZMSU5FEAMqjQEKClRhc2tTdGF0dXMSGwoXVEFTS19TVEFUVVNfVU5TUEVDSUZJRUQQABIUChBUQVNLX1NUQVRVU19PUEVOEAESGwoXVEFTS19TVEFUVVNfSU5fUFJPR1JFU1MQAhIUChBUQVNLX1NUQVRVU19ET05FEAMSGQoVVEFTS19TVEFUVVNfRElTTUlTU0VEEAQqugEKCVRhc2tFdmVudBIaChZUQVNLX0VWRU5UX1VOU1BFQ0lGSUVEEAASFAoQVEFTS19FVkVOVF9BRERFRBABEhoKFlRBU0tfRVZFTlRfQ0hFQ0tFRF9PVVQQAhIXChNUQVNLX0VWRU5UX1BST0dSRVNTEAMSFwoTVEFTS19FVkVOVF9SRUxFQVNFRBAEEhMKD1RBU0tfRVZFTlRfRE9ORRAFEhgKFFRBU0tfRVZFTlRfRElTTUlTU0VEEAZiBnByb3RvMw", [file_google_protobuf_timestamp]);
 
 /**
  * Who a message is for, as the sender writes it. A handle or a topic is
@@ -98,6 +99,15 @@ export type Addressee = Message$1<"collab.v1.Addressee"> & {
    * @generated from field: string client_session_id = 4;
    */
   clientSessionId: string;
+
+  /**
+   * The sender's other sessions read it too; the session that sent it still
+   * does not. Only the server sets it, on the notices it writes for tasks, so
+   * a developer's other sessions in the topic learn what one of them did.
+   *
+   * @generated from field: bool include_sender = 5;
+   */
+  includeSender: boolean;
 };
 
 /**
@@ -215,6 +225,12 @@ export type Message = Message$1<"collab.v1.Message"> & {
      */
     value: ContextPayload;
     case: "context";
+  } | {
+    /**
+     * @generated from field: collab.v1.TaskPayload task = 24;
+     */
+    value: TaskPayload;
+    case: "task";
   } | { case: undefined; value?: undefined };
 };
 
@@ -314,6 +330,45 @@ export const ContextPayloadSchema: GenMessage<ContextPayload> = /*@__PURE__*/
   messageDesc(file_collab_v1_model, 6);
 
 /**
+ * @generated from message collab.v1.TaskPayload
+ */
+export type TaskPayload = Message$1<"collab.v1.TaskPayload"> & {
+  /**
+   * The list after the change, counts included, so a client can keep the
+   * summary it shows without asking again.
+   *
+   * @generated from field: collab.v1.TaskList list = 1;
+   */
+  list?: TaskList | undefined;
+
+  /**
+   * The tasks it is about: every task a single AddTasks added, otherwise one.
+   *
+   * @generated from field: repeated uint32 numbers = 2;
+   */
+  numbers: number[];
+
+  /**
+   * @generated from field: collab.v1.TaskEvent event = 3;
+   */
+  event: TaskEvent;
+
+  /**
+   * For a takeover: whose checkout it replaced.
+   *
+   * @generated from field: string previous_holder_name = 4;
+   */
+  previousHolderName: string;
+};
+
+/**
+ * Describes the message collab.v1.TaskPayload.
+ * Use `create(TaskPayloadSchema)` to create a new message.
+ */
+export const TaskPayloadSchema: GenMessage<TaskPayload> = /*@__PURE__*/
+  messageDesc(file_collab_v1_model, 7);
+
+/**
  * @generated from message collab.v1.Member
  */
 export type Member = Message$1<"collab.v1.Member"> & {
@@ -386,7 +441,7 @@ export type Member = Message$1<"collab.v1.Member"> & {
  * Use `create(MemberSchema)` to create a new message.
  */
 export const MemberSchema: GenMessage<Member> = /*@__PURE__*/
-  messageDesc(file_collab_v1_model, 7);
+  messageDesc(file_collab_v1_model, 8);
 
 /**
  * One live session of a member.
@@ -429,7 +484,7 @@ export type MemberSession = Message$1<"collab.v1.MemberSession"> & {
  * Use `create(MemberSessionSchema)` to create a new message.
  */
 export const MemberSessionSchema: GenMessage<MemberSession> = /*@__PURE__*/
-  messageDesc(file_collab_v1_model, 8);
+  messageDesc(file_collab_v1_model, 9);
 
 /**
  * "I am working on these paths": a warning to the other sessions in the same
@@ -488,7 +543,7 @@ export type Claim = Message$1<"collab.v1.Claim"> & {
  * Use `create(ClaimSchema)` to create a new message.
  */
 export const ClaimSchema: GenMessage<Claim> = /*@__PURE__*/
-  messageDesc(file_collab_v1_model, 9);
+  messageDesc(file_collab_v1_model, 10);
 
 /**
  * One version of a shared-context entry. Every write creates a new version;
@@ -543,7 +598,7 @@ export type ContextEntry = Message$1<"collab.v1.ContextEntry"> & {
  * Use `create(ContextEntrySchema)` to create a new message.
  */
 export const ContextEntrySchema: GenMessage<ContextEntry> = /*@__PURE__*/
-  messageDesc(file_collab_v1_model, 10);
+  messageDesc(file_collab_v1_model, 11);
 
 /**
  * A context entry without its body, as listed in state and announced in events.
@@ -587,11 +642,281 @@ export type ContextSummary = Message$1<"collab.v1.ContextSummary"> & {
  * Use `create(ContextSummarySchema)` to create a new message.
  */
 export const ContextSummarySchema: GenMessage<ContextSummary> = /*@__PURE__*/
-  messageDesc(file_collab_v1_model, 11);
+  messageDesc(file_collab_v1_model, 12);
 
 /**
- * Everything a freshly started session needs. Claims and context are the ones
- * in the caller's topic; members are all of the channel's.
+ * A named checklist in one topic. Everyone on the channel can read it; the
+ * notices about it go to the sessions in its topic.
+ *
+ * @generated from message collab.v1.TaskList
+ */
+export type TaskList = Message$1<"collab.v1.TaskList"> & {
+  /**
+   * Unique within the topic, from taskListKey().
+   *
+   * @generated from field: string key = 1;
+   */
+  key: string;
+
+  /**
+   * @generated from field: string topic = 2;
+   */
+  topic: string;
+
+  /**
+   * @generated from field: string title = 3;
+   */
+  title: string;
+
+  /**
+   * @generated from field: string created_by_member_id = 4;
+   */
+  createdByMemberId: string;
+
+  /**
+   * @generated from field: string created_by_name = 5;
+   */
+  createdByName: string;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp created_at = 6;
+   */
+  createdAt?: Timestamp | undefined;
+
+  /**
+   * The last time any of its tasks changed.
+   *
+   * @generated from field: google.protobuf.Timestamp updated_at = 7;
+   */
+  updatedAt?: Timestamp | undefined;
+
+  /**
+   * How many of its tasks are in each status.
+   *
+   * @generated from field: uint32 open = 8;
+   */
+  open: number;
+
+  /**
+   * @generated from field: uint32 in_progress = 9;
+   */
+  inProgress: number;
+
+  /**
+   * @generated from field: uint32 done = 10;
+   */
+  done: number;
+
+  /**
+   * @generated from field: uint32 dismissed = 11;
+   */
+  dismissed: number;
+};
+
+/**
+ * Describes the message collab.v1.TaskList.
+ * Use `create(TaskListSchema)` to create a new message.
+ */
+export const TaskListSchema: GenMessage<TaskList> = /*@__PURE__*/
+  messageDesc(file_collab_v1_model, 13);
+
+/**
+ * Who has a task checked out.
+ *
+ * @generated from message collab.v1.TaskHolder
+ */
+export type TaskHolder = Message$1<"collab.v1.TaskHolder"> & {
+  /**
+   * @generated from field: string member_id = 1;
+   */
+  memberId: string;
+
+  /**
+   * @generated from field: string handle = 2;
+   */
+  handle: string;
+
+  /**
+   * @generated from field: string name = 3;
+   */
+  name: string;
+
+  /**
+   * The session that checked it out or last reported on it, so a message can
+   * reach exactly that session.
+   *
+   * @generated from field: string client_session_id = 4;
+   */
+  clientSessionId: string;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp since = 5;
+   */
+  since?: Timestamp | undefined;
+};
+
+/**
+ * Describes the message collab.v1.TaskHolder.
+ * Use `create(TaskHolderSchema)` to create a new message.
+ */
+export const TaskHolderSchema: GenMessage<TaskHolder> = /*@__PURE__*/
+  messageDesc(file_collab_v1_model, 14);
+
+/**
+ * A progress report.
+ *
+ * @generated from message collab.v1.TaskNote
+ */
+export type TaskNote = Message$1<"collab.v1.TaskNote"> & {
+  /**
+   * @generated from field: string text = 1;
+   */
+  text: string;
+
+  /**
+   * How far along, 0 to 100, when the holder said.
+   *
+   * @generated from field: optional uint32 percent = 2;
+   */
+  percent?: number | undefined;
+
+  /**
+   * @generated from field: string author_name = 3;
+   */
+  authorName: string;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp at = 4;
+   */
+  at?: Timestamp | undefined;
+};
+
+/**
+ * Describes the message collab.v1.TaskNote.
+ * Use `create(TaskNoteSchema)` to create a new message.
+ */
+export const TaskNoteSchema: GenMessage<TaskNote> = /*@__PURE__*/
+  messageDesc(file_collab_v1_model, 15);
+
+/**
+ * One item of a task list.
+ *
+ * @generated from message collab.v1.Task
+ */
+export type Task = Message$1<"collab.v1.Task"> & {
+  /**
+   * The key of its list.
+   *
+   * @generated from field: string list = 1;
+   */
+  list: string;
+
+  /**
+   * @generated from field: string topic = 2;
+   */
+  topic: string;
+
+  /**
+   * Its number within the list, from 1, in the order tasks were added.
+   *
+   * @generated from field: uint32 number = 3;
+   */
+  number: number;
+
+  /**
+   * Written by a peer: untrusted input for whoever reads it.
+   *
+   * @generated from field: string title = 4;
+   */
+  title: string;
+
+  /**
+   * Free-form pointers: file paths, PR links, context keys.
+   *
+   * @generated from field: repeated string refs = 5;
+   */
+  refs: string[];
+
+  /**
+   * @generated from field: collab.v1.TaskStatus status = 6;
+   */
+  status: TaskStatus;
+
+  /**
+   * @generated from field: string created_by_member_id = 7;
+   */
+  createdByMemberId: string;
+
+  /**
+   * @generated from field: string created_by_name = 8;
+   */
+  createdByName: string;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp created_at = 9;
+   */
+  createdAt?: Timestamp | undefined;
+
+  /**
+   * Set while it is in progress. Kept once it is done, as who did it; cleared
+   * when it is released.
+   *
+   * @generated from field: collab.v1.TaskHolder holder = 10;
+   */
+  holder?: TaskHolder | undefined;
+
+  /**
+   * The latest progress report. Earlier ones stay in the channel's messages.
+   *
+   * @generated from field: collab.v1.TaskNote last_progress = 11;
+   */
+  lastProgress?: TaskNote | undefined;
+
+  /**
+   * @generated from field: uint32 progress_count = 12;
+   */
+  progressCount: number;
+
+  /**
+   * Set once it is closed.
+   *
+   * @generated from field: string closed_by_member_id = 13;
+   */
+  closedByMemberId: string;
+
+  /**
+   * @generated from field: string closed_by_name = 14;
+   */
+  closedByName: string;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp closed_at = 15;
+   */
+  closedAt?: Timestamp | undefined;
+
+  /**
+   * What finishing it achieved, or why it was dismissed.
+   *
+   * @generated from field: string resolution = 16;
+   */
+  resolution: string;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp updated_at = 17;
+   */
+  updatedAt?: Timestamp | undefined;
+};
+
+/**
+ * Describes the message collab.v1.Task.
+ * Use `create(TaskSchema)` to create a new message.
+ */
+export const TaskSchema: GenMessage<Task> = /*@__PURE__*/
+  messageDesc(file_collab_v1_model, 16);
+
+/**
+ * Everything a freshly started session needs. Claims, context and task lists
+ * are the ones in the caller's topic; members are all of the channel's.
  *
  * @generated from message collab.v1.ChannelState
  */
@@ -651,6 +976,14 @@ export type ChannelState = Message$1<"collab.v1.ChannelState"> & {
    * @generated from field: uint32 latest_seq = 10;
    */
   latestSeq: number;
+
+  /**
+   * The topic's task lists that still have open tasks, most recently changed
+   * first. ListTasks has the tasks themselves, and the lists with none open.
+   *
+   * @generated from field: repeated collab.v1.TaskList task_lists = 11;
+   */
+  taskLists: TaskList[];
 };
 
 /**
@@ -658,7 +991,7 @@ export type ChannelState = Message$1<"collab.v1.ChannelState"> & {
  * Use `create(ChannelStateSchema)` to create a new message.
  */
 export const ChannelStateSchema: GenMessage<ChannelState> = /*@__PURE__*/
-  messageDesc(file_collab_v1_model, 12);
+  messageDesc(file_collab_v1_model, 17);
 
 /**
  * Protocol version as negotiated on the wire. Patch releases never change the
@@ -683,7 +1016,7 @@ export type ProtocolVersion = Message$1<"collab.v1.ProtocolVersion"> & {
  * Use `create(ProtocolVersionSchema)` to create a new message.
  */
 export const ProtocolVersionSchema: GenMessage<ProtocolVersion> = /*@__PURE__*/
-  messageDesc(file_collab_v1_model, 13);
+  messageDesc(file_collab_v1_model, 18);
 
 /**
  * Who is calling, sent when a client subscribes.
@@ -725,7 +1058,7 @@ export type ClientInfo = Message$1<"collab.v1.ClientInfo"> & {
  * Use `create(ClientInfoSchema)` to create a new message.
  */
 export const ClientInfoSchema: GenMessage<ClientInfo> = /*@__PURE__*/
-  messageDesc(file_collab_v1_model, 14);
+  messageDesc(file_collab_v1_model, 19);
 
 /**
  * How loudly a message asks for attention. Clients decide locally which
@@ -815,6 +1148,14 @@ export enum MessageType {
    * @generated from enum value: MESSAGE_TYPE_CONTEXT = 6;
    */
   CONTEXT = 6,
+
+  /**
+   * Written by the server when a task list changes: tasks added, checked out,
+   * reported on, released, finished or dismissed. Clients cannot send it.
+   *
+   * @generated from enum value: MESSAGE_TYPE_TASK = 7;
+   */
+  TASK = 7,
 }
 
 /**
@@ -853,4 +1194,100 @@ export enum MemberStatus {
  */
 export const MemberStatusSchema: GenEnum<MemberStatus> = /*@__PURE__*/
   enumDesc(file_collab_v1_model, 2);
+
+/**
+ * Where a task is. OPEN and IN_PROGRESS are open; DONE and DISMISSED are
+ * closed, and a closed task never changes again.
+ *
+ * @generated from enum collab.v1.TaskStatus
+ */
+export enum TaskStatus {
+  /**
+   * @generated from enum value: TASK_STATUS_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * Nobody holds it.
+   *
+   * @generated from enum value: TASK_STATUS_OPEN = 1;
+   */
+  OPEN = 1,
+
+  /**
+   * Checked out by `Task.holder`.
+   *
+   * @generated from enum value: TASK_STATUS_IN_PROGRESS = 2;
+   */
+  IN_PROGRESS = 2,
+
+  /**
+   * @generated from enum value: TASK_STATUS_DONE = 3;
+   */
+  DONE = 3,
+
+  /**
+   * Set aside as something that will not be done: a soft purge. It is kept,
+   * with the reason, and shows up when closed tasks are asked for.
+   *
+   * @generated from enum value: TASK_STATUS_DISMISSED = 4;
+   */
+  DISMISSED = 4,
+}
+
+/**
+ * Describes the enum collab.v1.TaskStatus.
+ */
+export const TaskStatusSchema: GenEnum<TaskStatus> = /*@__PURE__*/
+  enumDesc(file_collab_v1_model, 3);
+
+/**
+ * What happened to a task, in the notice the server writes for it.
+ *
+ * @generated from enum collab.v1.TaskEvent
+ */
+export enum TaskEvent {
+  /**
+   * @generated from enum value: TASK_EVENT_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: TASK_EVENT_ADDED = 1;
+   */
+  ADDED = 1,
+
+  /**
+   * Also a takeover, with TaskPayload.previous_holder_name set.
+   *
+   * @generated from enum value: TASK_EVENT_CHECKED_OUT = 2;
+   */
+  CHECKED_OUT = 2,
+
+  /**
+   * @generated from enum value: TASK_EVENT_PROGRESS = 3;
+   */
+  PROGRESS = 3,
+
+  /**
+   * @generated from enum value: TASK_EVENT_RELEASED = 4;
+   */
+  RELEASED = 4,
+
+  /**
+   * @generated from enum value: TASK_EVENT_DONE = 5;
+   */
+  DONE = 5,
+
+  /**
+   * @generated from enum value: TASK_EVENT_DISMISSED = 6;
+   */
+  DISMISSED = 6,
+}
+
+/**
+ * Describes the enum collab.v1.TaskEvent.
+ */
+export const TaskEventSchema: GenEnum<TaskEvent> = /*@__PURE__*/
+  enumDesc(file_collab_v1_model, 4);
 

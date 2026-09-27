@@ -35,12 +35,23 @@ enum ErrorCode {
   ERROR_CODE_UNKNOWN_HANDLE = 16;
   ERROR_CODE_EMPTY_MESSAGE = 17;
   ERROR_CODE_MESSAGE_TOO_LONG = 18;
-  // A type clients may not send (claim, release, context), or a payload that does not match the type.
+  // A type clients may not send (claim, release, context, task), or a payload that does not match the type.
   ERROR_CODE_INVALID_TYPE = 19;
   ERROR_CODE_NO_PATHS = 20;
   ERROR_CODE_TOO_MANY_PATHS = 21;
   ERROR_CODE_INVALID_KEY = 22;
   ERROR_CODE_CONTEXT_TOO_LARGE = 23;
+  // A task without a title, a field over its limit, too many tasks in one call
+  // or in one list, a percent over 100, or a change with no reason or note
+  // where one is required.
+  ERROR_CODE_INVALID_TASK = 24;
+  // Someone else has the task checked out. The message says who and since when.
+  ERROR_CODE_TASK_TAKEN = 25;
+  // The task is already done or dismissed.
+  ERROR_CODE_TASK_CLOSED = 26;
+  // Only the holder reports on, releases or finishes a task in progress; only
+  // its creator or its holder dismisses it.
+  ERROR_CODE_NOT_TASK_HOLDER = 27;
 }
 
 message ErrorDetail {

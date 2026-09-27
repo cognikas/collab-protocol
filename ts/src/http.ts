@@ -27,11 +27,14 @@ export function httpStatusOf(code: ErrorCode): number {
       return 401;
     case ErrorCode.REVOKED:
     case ErrorCode.INVALID_INVITE:
+    case ErrorCode.NOT_TASK_HOLDER:
       return 403;
     case ErrorCode.NOT_FOUND:
     case ErrorCode.UNKNOWN_HANDLE:
       return 404;
     case ErrorCode.NAME_TAKEN:
+    case ErrorCode.TASK_TAKEN:
+    case ErrorCode.TASK_CLOSED:
       return 409;
     case ErrorCode.UNSUPPORTED_PROTOCOL:
       return 426;

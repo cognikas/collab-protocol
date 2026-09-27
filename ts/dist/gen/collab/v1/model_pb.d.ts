@@ -68,6 +68,14 @@ export type Addressee = Message$1<"collab.v1.Addressee"> & {
      * @generated from field: string client_session_id = 4;
      */
     clientSessionId: string;
+    /**
+     * The sender's other sessions read it too; the session that sent it still
+     * does not. Only the server sets it, on the notices it writes for tasks, so
+     * a developer's other sessions in the topic learn what one of them did.
+     *
+     * @generated from field: bool include_sender = 5;
+     */
+    includeSender: boolean;
 };
 /**
  * Describes the message collab.v1.Addressee.
@@ -170,6 +178,12 @@ export type Message = Message$1<"collab.v1.Message"> & {
         value: ContextPayload;
         case: "context";
     } | {
+        /**
+         * @generated from field: collab.v1.TaskPayload task = 24;
+         */
+        value: TaskPayload;
+        case: "task";
+    } | {
         case: undefined;
         value?: undefined;
     };
@@ -252,6 +266,39 @@ export type ContextPayload = Message$1<"collab.v1.ContextPayload"> & {
  * Use `create(ContextPayloadSchema)` to create a new message.
  */
 export declare const ContextPayloadSchema: GenMessage<ContextPayload>;
+/**
+ * @generated from message collab.v1.TaskPayload
+ */
+export type TaskPayload = Message$1<"collab.v1.TaskPayload"> & {
+    /**
+     * The list after the change, counts included, so a client can keep the
+     * summary it shows without asking again.
+     *
+     * @generated from field: collab.v1.TaskList list = 1;
+     */
+    list?: TaskList | undefined;
+    /**
+     * The tasks it is about: every task a single AddTasks added, otherwise one.
+     *
+     * @generated from field: repeated uint32 numbers = 2;
+     */
+    numbers: number[];
+    /**
+     * @generated from field: collab.v1.TaskEvent event = 3;
+     */
+    event: TaskEvent;
+    /**
+     * For a takeover: whose checkout it replaced.
+     *
+     * @generated from field: string previous_holder_name = 4;
+     */
+    previousHolderName: string;
+};
+/**
+ * Describes the message collab.v1.TaskPayload.
+ * Use `create(TaskPayloadSchema)` to create a new message.
+ */
+export declare const TaskPayloadSchema: GenMessage<TaskPayload>;
 /**
  * @generated from message collab.v1.Member
  */
@@ -482,8 +529,233 @@ export type ContextSummary = Message$1<"collab.v1.ContextSummary"> & {
  */
 export declare const ContextSummarySchema: GenMessage<ContextSummary>;
 /**
- * Everything a freshly started session needs. Claims and context are the ones
- * in the caller's topic; members are all of the channel's.
+ * A named checklist in one topic. Everyone on the channel can read it; the
+ * notices about it go to the sessions in its topic.
+ *
+ * @generated from message collab.v1.TaskList
+ */
+export type TaskList = Message$1<"collab.v1.TaskList"> & {
+    /**
+     * Unique within the topic, from taskListKey().
+     *
+     * @generated from field: string key = 1;
+     */
+    key: string;
+    /**
+     * @generated from field: string topic = 2;
+     */
+    topic: string;
+    /**
+     * @generated from field: string title = 3;
+     */
+    title: string;
+    /**
+     * @generated from field: string created_by_member_id = 4;
+     */
+    createdByMemberId: string;
+    /**
+     * @generated from field: string created_by_name = 5;
+     */
+    createdByName: string;
+    /**
+     * @generated from field: google.protobuf.Timestamp created_at = 6;
+     */
+    createdAt?: Timestamp | undefined;
+    /**
+     * The last time any of its tasks changed.
+     *
+     * @generated from field: google.protobuf.Timestamp updated_at = 7;
+     */
+    updatedAt?: Timestamp | undefined;
+    /**
+     * How many of its tasks are in each status.
+     *
+     * @generated from field: uint32 open = 8;
+     */
+    open: number;
+    /**
+     * @generated from field: uint32 in_progress = 9;
+     */
+    inProgress: number;
+    /**
+     * @generated from field: uint32 done = 10;
+     */
+    done: number;
+    /**
+     * @generated from field: uint32 dismissed = 11;
+     */
+    dismissed: number;
+};
+/**
+ * Describes the message collab.v1.TaskList.
+ * Use `create(TaskListSchema)` to create a new message.
+ */
+export declare const TaskListSchema: GenMessage<TaskList>;
+/**
+ * Who has a task checked out.
+ *
+ * @generated from message collab.v1.TaskHolder
+ */
+export type TaskHolder = Message$1<"collab.v1.TaskHolder"> & {
+    /**
+     * @generated from field: string member_id = 1;
+     */
+    memberId: string;
+    /**
+     * @generated from field: string handle = 2;
+     */
+    handle: string;
+    /**
+     * @generated from field: string name = 3;
+     */
+    name: string;
+    /**
+     * The session that checked it out or last reported on it, so a message can
+     * reach exactly that session.
+     *
+     * @generated from field: string client_session_id = 4;
+     */
+    clientSessionId: string;
+    /**
+     * @generated from field: google.protobuf.Timestamp since = 5;
+     */
+    since?: Timestamp | undefined;
+};
+/**
+ * Describes the message collab.v1.TaskHolder.
+ * Use `create(TaskHolderSchema)` to create a new message.
+ */
+export declare const TaskHolderSchema: GenMessage<TaskHolder>;
+/**
+ * A progress report.
+ *
+ * @generated from message collab.v1.TaskNote
+ */
+export type TaskNote = Message$1<"collab.v1.TaskNote"> & {
+    /**
+     * @generated from field: string text = 1;
+     */
+    text: string;
+    /**
+     * How far along, 0 to 100, when the holder said.
+     *
+     * @generated from field: optional uint32 percent = 2;
+     */
+    percent?: number | undefined;
+    /**
+     * @generated from field: string author_name = 3;
+     */
+    authorName: string;
+    /**
+     * @generated from field: google.protobuf.Timestamp at = 4;
+     */
+    at?: Timestamp | undefined;
+};
+/**
+ * Describes the message collab.v1.TaskNote.
+ * Use `create(TaskNoteSchema)` to create a new message.
+ */
+export declare const TaskNoteSchema: GenMessage<TaskNote>;
+/**
+ * One item of a task list.
+ *
+ * @generated from message collab.v1.Task
+ */
+export type Task = Message$1<"collab.v1.Task"> & {
+    /**
+     * The key of its list.
+     *
+     * @generated from field: string list = 1;
+     */
+    list: string;
+    /**
+     * @generated from field: string topic = 2;
+     */
+    topic: string;
+    /**
+     * Its number within the list, from 1, in the order tasks were added.
+     *
+     * @generated from field: uint32 number = 3;
+     */
+    number: number;
+    /**
+     * Written by a peer: untrusted input for whoever reads it.
+     *
+     * @generated from field: string title = 4;
+     */
+    title: string;
+    /**
+     * Free-form pointers: file paths, PR links, context keys.
+     *
+     * @generated from field: repeated string refs = 5;
+     */
+    refs: string[];
+    /**
+     * @generated from field: collab.v1.TaskStatus status = 6;
+     */
+    status: TaskStatus;
+    /**
+     * @generated from field: string created_by_member_id = 7;
+     */
+    createdByMemberId: string;
+    /**
+     * @generated from field: string created_by_name = 8;
+     */
+    createdByName: string;
+    /**
+     * @generated from field: google.protobuf.Timestamp created_at = 9;
+     */
+    createdAt?: Timestamp | undefined;
+    /**
+     * Set while it is in progress. Kept once it is done, as who did it; cleared
+     * when it is released.
+     *
+     * @generated from field: collab.v1.TaskHolder holder = 10;
+     */
+    holder?: TaskHolder | undefined;
+    /**
+     * The latest progress report. Earlier ones stay in the channel's messages.
+     *
+     * @generated from field: collab.v1.TaskNote last_progress = 11;
+     */
+    lastProgress?: TaskNote | undefined;
+    /**
+     * @generated from field: uint32 progress_count = 12;
+     */
+    progressCount: number;
+    /**
+     * Set once it is closed.
+     *
+     * @generated from field: string closed_by_member_id = 13;
+     */
+    closedByMemberId: string;
+    /**
+     * @generated from field: string closed_by_name = 14;
+     */
+    closedByName: string;
+    /**
+     * @generated from field: google.protobuf.Timestamp closed_at = 15;
+     */
+    closedAt?: Timestamp | undefined;
+    /**
+     * What finishing it achieved, or why it was dismissed.
+     *
+     * @generated from field: string resolution = 16;
+     */
+    resolution: string;
+    /**
+     * @generated from field: google.protobuf.Timestamp updated_at = 17;
+     */
+    updatedAt?: Timestamp | undefined;
+};
+/**
+ * Describes the message collab.v1.Task.
+ * Use `create(TaskSchema)` to create a new message.
+ */
+export declare const TaskSchema: GenMessage<Task>;
+/**
+ * Everything a freshly started session needs. Claims, context and task lists
+ * are the ones in the caller's topic; members are all of the channel's.
  *
  * @generated from message collab.v1.ChannelState
  */
@@ -534,6 +806,13 @@ export type ChannelState = Message$1<"collab.v1.ChannelState"> & {
      * @generated from field: uint32 latest_seq = 10;
      */
     latestSeq: number;
+    /**
+     * The topic's task lists that still have open tasks, most recently changed
+     * first. ListTasks has the tasks themselves, and the lists with none open.
+     *
+     * @generated from field: repeated collab.v1.TaskList task_lists = 11;
+     */
+    taskLists: TaskList[];
 };
 /**
  * Describes the message collab.v1.ChannelState.
@@ -672,7 +951,14 @@ export declare enum MessageType {
      *
      * @generated from enum value: MESSAGE_TYPE_CONTEXT = 6;
      */
-    CONTEXT = 6
+    CONTEXT = 6,
+    /**
+     * Written by the server when a task list changes: tasks added, checked out,
+     * reported on, released, finished or dismissed. Clients cannot send it.
+     *
+     * @generated from enum value: MESSAGE_TYPE_TASK = 7;
+     */
+    TASK = 7
 }
 /**
  * Describes the enum collab.v1.MessageType.
@@ -703,3 +989,83 @@ export declare enum MemberStatus {
  * Describes the enum collab.v1.MemberStatus.
  */
 export declare const MemberStatusSchema: GenEnum<MemberStatus>;
+/**
+ * Where a task is. OPEN and IN_PROGRESS are open; DONE and DISMISSED are
+ * closed, and a closed task never changes again.
+ *
+ * @generated from enum collab.v1.TaskStatus
+ */
+export declare enum TaskStatus {
+    /**
+     * @generated from enum value: TASK_STATUS_UNSPECIFIED = 0;
+     */
+    UNSPECIFIED = 0,
+    /**
+     * Nobody holds it.
+     *
+     * @generated from enum value: TASK_STATUS_OPEN = 1;
+     */
+    OPEN = 1,
+    /**
+     * Checked out by `Task.holder`.
+     *
+     * @generated from enum value: TASK_STATUS_IN_PROGRESS = 2;
+     */
+    IN_PROGRESS = 2,
+    /**
+     * @generated from enum value: TASK_STATUS_DONE = 3;
+     */
+    DONE = 3,
+    /**
+     * Set aside as something that will not be done: a soft purge. It is kept,
+     * with the reason, and shows up when closed tasks are asked for.
+     *
+     * @generated from enum value: TASK_STATUS_DISMISSED = 4;
+     */
+    DISMISSED = 4
+}
+/**
+ * Describes the enum collab.v1.TaskStatus.
+ */
+export declare const TaskStatusSchema: GenEnum<TaskStatus>;
+/**
+ * What happened to a task, in the notice the server writes for it.
+ *
+ * @generated from enum collab.v1.TaskEvent
+ */
+export declare enum TaskEvent {
+    /**
+     * @generated from enum value: TASK_EVENT_UNSPECIFIED = 0;
+     */
+    UNSPECIFIED = 0,
+    /**
+     * @generated from enum value: TASK_EVENT_ADDED = 1;
+     */
+    ADDED = 1,
+    /**
+     * Also a takeover, with TaskPayload.previous_holder_name set.
+     *
+     * @generated from enum value: TASK_EVENT_CHECKED_OUT = 2;
+     */
+    CHECKED_OUT = 2,
+    /**
+     * @generated from enum value: TASK_EVENT_PROGRESS = 3;
+     */
+    PROGRESS = 3,
+    /**
+     * @generated from enum value: TASK_EVENT_RELEASED = 4;
+     */
+    RELEASED = 4,
+    /**
+     * @generated from enum value: TASK_EVENT_DONE = 5;
+     */
+    DONE = 5,
+    /**
+     * @generated from enum value: TASK_EVENT_DISMISSED = 6;
+     */
+    DISMISSED = 6
+}
+/**
+ * Describes the enum collab.v1.TaskEvent.
+ */
+export declare const TaskEventSchema: GenEnum<TaskEvent>;

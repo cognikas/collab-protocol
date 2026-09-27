@@ -37,6 +37,10 @@ export function handleOf(displayName) {
 export function contextKey(key) {
     return slug(key, MAX_CONTEXT_KEY_CHARS);
 }
+/** A task list's key within its topic: a slug, like a topic name. */
+export function taskListKey(key) {
+    return slug(key, MAX_NAME_CHARS);
+}
 /** Claude Code session ids are UUIDs; scripts use short names like `smoke-ana`. */
 export function isClientSessionId(value) {
     return typeof value === 'string' && CLIENT_SESSION_ID.test(value);

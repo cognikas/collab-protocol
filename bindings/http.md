@@ -39,8 +39,9 @@ servidor no habla recibe `426` con `ERROR_CODE_UNSUPPORTED_PROTOCOL`.
 | `MembershipService/Join` | ninguna: la invitación es la credencial, y se gasta ahí |
 | `AdminService/CreateInvite`, `AdminService/RevokeMember` | clave de administración |
 | `WebSocketService/IssueTicket` | miembro |
-| `ChannelService/GetState`, `Send`, `Ack`, `Claim`, `Release`, `PutContext`, `GetContext`, `SetPresence`, `History`, `Heartbeat` | miembro |
+| `ChannelService/GetState`, `Send`, `Ack`, `Claim`, `Release`, `PutContext`, `GetContext`, `SetPresence`, `History`, `Heartbeat`, `CreateTaskList`, `AddTasks`, `UpdateTask`, `ListTasks` | miembro |
 
 Las operaciones de `ChannelService` por HTTP tienen los mismos efectos que por WebSocket: un `Send`
 por HTTP también se reparte en vivo a las conexiones abiertas. HTTP es el camino cuando no hay socket
-(un proceso de corta vida, un fallo de conexión) y para cuerpos de más de 128 KB.
+(un proceso de corta vida, un fallo de conexión) y para cuerpos de más de 128 KB. `GetState` y
+`ListTasks` solo existen por HTTP: sus respuestas pueden superar ese tamaño.

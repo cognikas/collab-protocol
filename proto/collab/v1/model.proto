@@ -1,7 +1,8 @@
 syntax = "proto3";
 
 // The channel's data model: who is on it, what they say to each other, what
-// they have claimed and what they have shared. Transport independent: every
+// they have claimed, what they have shared and the tasks they are working
+// through. Transport independent: every
 // binding (WebSocket, HTTP, gRPC) carries these same messages.
 //
 // Two identities that are easy to mix up:
@@ -41,6 +42,9 @@ enum MessageType {
   MESSAGE_TYPE_RELEASE = 5;
   // Written by the server when shared context is published. Clients cannot send it.
   MESSAGE_TYPE_CONTEXT = 6;
+  // Written by the server when a task list changes: tasks added, checked out,
+  // reported on, released, finished or dismissed. Clients cannot send it.
+  MESSAGE_TYPE_TASK = 7;
 }
 
 enum MemberStatus {
@@ -75,6 +79,10 @@ message Addressee {
   string topic = 3;
   // The one session of that member it is for. Empty for all of them.
   string client_session_id = 4;
+  // The sender's other sessions read it too; the session that sent it still
+  // does not. Only the server sets it, on the notices it writes for tasks, so
+  // a developer's other sessions in the topic learn what one of them did.
+  bool include_sender = 5;
 }
 
 message Message {
@@ -103,6 +111,7 @@ message Message {
     ClaimPayload claim = 21;
     ReleasePayload release = 22;
     ContextPayload context = 23;
+    TaskPayload task = 24;
   }
 }
 
@@ -126,6 +135,17 @@ message ReleasePayload {
 message ContextPayload {
   string key = 1;
   uint32 version = 2;
+}
+
+message TaskPayload {
+  // The list after the change, counts included, so a client can keep the
+  // summary it shows without asking again.
+  TaskList list = 1;
+  // The tasks it is about: every task a single AddTasks added, otherwise one.
+  repeated uint32 numbers = 2;
+  TaskEvent event = 3;
+  // For a takeover: whose checkout it replaced.
+  string previous_holder_name = 4;
 }
 
 message Member {
@@ -198,8 +218,103 @@ message ContextSummary {
   google.protobuf.Timestamp created_at = 6;
 }
 
-// Everything a freshly started session needs. Claims and context are the ones
-// in the caller's topic; members are all of the channel's.
+// Where a task is. OPEN and IN_PROGRESS are open; DONE and DISMISSED are
+// closed, and a closed task never changes again.
+enum TaskStatus {
+  TASK_STATUS_UNSPECIFIED = 0;
+  // Nobody holds it.
+  TASK_STATUS_OPEN = 1;
+  // Checked out by `Task.holder`.
+  TASK_STATUS_IN_PROGRESS = 2;
+  TASK_STATUS_DONE = 3;
+  // Set aside as something that will not be done: a soft purge. It is kept,
+  // with the reason, and shows up when closed tasks are asked for.
+  TASK_STATUS_DISMISSED = 4;
+}
+
+// What happened to a task, in the notice the server writes for it.
+enum TaskEvent {
+  TASK_EVENT_UNSPECIFIED = 0;
+  TASK_EVENT_ADDED = 1;
+  // Also a takeover, with TaskPayload.previous_holder_name set.
+  TASK_EVENT_CHECKED_OUT = 2;
+  TASK_EVENT_PROGRESS = 3;
+  TASK_EVENT_RELEASED = 4;
+  TASK_EVENT_DONE = 5;
+  TASK_EVENT_DISMISSED = 6;
+}
+
+// A named checklist in one topic. Everyone on the channel can read it; the
+// notices about it go to the sessions in its topic.
+message TaskList {
+  // Unique within the topic, from taskListKey().
+  string key = 1;
+  string topic = 2;
+  string title = 3;
+  string created_by_member_id = 4;
+  string created_by_name = 5;
+  google.protobuf.Timestamp created_at = 6;
+  // The last time any of its tasks changed.
+  google.protobuf.Timestamp updated_at = 7;
+  // How many of its tasks are in each status.
+  uint32 open = 8;
+  uint32 in_progress = 9;
+  uint32 done = 10;
+  uint32 dismissed = 11;
+}
+
+// Who has a task checked out.
+message TaskHolder {
+  string member_id = 1;
+  string handle = 2;
+  string name = 3;
+  // The session that checked it out or last reported on it, so a message can
+  // reach exactly that session.
+  string client_session_id = 4;
+  google.protobuf.Timestamp since = 5;
+}
+
+// A progress report.
+message TaskNote {
+  string text = 1;
+  // How far along, 0 to 100, when the holder said.
+  optional uint32 percent = 2;
+  string author_name = 3;
+  google.protobuf.Timestamp at = 4;
+}
+
+// One item of a task list.
+message Task {
+  // The key of its list.
+  string list = 1;
+  string topic = 2;
+  // Its number within the list, from 1, in the order tasks were added.
+  uint32 number = 3;
+  // Written by a peer: untrusted input for whoever reads it.
+  string title = 4;
+  // Free-form pointers: file paths, PR links, context keys.
+  repeated string refs = 5;
+  TaskStatus status = 6;
+  string created_by_member_id = 7;
+  string created_by_name = 8;
+  google.protobuf.Timestamp created_at = 9;
+  // Set while it is in progress. Kept once it is done, as who did it; cleared
+  // when it is released.
+  TaskHolder holder = 10;
+  // The latest progress report. Earlier ones stay in the channel's messages.
+  TaskNote last_progress = 11;
+  uint32 progress_count = 12;
+  // Set once it is closed.
+  string closed_by_member_id = 13;
+  string closed_by_name = 14;
+  google.protobuf.Timestamp closed_at = 15;
+  // What finishing it achieved, or why it was dismissed.
+  string resolution = 16;
+  google.protobuf.Timestamp updated_at = 17;
+}
+
+// Everything a freshly started session needs. Claims, context and task lists
+// are the ones in the caller's topic; members are all of the channel's.
 message ChannelState {
   string channel = 1;
   string self_member_id = 2;
@@ -214,6 +329,9 @@ message ChannelState {
   uint32 cursor = 9;
   // Highest seq on the channel, whether the caller may read it or not.
   uint32 latest_seq = 10;
+  // The topic's task lists that still have open tasks, most recently changed
+  // first. ListTasks has the tasks themselves, and the lists with none open.
+  repeated TaskList task_lists = 11;
 }
 
 // Protocol version as negotiated on the wire. Patch releases never change the

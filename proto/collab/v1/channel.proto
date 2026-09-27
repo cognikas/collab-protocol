@@ -27,6 +27,13 @@ service ChannelService {
   // Keeps the member "online" and re-sends the member list to the channel:
   // presence goes stale without it.
   rpc Heartbeat(HeartbeatRequest) returns (HeartbeatResponse);
+  // Task lists. Every change is announced to the list's topic with a TASK
+  // message, so no separate event exists for them.
+  rpc CreateTaskList(CreateTaskListRequest) returns (CreateTaskListResponse);
+  rpc AddTasks(AddTasksRequest) returns (AddTasksResponse);
+  rpc UpdateTask(UpdateTaskRequest) returns (UpdateTaskResponse);
+  // HTTP only, like GetState: a whole list can outgrow a WebSocket message.
+  rpc ListTasks(ListTasksRequest) returns (ListTasksResponse);
 }
 
 message SubscribeRequest {
@@ -174,4 +181,120 @@ message HeartbeatRequest {}
 
 message HeartbeatResponse {
   google.protobuf.Timestamp server_time = 1;
+}
+
+// Creates a task list in the caller's topic.
+message CreateTaskListRequest {
+  // Goes through taskListKey().
+  string key = 1;
+  // Empty: the key.
+  string title = 2;
+}
+
+message CreateTaskListResponse {
+  TaskList list = 1;
+  // False when the topic already had a list with that key: it is returned
+  // as it is, title included.
+  bool created = 2;
+}
+
+message NewTask {
+  string title = 1;
+  repeated string refs = 2;
+}
+
+// Adds tasks to a list in the caller's topic, numbered in the order given.
+message AddTasksRequest {
+  // The list's key.
+  string list = 1;
+  repeated NewTask tasks = 2;
+}
+
+message AddTasksResponse {
+  repeated Task tasks = 1;
+  TaskList list = 2;
+}
+
+// Takes a task: an open one, or one of the caller's own (which moves it to
+// the calling session). One someone else holds only with `takeover`, and
+// only once its holder has not updated it for TASK_STALE_SECONDS.
+message TaskCheckout {
+  bool takeover = 1;
+}
+
+// A progress report from the holder.
+message TaskProgress {
+  string text = 1;
+  // 0 to 100.
+  optional uint32 percent = 2;
+}
+
+// Gives a task back: the holder's, and it goes back to open.
+message TaskRelease {
+  string note = 1;
+}
+
+// Finishes a task: an open one, which the caller takes and finishes in one
+// step, or one the caller holds.
+message TaskFinish {
+  // What was done, in one line.
+  string summary = 1;
+}
+
+// Closes a task as something that will not be done. Its creator or its
+// holder can; the reason is required.
+message TaskDismiss {
+  string reason = 1;
+}
+
+message UpdateTaskRequest {
+  // The list's topic. Empty: the caller's topic.
+  string topic = 1;
+  string list = 2;
+  uint32 number = 3;
+
+  oneof change {
+    TaskCheckout checkout = 10;
+    TaskProgress progress = 11;
+    TaskRelease release = 12;
+    TaskFinish finish = 13;
+    TaskDismiss dismiss = 14;
+  }
+}
+
+message UpdateTaskResponse {
+  Task task = 1;
+  TaskList list = 2;
+}
+
+// Which tasks ListTasks returns.
+enum TaskFilter {
+  // Read as TASK_FILTER_OPEN.
+  TASK_FILTER_UNSPECIFIED = 0;
+  // Open and in progress.
+  TASK_FILTER_OPEN = 1;
+  // Done and dismissed.
+  TASK_FILTER_CLOSED = 2;
+  TASK_FILTER_ALL = 3;
+}
+
+message ListTasksRequest {
+  // Empty: the caller's topic.
+  string topic = 1;
+  // One list's key. Empty: every list in the topic.
+  string list = 2;
+  TaskFilter filter = 3;
+  // At most this many tasks. Unset or 0: 100. Capped at 500.
+  uint32 limit = 4;
+}
+
+message ListTasksResponse {
+  // The lists asked for, most recently changed first: with the open filter,
+  // only those with open tasks.
+  repeated TaskList lists = 1;
+  // Open tasks by list, then number. Closed tasks after them, most recently
+  // closed first.
+  repeated Task tasks = 2;
+  // True when `limit` left tasks out.
+  bool truncated = 3;
 }

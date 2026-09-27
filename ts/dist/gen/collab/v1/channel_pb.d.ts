@@ -1,5 +1,5 @@
-import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
-import type { ChannelState, Claim, ClientInfo, ContextEntry, ContextSummary, DonePayload, Member, MemberStatus, Message as Message$1, MessageType, ProtocolVersion, Recipient, Urgency } from "./model_pb.js";
+import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
+import type { ChannelState, Claim, ClientInfo, ContextEntry, ContextSummary, DonePayload, Member, MemberStatus, Message as Message$1, MessageType, ProtocolVersion, Recipient, Task, TaskList, Urgency } from "./model_pb.js";
 import type { Timestamp } from "@bufbuild/protobuf/wkt";
 import type { Message } from "@bufbuild/protobuf";
 /**
@@ -517,6 +517,375 @@ export type HeartbeatResponse = Message<"collab.v1.HeartbeatResponse"> & {
  */
 export declare const HeartbeatResponseSchema: GenMessage<HeartbeatResponse>;
 /**
+ * Creates a task list in the caller's topic.
+ *
+ * @generated from message collab.v1.CreateTaskListRequest
+ */
+export type CreateTaskListRequest = Message<"collab.v1.CreateTaskListRequest"> & {
+    /**
+     * Goes through taskListKey().
+     *
+     * @generated from field: string key = 1;
+     */
+    key: string;
+    /**
+     * Empty: the key.
+     *
+     * @generated from field: string title = 2;
+     */
+    title: string;
+};
+/**
+ * Describes the message collab.v1.CreateTaskListRequest.
+ * Use `create(CreateTaskListRequestSchema)` to create a new message.
+ */
+export declare const CreateTaskListRequestSchema: GenMessage<CreateTaskListRequest>;
+/**
+ * @generated from message collab.v1.CreateTaskListResponse
+ */
+export type CreateTaskListResponse = Message<"collab.v1.CreateTaskListResponse"> & {
+    /**
+     * @generated from field: collab.v1.TaskList list = 1;
+     */
+    list?: TaskList | undefined;
+    /**
+     * False when the topic already had a list with that key: it is returned
+     * as it is, title included.
+     *
+     * @generated from field: bool created = 2;
+     */
+    created: boolean;
+};
+/**
+ * Describes the message collab.v1.CreateTaskListResponse.
+ * Use `create(CreateTaskListResponseSchema)` to create a new message.
+ */
+export declare const CreateTaskListResponseSchema: GenMessage<CreateTaskListResponse>;
+/**
+ * @generated from message collab.v1.NewTask
+ */
+export type NewTask = Message<"collab.v1.NewTask"> & {
+    /**
+     * @generated from field: string title = 1;
+     */
+    title: string;
+    /**
+     * @generated from field: repeated string refs = 2;
+     */
+    refs: string[];
+};
+/**
+ * Describes the message collab.v1.NewTask.
+ * Use `create(NewTaskSchema)` to create a new message.
+ */
+export declare const NewTaskSchema: GenMessage<NewTask>;
+/**
+ * Adds tasks to a list in the caller's topic, numbered in the order given.
+ *
+ * @generated from message collab.v1.AddTasksRequest
+ */
+export type AddTasksRequest = Message<"collab.v1.AddTasksRequest"> & {
+    /**
+     * The list's key.
+     *
+     * @generated from field: string list = 1;
+     */
+    list: string;
+    /**
+     * @generated from field: repeated collab.v1.NewTask tasks = 2;
+     */
+    tasks: NewTask[];
+};
+/**
+ * Describes the message collab.v1.AddTasksRequest.
+ * Use `create(AddTasksRequestSchema)` to create a new message.
+ */
+export declare const AddTasksRequestSchema: GenMessage<AddTasksRequest>;
+/**
+ * @generated from message collab.v1.AddTasksResponse
+ */
+export type AddTasksResponse = Message<"collab.v1.AddTasksResponse"> & {
+    /**
+     * @generated from field: repeated collab.v1.Task tasks = 1;
+     */
+    tasks: Task[];
+    /**
+     * @generated from field: collab.v1.TaskList list = 2;
+     */
+    list?: TaskList | undefined;
+};
+/**
+ * Describes the message collab.v1.AddTasksResponse.
+ * Use `create(AddTasksResponseSchema)` to create a new message.
+ */
+export declare const AddTasksResponseSchema: GenMessage<AddTasksResponse>;
+/**
+ * Takes a task: an open one, or one of the caller's own (which moves it to
+ * the calling session). One someone else holds only with `takeover`, and
+ * only once its holder has not updated it for TASK_STALE_SECONDS.
+ *
+ * @generated from message collab.v1.TaskCheckout
+ */
+export type TaskCheckout = Message<"collab.v1.TaskCheckout"> & {
+    /**
+     * @generated from field: bool takeover = 1;
+     */
+    takeover: boolean;
+};
+/**
+ * Describes the message collab.v1.TaskCheckout.
+ * Use `create(TaskCheckoutSchema)` to create a new message.
+ */
+export declare const TaskCheckoutSchema: GenMessage<TaskCheckout>;
+/**
+ * A progress report from the holder.
+ *
+ * @generated from message collab.v1.TaskProgress
+ */
+export type TaskProgress = Message<"collab.v1.TaskProgress"> & {
+    /**
+     * @generated from field: string text = 1;
+     */
+    text: string;
+    /**
+     * 0 to 100.
+     *
+     * @generated from field: optional uint32 percent = 2;
+     */
+    percent?: number | undefined;
+};
+/**
+ * Describes the message collab.v1.TaskProgress.
+ * Use `create(TaskProgressSchema)` to create a new message.
+ */
+export declare const TaskProgressSchema: GenMessage<TaskProgress>;
+/**
+ * Gives a task back: the holder's, and it goes back to open.
+ *
+ * @generated from message collab.v1.TaskRelease
+ */
+export type TaskRelease = Message<"collab.v1.TaskRelease"> & {
+    /**
+     * @generated from field: string note = 1;
+     */
+    note: string;
+};
+/**
+ * Describes the message collab.v1.TaskRelease.
+ * Use `create(TaskReleaseSchema)` to create a new message.
+ */
+export declare const TaskReleaseSchema: GenMessage<TaskRelease>;
+/**
+ * Finishes a task: an open one, which the caller takes and finishes in one
+ * step, or one the caller holds.
+ *
+ * @generated from message collab.v1.TaskFinish
+ */
+export type TaskFinish = Message<"collab.v1.TaskFinish"> & {
+    /**
+     * What was done, in one line.
+     *
+     * @generated from field: string summary = 1;
+     */
+    summary: string;
+};
+/**
+ * Describes the message collab.v1.TaskFinish.
+ * Use `create(TaskFinishSchema)` to create a new message.
+ */
+export declare const TaskFinishSchema: GenMessage<TaskFinish>;
+/**
+ * Closes a task as something that will not be done. Its creator or its
+ * holder can; the reason is required.
+ *
+ * @generated from message collab.v1.TaskDismiss
+ */
+export type TaskDismiss = Message<"collab.v1.TaskDismiss"> & {
+    /**
+     * @generated from field: string reason = 1;
+     */
+    reason: string;
+};
+/**
+ * Describes the message collab.v1.TaskDismiss.
+ * Use `create(TaskDismissSchema)` to create a new message.
+ */
+export declare const TaskDismissSchema: GenMessage<TaskDismiss>;
+/**
+ * @generated from message collab.v1.UpdateTaskRequest
+ */
+export type UpdateTaskRequest = Message<"collab.v1.UpdateTaskRequest"> & {
+    /**
+     * The list's topic. Empty: the caller's topic.
+     *
+     * @generated from field: string topic = 1;
+     */
+    topic: string;
+    /**
+     * @generated from field: string list = 2;
+     */
+    list: string;
+    /**
+     * @generated from field: uint32 number = 3;
+     */
+    number: number;
+    /**
+     * @generated from oneof collab.v1.UpdateTaskRequest.change
+     */
+    change: {
+        /**
+         * @generated from field: collab.v1.TaskCheckout checkout = 10;
+         */
+        value: TaskCheckout;
+        case: "checkout";
+    } | {
+        /**
+         * @generated from field: collab.v1.TaskProgress progress = 11;
+         */
+        value: TaskProgress;
+        case: "progress";
+    } | {
+        /**
+         * @generated from field: collab.v1.TaskRelease release = 12;
+         */
+        value: TaskRelease;
+        case: "release";
+    } | {
+        /**
+         * @generated from field: collab.v1.TaskFinish finish = 13;
+         */
+        value: TaskFinish;
+        case: "finish";
+    } | {
+        /**
+         * @generated from field: collab.v1.TaskDismiss dismiss = 14;
+         */
+        value: TaskDismiss;
+        case: "dismiss";
+    } | {
+        case: undefined;
+        value?: undefined;
+    };
+};
+/**
+ * Describes the message collab.v1.UpdateTaskRequest.
+ * Use `create(UpdateTaskRequestSchema)` to create a new message.
+ */
+export declare const UpdateTaskRequestSchema: GenMessage<UpdateTaskRequest>;
+/**
+ * @generated from message collab.v1.UpdateTaskResponse
+ */
+export type UpdateTaskResponse = Message<"collab.v1.UpdateTaskResponse"> & {
+    /**
+     * @generated from field: collab.v1.Task task = 1;
+     */
+    task?: Task | undefined;
+    /**
+     * @generated from field: collab.v1.TaskList list = 2;
+     */
+    list?: TaskList | undefined;
+};
+/**
+ * Describes the message collab.v1.UpdateTaskResponse.
+ * Use `create(UpdateTaskResponseSchema)` to create a new message.
+ */
+export declare const UpdateTaskResponseSchema: GenMessage<UpdateTaskResponse>;
+/**
+ * @generated from message collab.v1.ListTasksRequest
+ */
+export type ListTasksRequest = Message<"collab.v1.ListTasksRequest"> & {
+    /**
+     * Empty: the caller's topic.
+     *
+     * @generated from field: string topic = 1;
+     */
+    topic: string;
+    /**
+     * One list's key. Empty: every list in the topic.
+     *
+     * @generated from field: string list = 2;
+     */
+    list: string;
+    /**
+     * @generated from field: collab.v1.TaskFilter filter = 3;
+     */
+    filter: TaskFilter;
+    /**
+     * At most this many tasks. Unset or 0: 100. Capped at 500.
+     *
+     * @generated from field: uint32 limit = 4;
+     */
+    limit: number;
+};
+/**
+ * Describes the message collab.v1.ListTasksRequest.
+ * Use `create(ListTasksRequestSchema)` to create a new message.
+ */
+export declare const ListTasksRequestSchema: GenMessage<ListTasksRequest>;
+/**
+ * @generated from message collab.v1.ListTasksResponse
+ */
+export type ListTasksResponse = Message<"collab.v1.ListTasksResponse"> & {
+    /**
+     * The lists asked for, most recently changed first: with the open filter,
+     * only those with open tasks.
+     *
+     * @generated from field: repeated collab.v1.TaskList lists = 1;
+     */
+    lists: TaskList[];
+    /**
+     * Open tasks by list, then number. Closed tasks after them, most recently
+     * closed first.
+     *
+     * @generated from field: repeated collab.v1.Task tasks = 2;
+     */
+    tasks: Task[];
+    /**
+     * True when `limit` left tasks out.
+     *
+     * @generated from field: bool truncated = 3;
+     */
+    truncated: boolean;
+};
+/**
+ * Describes the message collab.v1.ListTasksResponse.
+ * Use `create(ListTasksResponseSchema)` to create a new message.
+ */
+export declare const ListTasksResponseSchema: GenMessage<ListTasksResponse>;
+/**
+ * Which tasks ListTasks returns.
+ *
+ * @generated from enum collab.v1.TaskFilter
+ */
+export declare enum TaskFilter {
+    /**
+     * Read as TASK_FILTER_OPEN.
+     *
+     * @generated from enum value: TASK_FILTER_UNSPECIFIED = 0;
+     */
+    UNSPECIFIED = 0,
+    /**
+     * Open and in progress.
+     *
+     * @generated from enum value: TASK_FILTER_OPEN = 1;
+     */
+    OPEN = 1,
+    /**
+     * Done and dismissed.
+     *
+     * @generated from enum value: TASK_FILTER_CLOSED = 2;
+     */
+    CLOSED = 2,
+    /**
+     * @generated from enum value: TASK_FILTER_ALL = 3;
+     */
+    ALL = 3
+}
+/**
+ * Describes the enum collab.v1.TaskFilter.
+ */
+export declare const TaskFilterSchema: GenEnum<TaskFilter>;
+/**
  * @generated from service collab.v1.ChannelService
  */
 export declare const ChannelService: GenService<{
@@ -617,5 +986,42 @@ export declare const ChannelService: GenService<{
         methodKind: "unary";
         input: typeof HeartbeatRequestSchema;
         output: typeof HeartbeatResponseSchema;
+    };
+    /**
+     * Task lists. Every change is announced to the list's topic with a TASK
+     * message, so no separate event exists for them.
+     *
+     * @generated from rpc collab.v1.ChannelService.CreateTaskList
+     */
+    createTaskList: {
+        methodKind: "unary";
+        input: typeof CreateTaskListRequestSchema;
+        output: typeof CreateTaskListResponseSchema;
+    };
+    /**
+     * @generated from rpc collab.v1.ChannelService.AddTasks
+     */
+    addTasks: {
+        methodKind: "unary";
+        input: typeof AddTasksRequestSchema;
+        output: typeof AddTasksResponseSchema;
+    };
+    /**
+     * @generated from rpc collab.v1.ChannelService.UpdateTask
+     */
+    updateTask: {
+        methodKind: "unary";
+        input: typeof UpdateTaskRequestSchema;
+        output: typeof UpdateTaskResponseSchema;
+    };
+    /**
+     * HTTP only, like GetState: a whole list can outgrow a WebSocket message.
+     *
+     * @generated from rpc collab.v1.ChannelService.ListTasks
+     */
+    listTasks: {
+        methodKind: "unary";
+        input: typeof ListTasksRequestSchema;
+        output: typeof ListTasksResponseSchema;
     };
 }>;

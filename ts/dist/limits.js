@@ -33,6 +33,20 @@ export const MAX_REFS = 20;
 export const MAX_CONTEXT_TITLE_CHARS = 200;
 export const MAX_CONTEXT_SUMMARY_CHARS = 500;
 export const MAX_DONE_TASK_CHARS = 500;
+export const MAX_TASK_LIST_TITLE_CHARS = 200;
+export const MAX_TASK_TITLE_CHARS = 300;
+/** Progress reports, finish summaries, dismissal reasons and release notes. */
+export const MAX_TASK_NOTE_CHARS = 500;
+export const MAX_TASK_REFS = 5;
+/** Tasks one AddTasks may add, and tasks one list may ever hold. */
+export const MAX_TASKS_PER_ADD = 25;
+export const MAX_TASKS_PER_LIST = 500;
+/** A checkout nobody has updated for this long can be taken over. */
+export const TASK_STALE_SECONDS = 2 * 60 * 60;
 export const DEFAULT_HISTORY_LIMIT = 100;
 export const MAX_HISTORY_LIMIT = 200;
 export const MAX_STATE_LIMIT = 500;
+export const DEFAULT_TASK_LIMIT = 100;
+export const MAX_TASK_LIMIT = 500;
+/** Task lists in ChannelState. */
+export const MAX_STATE_TASK_LISTS = 50;

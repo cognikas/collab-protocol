@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { cleanLine, cleanText, contextKey, isClientSessionId, isTopic, slug, visibleTo } from '../src/index.js';
+import { cleanLine, cleanText, contextKey, isClientSessionId, isTopic, slug, taskListKey, visibleTo } from '../src/index.js';
 import names from '../../vectors/names.json';
 import sanitize from '../../vectors/sanitize.json';
 import visibility from '../../vectors/visibility.json';
@@ -7,6 +7,7 @@ import visibility from '../../vectors/visibility.json';
 describe('vectors/names.json', () => {
   it.each(names.slug)('slug($input)', ({ input, output }) => expect(slug(input)).toBe(output));
   it.each(names.contextKey)('contextKey($input)', ({ input, output }) => expect(contextKey(input)).toBe(output));
+  it.each(names.taskListKey)('taskListKey($input)', ({ input, output }) => expect(taskListKey(input)).toBe(output));
   it.each(names.isTopic)('isTopic($input)', ({ input, output }) => expect(isTopic(input)).toBe(output));
   it.each(names.isClientSessionId)('isClientSessionId($input)', ({ input, output }) => expect(isClientSessionId(input)).toBe(output));
 });
