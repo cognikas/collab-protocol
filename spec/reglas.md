@@ -64,6 +64,20 @@ sesión que lo envió, y la entrega en `from_client_session_id` para que una res
 esa misma sesión. No es una credencial: conocerla solo permite dirigirle mensajes a esa sesión, y
 enviar como ella exige el secreto de su miembro.
 
+### Leer como miembro
+
+`History` con `as_member` lee como el miembro y no como la sesión que llama. Además de lo anterior,
+devuelve lo que enviaron las sesiones del miembro (también la que llama) y lo dirigido a cualquiera
+de sus sesiones. El tema sigue aplicando, y los mensajes de otro miembro a un tercero siguen fuera
+de alcance. Sirve a un cliente que muestra la conversación entera de un miembro, como un panel: sin
+esto, lo que el miembro envía desde sus agentes no aparece en ninguna lectura suya.
+
+No abre nada nuevo: todo lo que agrega lo envió o lo recibió el mismo miembro, y la
+`client_session_id` no es una credencial. Solo lo aplica `History`; el reparto en vivo, la
+reproducción de `hello` y `GetState` siguen leyendo como la sesión. `visibleTo()` lo recibe como
+`Viewer.asMember` y sus casos están en `asMemberCases` de `vectors/visibility.json`. Un servidor
+anterior ignora el campo; por eso `HistoryResponse.as_member` confirma que se aplicó.
+
 ## Mensajes
 
 - `seq` es un número por canal, estrictamente creciente, asignado por el servidor.
@@ -242,7 +256,7 @@ una versión mayor nueva; subirlo es un cambio menor.
 | Tareas por `ListTasks` | 100 por defecto, 500 como máximo |
 | Listas de tareas en el estado | 50 |
 | Tiempo sin cambios para tomar una tarea ajena | 2 h |
-| Mensajes por `History` | 100 por defecto, 200 como máximo |
+| Mensajes por `History` | 100 por defecto, 200 como máximo; `truncated` avisa si quedaron fuera |
 | Mensajes en el estado | 100 por defecto, 500 como máximo |
 | Invitación | 24 h por defecto, 7 días como máximo |
 | Ticket de WebSocket | 60 s, un solo uso |

@@ -5,7 +5,7 @@ import { ProtocolVersionSchema, type ProtocolVersion } from './gen/collab/v1/mod
 export const PROTOCOL_MAJOR = 1;
 export const PROTOCOL_MINOR = 0;
 /** The release of this repo, patch and pre-release included. Never on the wire. */
-export const PROTOCOL_RELEASE = '1.0.0-rc.4';
+export const PROTOCOL_RELEASE = '1.0.0-rc.5';
 
 export const PROTOCOL: ProtocolVersion = create(ProtocolVersionSchema, { major: PROTOCOL_MAJOR, minor: PROTOCOL_MINOR });
 

@@ -473,6 +473,15 @@ export type HistoryRequest = Message<"collab.v1.HistoryRequest"> & {
      * @generated from field: uint32 limit = 2;
      */
     limit: number;
+    /**
+     * Read as the member rather than as the calling session: also what the
+     * member's own sessions sent, the calling one included, and what was
+     * addressed to any of its sessions. The caller's topic still applies. For a
+     * client that shows a member's whole conversation, such as a dashboard.
+     *
+     * @generated from field: bool as_member = 3;
+     */
+    asMember: boolean;
 };
 /**
  * Describes the message collab.v1.HistoryRequest.
@@ -487,6 +496,21 @@ export type HistoryResponse = Message<"collab.v1.HistoryResponse"> & {
      * @generated from field: repeated collab.v1.Message messages = 1;
      */
     messages: Message$1[];
+    /**
+     * True when the server read as the member. A server that predates
+     * `HistoryRequest.as_member` ignores that field and leaves this false.
+     *
+     * @generated from field: bool as_member = 2;
+     */
+    asMember: boolean;
+    /**
+     * True when readable messages after `since` may have been left out: more
+     * than `limit` of them, or older than what the server reads at once. The
+     * ones returned are still the newest.
+     *
+     * @generated from field: bool truncated = 3;
+     */
+    truncated: boolean;
 };
 /**
  * Describes the message collab.v1.HistoryResponse.

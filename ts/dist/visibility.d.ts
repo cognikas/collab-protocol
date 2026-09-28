@@ -10,6 +10,11 @@ export interface Viewer {
     memberId: string;
     topic: string;
     clientSessionId: string;
+    /**
+     * Reads as the member instead of as this session (`HistoryRequest.as_member`).
+     * Only a History read sets it; the live fan-out never does.
+     */
+    asMember?: boolean;
 }
 /**
  * The fields the rule reads. `fromClientSessionId` is the sending session, and
@@ -37,5 +42,9 @@ export interface VisibilitySubject {
  *   of the same developer do not interrupt each other with every `done`. Unless
  *   `to.includeSender`, which the server sets on its task notices: what one
  *   session did to a shared list, the developer's other sessions need to know.
+ * - A viewer that reads as its member (`asMember`) also gets what any of the
+ *   member's sessions sent, this one included, and what was addressed to any of
+ *   them. The topic still applies, and another member's messages to a third
+ *   member stay out of reach.
  */
 export declare function visibleTo(viewer: Viewer, message: VisibilitySubject): boolean;
