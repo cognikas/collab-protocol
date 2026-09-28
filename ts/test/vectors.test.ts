@@ -20,3 +20,8 @@ describe('vectors/sanitize.json', () => {
 describe('vectors/visibility.json', () => {
   it.each(visibility.cases)('$name', ({ message, visible }) => expect(visibleTo(visibility.viewer, message)).toBe(visible));
 });
+
+describe('vectors/visibility.json, read as the member', () => {
+  const viewer = { ...visibility.viewer, asMember: true };
+  it.each(visibility.asMemberCases)('$name', ({ message, visible }) => expect(visibleTo(viewer, message)).toBe(visible));
+});

@@ -1,5 +1,22 @@
 # Cambios
 
+## 1.0.0-rc.5 — 2026-09-28
+
+- **`HistoryRequest.as_member`:** `History` puede leer como el miembro y no como la sesión que
+  llama. Además de lo que ya devolvía, trae lo que enviaron las sesiones del miembro (también la que
+  llama) y lo dirigido a cualquiera de sus sesiones. El tema sigue aplicando. Es para un cliente que
+  muestra la conversación entera de un miembro, como un panel (`spec/reglas.md`, Leer como miembro).
+- **`HistoryResponse.as_member`** confirma que el servidor lo aplicó. Un servidor anterior ignora el
+  campo de la petición y deja este en falso, así que el cliente sabe qué recibió.
+- **`HistoryResponse.truncated`:** avisa que pudieron quedar fuera mensajes legibles posteriores a
+  `since`, porque eran más que `limit` o más antiguos de lo que el servidor lee de una vez. Los que
+  llegan siguen siendo los más nuevos. Así un cliente no tiene que adivinar el límite interno del
+  servidor para saber si su historial está completo.
+- `visibleTo()` lo recibe como `Viewer.asMember`. El reparto en vivo, `hello` y `GetState` no lo
+  usan.
+- Nuevos vectores en `asMemberCases` de `vectors/visibility.json`. Los existentes no cambian.
+- El protocolo sigue siendo `1.0`: todo es aditivo y 1.0 aún no se ha publicado.
+
 ## 1.0.0-rc.4 — 2026-09-27
 
 - **Listas de tareas** compartidas por tema (`TaskList`, `Task`, `TaskStatus`), con cuatro

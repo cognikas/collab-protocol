@@ -11,6 +11,11 @@ export interface Viewer {
   memberId: string;
   topic: string;
   clientSessionId: string;
+  /**
+   * Reads as the member instead of as this session (`HistoryRequest.as_member`).
+   * Only a History read sets it; the live fan-out never does.
+   */
+  asMember?: boolean;
 }
 
 /**
@@ -35,15 +40,24 @@ export interface VisibilitySubject {
  *   of the same developer do not interrupt each other with every `done`. Unless
  *   `to.includeSender`, which the server sets on its task notices: what one
  *   session did to a shared list, the developer's other sessions need to know.
+ * - A viewer that reads as its member (`asMember`) also gets what any of the
+ *   member's sessions sent, this one included, and what was addressed to any of
+ *   them. The topic still applies, and another member's messages to a third
+ *   member stay out of reach.
  */
 export function visibleTo(viewer: Viewer, message: VisibilitySubject): boolean {
   const to = message.to;
   if (!to || (!to.memberId && !to.topic)) return false;
-  if (to.memberId && to.memberId !== viewer.memberId) return false;
   if (to.topic && to.topic !== viewer.topic) return false;
-  if (to.clientSessionId && (!to.memberId || to.clientSessionId !== viewer.clientSessionId)) return false;
+  if (to.clientSessionId && !to.memberId) return false;
 
-  if (message.fromMemberId === viewer.memberId) {
+  const fromViewer = message.fromMemberId === viewer.memberId;
+  if (viewer.asMember) return fromViewer || !to.memberId || to.memberId === viewer.memberId;
+
+  if (to.memberId && to.memberId !== viewer.memberId) return false;
+  if (to.clientSessionId && to.clientSessionId !== viewer.clientSessionId) return false;
+
+  if (fromViewer) {
     if (to.memberId !== viewer.memberId && !to.includeSender) return false;
     if (message.fromClientSessionId === viewer.clientSessionId) return false;
   }
