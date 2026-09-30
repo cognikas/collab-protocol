@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "description": "Contrato del canal de Cognikas Collab: esquema Protobuf, bindings, reglas y vectores",
+  "license": "Apache-2.0",
   "engines": {
     "node": ">=20"
   },
